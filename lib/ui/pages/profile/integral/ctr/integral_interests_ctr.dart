@@ -6,8 +6,11 @@ import 'package:get/get.dart';
 import '../../../../../api/wy_http.dart';
 import '../../../../../model/integral_model.dart';
 import '../../../../../utils/toast_utils.dart';
+import '../coupon_tip_dialog.dart';
 
 class IntegralInterestsCtr extends GetxController {
+  static IntegralInterestsCtr get find => Get.find();
+
   final ScrollController scrollController = ScrollController();
 
   var currentVIPIndex = 0.obs;
@@ -22,7 +25,8 @@ class IntegralInterestsCtr extends GetxController {
     super.onInit();
 
     currentUserVipLevel = Get.arguments ?? 0;
-    currentVIPIndex.value = currentUserVipLevel > 0 ? currentUserVipLevel - 1 : currentUserVipLevel;
+    currentVIPIndex.value =
+        currentUserVipLevel > 0 ? currentUserVipLevel - 1 : currentUserVipLevel;
     requestData();
   }
 
@@ -82,9 +86,18 @@ class IntegralInterestsCtr extends GetxController {
       });
       dismissLoading();
       if (result.data) {
-        showToast("Redeem Successful".tr);
+        showToast("Claim Successful".tr);
       }
       requestData();
     }
+  }
+
+  void showTipDialog(int i) async {
+    showCustom(
+      CouponTipDialog(
+        info: contentList[i],
+      ),
+      alignment: Alignment.bottomCenter,
+    );
   }
 }

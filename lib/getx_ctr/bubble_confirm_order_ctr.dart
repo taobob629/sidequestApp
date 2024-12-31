@@ -23,6 +23,7 @@ class BubbleConfirmOrderCtr extends GetxController
   late TabController tabController;
   var discount = "0.0".obs;
   var totalPrice = "0".obs;
+  var isCash = true.obs;
   CouponsListModel? selectCouponModel;
 
   late List<Widget> tabs = [

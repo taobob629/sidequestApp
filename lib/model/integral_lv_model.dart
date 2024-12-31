@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'package:sq_hub_app/model/selector_item.dart';
+
 class IntegralLvModel {
   int? dictCode;
   int? dictSort;
@@ -82,4 +85,34 @@ class Params {
 
   Map<String, dynamic> toJson() => {
   };
+}
+
+class IntegralLevelModel extends SelectorItem {
+  late double zhekou = 0.0;
+  late String name = "";
+  late int friendLimitCount = 2;
+
+  var model = "".obs;
+
+  IntegralLevelModel();
+
+  @override
+  String displayLabel() {
+    return name;
+  }
+
+  @override
+  String displayInfo() {
+    return "";
+  }
+
+  @override
+  bool selectable() {
+    return true;
+  }
+
+  @override
+  String toString() {
+    return name;
+  }
 }

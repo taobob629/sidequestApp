@@ -9,8 +9,12 @@ showLoading({String msg = 'loading...', bool clickMaskDismiss = true}) {
   );
 }
 
-dismissLoading({SmartStatus status = SmartStatus.smart, String? tag}) {
-  SmartDialog.dismiss(status: status, tag: tag);
+dismissLoading({
+  var result,
+  SmartStatus status = SmartStatus.smart,
+  String? tag,
+}) async {
+  SmartDialog.dismiss(result: result, status: status, tag: tag);
 }
 
 showToast(var msg, {Duration? duration}) async {
@@ -56,9 +60,26 @@ showCustom(
     builder: (builder) => widget,
     clickMaskDismiss: clickMaskDismiss,
     tag: tag,
+    alignment: alignment,
     maskColor: maskColor,
     usePenetrate: usePenetrate,
     onDismiss: onDismiss,
     backDismiss: backDismiss,
+  );
+}
+
+showAttach(
+  Widget widget, {
+  required BuildContext targetContext,
+  bool clickMaskDismiss = true,
+  AlignmentGeometry? alignment,
+  Color? maskColor,
+}) async {
+  return SmartDialog.showAttach(
+    builder: (builder) => widget,
+    clickMaskDismiss: clickMaskDismiss,
+    alignment: alignment,
+    targetContext: targetContext,
+    maskColor: maskColor,
   );
 }

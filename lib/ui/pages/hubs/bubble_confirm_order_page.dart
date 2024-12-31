@@ -262,93 +262,223 @@ class BubbleConfirmOrderPage extends StatelessWidget {
               itemCount: TabBubbleTeaCtr.find.selectTeaList.length,
             ),
           ),
-        ],
-      ),
-      floatingActionButton: Container(
-        height: 44.w,
-        margin: EdgeInsets.only(
-          left: 16.w,
-          right: 16.w,
-          bottom: 34.h,
-        ),
-        decoration: ShapeDecoration(
-          color: hexColor('4C3608'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(60.r),
-          ),
-        ),
-        child: Row(
-          children: [
-            14.horizontalSpace,
-            Obx(() => Text(
-                  '£${ctr.totalPrice.value}',
+          Container(
+            width: 1.sw,
+            margin: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 18.h,
+            ),
+            decoration: ShapeDecoration(
+              color: Color(0xFF141517),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+            ),
+            padding: EdgeInsets.all(8.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Payment Method'.tr,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     fontFamily: FONT_MEDIUM,
                     fontWeight: FontWeight.w600,
                   ),
-                )),
-            10.horizontalSpace,
-            Expanded(
-              child: InkWell(
-                onTap: () => NavigatorHelper.gotoCouponPage(
-                  couponType: 3,
-                  showTabbar: false,
-                  // 只是为了能有返回值创建的一个空的payOrderModel
-                  payOrderModel: PayOrderModel(),
-                  storeId: TabBubbleTeaCtr.find.currentSelectStore.value.id,
-                  goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
-                  whenComplete: () => UserController.instance().updateInfo(),
-                  onSelect: (model) => ctr.selectCoupon(model),
-                ),
-                child: Obx(() => RichText(
-                      text: TextSpan(
-                        text: 'Discount：-${ctr.discount.value} ',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 12.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w400,
-                        ),
+                ).paddingOnly(bottom: 16.h),
+                Obx(() => InkWell(
+                      onTap: () => ctr.isCash.value = true,
+                      child: Row(
                         children: [
-                          WidgetSpan(
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white.withOpacity(0.6),
-                              size: 14.sp,
+                          Container(
+                            width: 14.w,
+                            height: 14.w,
+                            margin: EdgeInsets.only(right: 10.w),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.w,
+                              ),
+                              borderRadius: BorderRadius.circular(14.r),
                             ),
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: 10.w,
+                              height: 10.w,
+                              decoration: BoxDecoration(
+                                color: ctr.isCash.value
+                                    ? hexColor('#5EEA41')
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              'Balance'.tr,
+                              style: TextStyle(
+                                color: hexColor('99ffffff'),
+                                fontSize: 13.sp,
+                                fontFamily: FONT_MEDIUM,
+                              ),
+                            ),
+                          ),
+                          Obx(() => Text(
+                                '£${ctr.totalPrice.value}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22.sp,
+                                  fontFamily: FONT_LIGHT,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )),
+                          10.horizontalSpace,
+                          InkWell(
+                            onTap: () => NavigatorHelper.gotoCouponPage(
+                              couponType: 3,
+                              showTabbar: false,
+                              // 只是为了能有返回值创建的一个空的payOrderModel
+                              payOrderModel: PayOrderModel(),
+                              storeId: TabBubbleTeaCtr
+                                  .find.currentSelectStore.value.id,
+                              goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
+                              whenComplete: () =>
+                                  UserController.instance().updateInfo(),
+                              onSelect: (model) => ctr.selectCoupon(model),
+                            ),
+                            child: Obx(() => RichText(
+                                  text: TextSpan(
+                                    text: 'Discount：-${ctr.discount.value} ',
+                                    style: TextStyle(
+                                      color: hexColor('#FFB20E'),
+                                      fontSize: 12.sp,
+                                      fontFamily: FONT_MEDIUM,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    children: [
+                                      WidgetSpan(
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.white,
+                                          size: 14.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
                           ),
                         ],
                       ),
                     )),
-              ),
-            ),
-            InkWell(
-              onTap: () => ctr.payment(),
-              child: Container(
-                width: 100.w,
-                height: 44.w,
-                decoration: ShapeDecoration(
-                  color: hexColor('FFB20E'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    vertical: 16.h,
                   ),
+                  height: 1.h,
+                  color: hexColor('#303030'),
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Payment'.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+                // Obx(() => InkWell(
+                //       onTap: () => ctr.isCash.value = false,
+                //       child: Row(
+                //         children: [
+                //           Container(
+                //             width: 14.w,
+                //             height: 14.w,
+                //             margin: EdgeInsets.only(right: 10.w),
+                //             decoration: BoxDecoration(
+                //               border: Border.all(
+                //                 color: Colors.white,
+                //                 width: 1.w,
+                //               ),
+                //               borderRadius: BorderRadius.circular(14.r),
+                //             ),
+                //             alignment: Alignment.center,
+                //             child: Container(
+                //               width: 10.w,
+                //               height: 10.w,
+                //               decoration: BoxDecoration(
+                //                 color: !ctr.isCash.value
+                //                     ? hexColor('#5EEA41')
+                //                     : Colors.transparent,
+                //                 borderRadius: BorderRadius.circular(10.r),
+                //               ),
+                //             ),
+                //           ),
+                //           Expanded(
+                //             child: Text(
+                //               'Points'.tr,
+                //               style: TextStyle(
+                //                 color: hexColor('99ffffff'),
+                //                 fontSize: 13.sp,
+                //                 fontFamily: FONT_MEDIUM,
+                //               ),
+                //             ),
+                //           ),
+                //           Image.asset(
+                //             ImageUtils.coin_red,
+                //             width: 16.w,
+                //             height: 16.w,
+                //           ),
+                //           4.horizontalSpace,
+                //           InkWell(
+                //             onTap: () => NavigatorHelper.gotoCouponPage(
+                //               couponType: 3,
+                //               showTabbar: false,
+                //               // 只是为了能有返回值创建的一个空的payOrderModel
+                //               payOrderModel: PayOrderModel(),
+                //               storeId: TabBubbleTeaCtr
+                //                   .find.currentSelectStore.value.id,
+                //               goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
+                //               whenComplete: () =>
+                //                   UserController.instance().updateInfo(),
+                //               onSelect: (model) => ctr.selectCoupon(model),
+                //             ),
+                //             child: Obx(() => Text(
+                //                   '${ctr.discount.value}Points',
+                //                   style: TextStyle(
+                //                     color: hexColor('#FFB20E'),
+                //                     fontSize: 12.sp,
+                //                     fontFamily: FONT_MEDIUM,
+                //                     fontWeight: FontWeight.w400,
+                //                   ),
+                //                 )),
+                //           ),
+                //         ],
+                //       ),
+                //     )),
+                20.verticalSpace,
+              ],
             ),
-          ],
+          ),
+        ],
+      ),
+      floatingActionButton: InkWell(
+        onTap: () => ctr.payment(),
+        child: Container(
+          height: 44.w,
+          margin: EdgeInsets.only(
+            left: 16.w,
+            right: 16.w,
+            bottom: 34.h,
+          ),
+          decoration: ShapeDecoration(
+            color: hexColor('FFB20E'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(60.r),
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'Payment'.tr,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14.sp,
+              fontFamily: FONT_MEDIUM,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
       ),
     );

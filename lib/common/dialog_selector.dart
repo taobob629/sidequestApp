@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/common/wy_dialog.dart';
+import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../image_utils.dart';
 import '../model/selector_item.dart';
@@ -13,12 +14,15 @@ class SelectorDialog extends StatelessWidget {
 
   final bool showInfo;
 
+  final bool isSmartDialog;
+
   final String title;
 
   SelectorDialog({
     required this.items,
     this.showActions = false,
     this.showInfo = false,
+    this.isSmartDialog = false,
     this.title = "",
   });
 
@@ -66,8 +70,15 @@ class SelectorDialog extends StatelessWidget {
         itemBuilder: (context, index) {
           SelectorItem item = items[index];
           return InkWell(
-            onTap: () =>
-                item.selectable() ? Navigator.pop(context, item) : null,
+            onTap: () {
+              if (item.selectable()) {
+                if (!isSmartDialog) {
+                  Navigator.pop(context, item);
+                } else {
+                  dismissLoading(result: item);
+                }
+              }
+            },
             child: Container(
                 color: Colors.transparent,
                 padding:
