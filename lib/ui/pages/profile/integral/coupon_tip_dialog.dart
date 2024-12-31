@@ -26,7 +26,7 @@ class CouponTipDialog extends StatelessWidget {
   final Function? onConfirm;
   final TextEditingController editingController = TextEditingController();
   String inputDigital = "";
-  var addFriendList = <IntegralLevelModel>[].obs;
+  var addFriendList = <double>[].obs;
   var yourLevelModel = IntegralLevelModel().obs;
 
   // 添加朋友的限制
@@ -259,7 +259,7 @@ class CouponTipDialog extends StatelessWidget {
                       Expanded(
                         child: Obx(() => selectWidget(
                               bottom: 0,
-                              yourLevel: addFriendList[i].model.value,
+                              yourLevel: getLevelName(addFriendList[i]),
                               onTap: () async {
                                 final result = await showCustom(
                                   SelectorDialog(
@@ -271,18 +271,18 @@ class CouponTipDialog extends StatelessWidget {
                                 if (result != null) {
                                   IntegralLevelModel selectModel =
                                       result as IntegralLevelModel;
-                                  addFriendList[i].model.value =
-                                      selectModel.name;
-                                  addFriendList[i].zhekou = selectModel.zhekou;
+                                  addFriendList[i] = selectModel.zhekou;
 
                                   final ji = addFriendList.fold(
                                       1.0,
                                       (previousValue, element) =>
-                                          previousValue * element.zhekou);
-                                  calPrice.value = yourLevelModel.value.zhekou
-                                      .toString()
-                                      .mul(editingController.text
-                                          .mul(ji.toString()));
+                                          previousValue * element);
+                                  if (editingController.text.isNotEmpty) {
+                                    calPrice.value = yourLevelModel.value.zhekou
+                                        .toString()
+                                        .mul(editingController.text
+                                            .mul(ji.toString()));
+                                  }
                                 }
                               },
                             )),
@@ -311,7 +311,7 @@ class CouponTipDialog extends StatelessWidget {
                   child: InkWell(
                     onTap: () => addFriendList.length <
                             yourLevelModel.value.friendLimitCount - 1
-                        ? addFriendList.add(IntegralLevelModel.deepCopy(lvList[0]))
+                        ? addFriendList.add(1.0)
                         : showToast(
                             "You can only add up to ${yourLevelModel.value.friendLimitCount} friends per level."),
                     child: Container(
@@ -393,8 +393,8 @@ class CouponTipDialog extends StatelessWidget {
               height: 40,
               margin: EdgeInsets.only(top: 24.h, bottom: 20.h),
               onTap: () {
-                final ji = addFriendList.fold(1.0,
-                    (previousValue, element) => previousValue * element.zhekou);
+                final ji = addFriendList.fold(
+                    1.0, (previousValue, element) => previousValue * element);
                 if (editingController.text.isNotEmpty) {
                   calPrice.value = yourLevelModel.value.zhekou
                       .toString()
@@ -502,6 +502,9 @@ class CouponTipDialog extends StatelessWidget {
                       double.parse(editingController.text.minus("1")) < 0
                           ? "1"
                           : editingController.text.minus("1");
+                  editingController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: editingController.text.length),
+                  );
                 }
               },
               child: Container(
@@ -555,6 +558,9 @@ class CouponTipDialog extends StatelessWidget {
                 SystemChannels.textInput.invokeMethod('TextInput.hide');
                 if (inputDigital.isNotEmpty) {
                   editingController.text = editingController.text.add("1");
+                  editingController.selection = TextSelection.fromPosition(
+                    TextPosition(offset: editingController.text.length),
+                  );
                 }
               },
               child: Container(
@@ -577,6 +583,13 @@ class CouponTipDialog extends StatelessWidget {
           ],
         ),
       );
+
+  String getLevelName(double targetZhekou) {
+    IntegralLevelModel? result = lvList.firstWhereOrNull(
+      (model) => model.zhekou == targetZhekou,
+    );
+    return result?.name ?? lvList[0].name;
+  }
 
   Widget selectWidget({
     double? bottom,

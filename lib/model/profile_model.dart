@@ -37,6 +37,7 @@ class ProfileModel {
   int lv = 0;
   int checkTotal = 0;
   String email = "";
+  int approvalNum = 0;
   String describe = "";
   int age = 0;
   List<VipModel> vips = [];
@@ -93,6 +94,7 @@ class ProfileModel {
       this.lv = 0,
       this.checkTotal = 0,
       this.email = "",
+      this.approvalNum = 0,
       this.describe = "",
       this.age = 0,
       this.vips = const [],
@@ -160,6 +162,7 @@ class ProfileModel {
     checkTotal = json["checkTotal"] ?? 0;
     nexIntegralNumber = json["nexIntegralNumber"] ?? 0;
     lv = json["lv"] ?? 0;
+    approvalNum = json["approvalNum"] ?? 0;
     email = json["email"] ?? "";
     describe = json["describe"] ?? "";
     age = json["age"] ?? 0;

@@ -485,13 +485,15 @@ class MyProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
-                          child: _dashboardLabelItem(
-                            ImageUtils.icon_connection,
-                            "Connections".tr,
-                            onTap: () => Get.to(
-                              () => ConnectionsPage(),
-                            ),
-                          ),
+                          child: Obx(() => _dashboardLabelItem(
+                                ImageUtils.icon_connection,
+                                "Connections".tr,
+                                badgeNum:
+                                    userController.userProfile.approvalNum,
+                                onTap: () => Get.to(
+                                  () => ConnectionsPage(),
+                                ),
+                              )),
                         ),
                         Expanded(
                           child: _dashboardLabelItem(
