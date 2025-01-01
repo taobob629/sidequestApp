@@ -132,28 +132,44 @@ class IntegralHomeCtr extends GetxController {
     dismissLoading();
     requestData();
     if (response.data == true) {
-      showCustom(SignSuccessDialog(todayModel?.point));
+      showCustom(SignSuccessDialog(points: "${todayModel?.point} points."));
     }
   }
 
   String getCheckInIcon(Sign? model) {
-    if (model?.day == null) return "";
+    if (model?.day == null) return ImageUtils.integral_checkin_icon;
 
-    // 解析 "dd/MM" 格式的日期字符串
+    // 获取当前日期
+    DateTime now = DateTime.now();
+
     List<String> parts = model!.day.split('/');
-    int dayOfMonth = int.parse(parts[0]);
-    int month = int.parse(parts[1]);
-    DateTime givenDate = DateTime(DateTime.now().year, month, dayOfMonth);
+    if (parts.length != 2) return ImageUtils.integral_checkin_icon;
+
+    // 转换为整数
+    int dayPart = int.tryParse(parts[0]) ?? 0;
+    int monthPart = int.tryParse(parts[1]) ?? 0;
+    if (dayPart == 0 || monthPart == 0) return ImageUtils.integral_checkin_icon;
+
+    // 构造 DateTime 对象
+    DateTime inputDate;
+
+    // 如果输入的月和日大于当前月和日，则认为是上一年的日期
+    if (monthPart > now.month || (monthPart == now.month && dayPart > now.day)) {
+      inputDate = DateTime(now.year - 1, monthPart, dayPart);
+    } else {
+      inputDate = DateTime(now.year, monthPart, dayPart);
+    }
 
     // 0未签到 1已签到 2待签到
-    int chaDay = DateTime.now().difference(givenDate).inHours;
-
     if (model.state == 1) {
       // 已经签到的用绿色
       return ImageUtils.integral_checkin_green_icon;
-    } else if (model.state == 0 && chaDay > 0) {
-      // 过期未签到的用灰色
-      return ImageUtils.integral_checkin_grey_icon;
+    } else if (model.state == 0) {
+      // 过期未签到的用灰色， 判断是否是今天或今天之后
+      if (inputDate.isBefore(DateTime(now.year, now.month, now.day))) {
+        return ImageUtils.integral_checkin_grey_icon;
+      }
+      return ImageUtils.integral_checkin_icon;
     }
     return ImageUtils.integral_checkin_icon;
   }

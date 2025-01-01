@@ -17,9 +17,15 @@ import '../../utils/navigator_helper.dart';
 import '../../utils/toast_utils.dart';
 
 class SignSuccessDialog extends StatelessWidget {
-  int? points;
+  String? points;
+  String? title;
+  String? congratulations;
 
-  SignSuccessDialog(this.points);
+  SignSuccessDialog({
+    this.points,
+    this.title,
+    this.congratulations,
+  });
 
   @override
   Widget build(BuildContext context) => Container(
@@ -56,7 +62,7 @@ class SignSuccessDialog extends StatelessWidget {
               maxLines: 1,
             ),
             Text(
-              'Sign-in successful'.tr,
+              title ?? 'Sign-in successful'.tr,
               style: TextStyle(
                 color: hexColor('#1A1A1A'),
                 fontSize: 20.sp,
@@ -64,7 +70,7 @@ class SignSuccessDialog extends StatelessWidget {
               ),
             ).paddingOnly(top: 12.h),
             Text(
-              'congratulations, you have earned'.tr,
+              congratulations ?? 'congratulations, you have earned'.tr,
               style: TextStyle(
                 color: hexColor('#1A1A1A'),
                 fontSize: 12.sp,
@@ -72,7 +78,7 @@ class SignSuccessDialog extends StatelessWidget {
               ),
             ).paddingOnly(top: 12.h),
             Text(
-              '$points points.',
+              '$points',
               style: TextStyle(
                 color: hexColor('#FF9729'),
                 fontSize: 12.sp,

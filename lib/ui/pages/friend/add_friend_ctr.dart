@@ -10,6 +10,7 @@ import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
 import '../../../controller/user_controller.dart';
 import '../../../utils/toast_utils.dart';
+import '../../dialog/dialog_confirm.dart';
 import 'approval/approval_page.dart';
 
 class AddFriendCtr extends GetxController {
@@ -62,13 +63,51 @@ class AddFriendCtr extends GetxController {
     isSearchFriend.value = true;
   }
 
-  void removeFriend(int? toMemberId) async {
+  void removeFriend(FriendModel model) async {
     showLoading();
-    await http.post('/app/point/del/friend', data: {
-      "toMemberId": toMemberId,
+    final response =
+        await http.get('/app/point/friend/del/num', queryParameters: {
+      "toMemberId": model.toMemberId,
     });
     dismissLoading();
-    requestData();
+
+    if (response.data == 1) {
+      Get.dialog(
+        ConfirmDialog(
+          title: "Delete Friend".tr,
+          info: "Are you sure to disconnect with ${model.nickName}".tr,
+          onConfirm: () async {
+            Get.back();
+            showLoading();
+            await http.post('/app/point/del/friend', data: {
+              "toMemberId": model.toMemberId,
+            });
+            dismissLoading();
+            requestData();
+          },
+        ),
+        barrierColor: Colors.black26,
+      );
+    } else {
+      Get.dialog(
+        ConfirmDialog(
+          title: "Delete Friend".tr,
+          info:
+              "- Flexible Connection Changes:\nYou can update your connection once every month \n- Automatic Maximum Combo Discount:\nOur system ensures you always receive the best possible discount automatically when combining your connections."
+                  .tr,
+          onConfirm: () async {
+            Get.back();
+            showLoading();
+            await http.post('/app/point/del/friend', data: {
+              "toMemberId": model.toMemberId,
+            });
+            dismissLoading();
+            requestData();
+          },
+        ),
+        barrierColor: Colors.black26,
+      );
+    }
   }
 
   void addFriend(FriendModel model) async {
@@ -157,7 +196,7 @@ class AddFriendCtr extends GetxController {
         );
       case 1:
         return IconButton(
-          onPressed: () => removeFriend(model.toMemberId),
+          onPressed: () => removeFriend(model),
           icon: Icon(
             Icons.remove_circle_outline,
             color: Colors.red,

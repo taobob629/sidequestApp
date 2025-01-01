@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../../api/wy_http.dart';
 import '../../../../../model/integral_model.dart';
 import '../../../../../utils/toast_utils.dart';
+import '../../../../dialog/dialog_sign_success.dart';
 import '../coupon_tip_dialog.dart';
 
 class IntegralInterestsCtr extends GetxController {
@@ -86,7 +87,11 @@ class IntegralInterestsCtr extends GetxController {
       });
       dismissLoading();
       if (result.data) {
-        showToast("Claim Successful".tr);
+        showCustom(SignSuccessDialog(
+          points: "${model.num} vouchers",
+          congratulations: "Congratulations, you have got ",
+          title: "Claim Successful".tr,
+        ));
       }
       requestData();
     }

@@ -59,7 +59,7 @@ class IntegralRedemptionPage extends StatelessWidget {
                             ),
                             10.verticalSpace,
                             Text(
-                              '+${_ctr.points}',
+                              '${_ctr.points}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 32.sp,
