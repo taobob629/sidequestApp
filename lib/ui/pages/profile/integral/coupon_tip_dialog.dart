@@ -25,8 +25,9 @@ class CouponTipDialog extends StatelessWidget {
   final String? confirmBtn;
   final Function? onConfirm;
   final int? currentIndex;
-  final TextEditingController editingController = TextEditingController();
-  String inputDigital = "";
+  final TextEditingController editingController =
+      TextEditingController(text: "6");
+  String inputDigital = "6";
   var addFriendList = <double>[].obs;
   var yourLevelModel = IntegralLevelModel().obs;
 
@@ -75,6 +76,9 @@ class CouponTipDialog extends StatelessWidget {
         : yourLevelModel.value =
             lvList[IntegralInterestsCtr.find.currentVIPIndex.value + 1];
 
+    calPrice.value =
+        editingController.text.mul(yourLevelModel.value.zhekou.toString());
+
     return view2(context);
   }
 
@@ -114,9 +118,8 @@ class CouponTipDialog extends StatelessWidget {
                   onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
                 ),
           InkWell(
-            onTap: () => onConfirm == null
-                ? dismissLoading()
-                : onConfirm!.call(),
+            onTap: () =>
+                onConfirm == null ? dismissLoading() : onConfirm!.call(),
             child: Container(
               decoration: ShapeDecoration(
                 color: Color(0xFFFFB20E),
@@ -524,9 +527,8 @@ class CouponTipDialog extends StatelessWidget {
                     onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
                   ),
             InkWell(
-              onTap: () => onConfirm == null
-                  ? dismissLoading()
-                  : onConfirm!.call(),
+              onTap: () =>
+                  onConfirm == null ? dismissLoading() : onConfirm!.call(),
               child: Container(
                 decoration: ShapeDecoration(
                   color: Color(0xFFFFB20E),
