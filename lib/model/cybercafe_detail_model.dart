@@ -94,6 +94,7 @@ class AreaVoList {
   String memory;
   String screenSize;
   String screenHz;
+  int points;
 
   AreaVoList({
     required this.id,
@@ -115,6 +116,7 @@ class AreaVoList {
     required this.memory,
     required this.screenSize,
     required this.screenHz,
+    required this.points,
   });
 
   factory AreaVoList.fromJson(Map<String, dynamic> json) => AreaVoList(
@@ -136,6 +138,7 @@ class AreaVoList {
     gpu: json["gpu"] ?? '',
     memory: json["memory"] ?? '',
     screenHz: json["screenHz"] ?? '',
+    points: json["points"] ?? 0,
     screenSize: json["screenSize"] ?? '',
   );
 

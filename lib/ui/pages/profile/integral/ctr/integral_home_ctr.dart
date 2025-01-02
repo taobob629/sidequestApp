@@ -1,15 +1,12 @@
-import 'package:csslib/parser.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../api/wy_http.dart';
 import '../../../../../image_utils.dart';
-import '../../../../../model/integral_checkin_model.dart';
 import '../../../../../model/integral_info_model.dart';
 import '../../../../../model/integral_task_model.dart';
 import '../../../../../utils/toast_utils.dart';
-import '../../../../../utils/utils.dart';
 import '../../../../dialog/dialog_sign_success.dart';
 import '../integral_interests_page.dart';
 
@@ -87,6 +84,7 @@ class IntegralHomeCtr extends GetxController {
     if (result != null) {
       scrollToContainer();
     }
+    requestData();
   }
 
   void scrollToContainer() {

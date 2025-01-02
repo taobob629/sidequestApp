@@ -492,7 +492,7 @@ class MyProfilePage extends StatelessWidget {
                                     userController.userProfile.approvalNum,
                                 onTap: () => Get.to(
                                   () => ConnectionsPage(),
-                                ),
+                                )?.then((value) => t.onRefresh()),
                               )),
                         ),
                         Expanded(

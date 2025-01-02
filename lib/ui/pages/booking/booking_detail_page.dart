@@ -230,19 +230,36 @@ class BookingDetailPage extends StatelessWidget {
                                       ],
                                     ),
                                     Expanded(
-                                      child: Text(
-                                        dList.length == 1
-                                            ? '￡ ${dList[0].price}/hr/person'
-                                            : '',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xffFFD20E),
-                                        ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            dList.length == 1
+                                                ? '￡ ${dList[0].price}/Hour/Person'
+                                                : '',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xffFFD20E),
+                                            ),
+                                          ).paddingOnly(bottom: 6.h),
+                                          Text(
+                                            '${_ctr.model?.areaVoList[i].points} Points/Hour',
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontFamily: FONT_MEDIUM,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xffFFD20E),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
