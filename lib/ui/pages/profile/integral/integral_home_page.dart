@@ -583,7 +583,9 @@ class IntegralHomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'checked in'.tr,
+                              t.integralInfoModel.value.webSign[0].state == 1
+                                  ? 'checked in'.tr
+                                  : 'not checked'.tr,
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.6),
                                 fontSize: 14.sp,
@@ -605,9 +607,8 @@ class IntegralHomePage extends StatelessWidget {
                         t.integralInfoModel.value.webSign.isNotEmpty
                             ? Image.asset(
                                 t.integralInfoModel.value.webSign[0].state == 1
-                                    ? ImageUtils.integral_store_check_green_icon
-                                    : ImageUtils
-                                        .integral_store_check_yellow_icon,
+                                    ? ImageUtils.integral_checkin_icon
+                                    : ImageUtils.integral_checkin_grey_icon,
                                 width: 32.w,
                                 height: 32.w,
                                 fit: BoxFit.cover,
@@ -659,13 +660,23 @@ class IntegralHomePage extends StatelessWidget {
                                   fontSize: 14.sp,
                                   fontFamily: FONT_MEDIUM,
                                 ),
-                              ).paddingOnly(bottom: 4.h),
+                              ),
                               Text(
                                 t.integralInfoModel.value.webSign[1].state == 1
                                     ? 'checked in'.tr
                                     : 'not checked'.tr,
                                 style: TextStyle(
                                   color: Colors.white.withOpacity(0.6),
+                                  fontSize: 14.sp,
+                                  fontFamily: 'DIN',
+                                ),
+                              ).paddingSymmetric(vertical: 4.h),
+                              Text(
+                                t.integralInfoModel.value.webSign.length > 1
+                                    ? '+${t.integralInfoModel.value.webSign[1].point}'
+                                    : '+0',
+                                style: TextStyle(
+                                  color: hexColor('#FFB20E'),
                                   fontSize: 14.sp,
                                   fontFamily: 'DIN',
                                 ),
@@ -676,9 +687,8 @@ class IntegralHomePage extends StatelessWidget {
                         t.integralInfoModel.value.webSign.length > 1
                             ? Image.asset(
                                 t.integralInfoModel.value.webSign[1].state == 1
-                                    ? ImageUtils.integral_store_check_green_icon
-                                    : ImageUtils
-                                        .integral_store_check_yellow_icon,
+                                    ? ImageUtils.integral_checkin_icon
+                                    : ImageUtils.integral_checkin_grey_icon,
                                 width: 32.w,
                                 height: 32.w,
                                 fit: BoxFit.cover,

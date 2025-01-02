@@ -161,7 +161,7 @@ class IntegralHomeCtr extends GetxController {
     // 0未签到 1已签到 2待签到
     if (model.state == 1) {
       // 已经签到的用绿色
-      return ImageUtils.integral_checkin_green_icon;
+      return ImageUtils.integral_checkin_icon;
     } else if (model.state == 0) {
       // 过期未签到的用灰色， 判断是否是今天或今天之后
       if (inputDate.isBefore(DateTime(now.year, now.month, now.day))) {
