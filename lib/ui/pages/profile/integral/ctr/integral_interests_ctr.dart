@@ -100,9 +100,10 @@ class IntegralInterestsCtr extends GetxController {
   void showTipDialog(int i) async {
     showCustom(
       CouponTipDialog(
+        currentIndex: i,
         info: contentList[i],
       ),
-      alignment: Alignment.bottomCenter,
+      alignment: i != 0 ? Alignment.center : Alignment.bottomCenter,
     );
   }
 }

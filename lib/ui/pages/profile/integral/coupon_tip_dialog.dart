@@ -24,6 +24,7 @@ class CouponTipDialog extends StatelessWidget {
   final dynamic info;
   final String? confirmBtn;
   final Function? onConfirm;
+  final int? currentIndex;
   final TextEditingController editingController = TextEditingController();
   String inputDigital = "";
   var addFriendList = <double>[].obs;
@@ -36,12 +37,16 @@ class CouponTipDialog extends StatelessWidget {
 
   CouponTipDialog({
     this.info,
-    this.confirmBtn = "CONFIRM",
+    this.currentIndex,
+    this.confirmBtn = "OK",
     this.onConfirm,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (currentIndex != 0) {
+      return view1(context);
+    }
     for (int i = 0; i <= 6; i++) {
       IntegralLevelModel model = IntegralLevelModel();
       model.zhekou = 1 - i * 5 / 100;
@@ -73,7 +78,71 @@ class CouponTipDialog extends StatelessWidget {
     return view2(context);
   }
 
-  ///可滚动
+  /// 没有计算器
+  Widget view1(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: hexColor('#202026'),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20.r),
+          topLeft: Radius.circular(20.r),
+        ),
+      ),
+      padding: EdgeInsets.all(15.r),
+      margin: EdgeInsets.symmetric(horizontal: 15.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Platform.isAndroid
+              ? Html(
+                  data: info["description"],
+                  style: {"body": Style()},
+                  onLinkTap: (
+                    String? url,
+                    RenderContext context,
+                    Map<String, String> attributes,
+                    dom.Element? element,
+                  ) async {
+                    if (url != null) {
+                      await launchUrl(Uri.parse(url));
+                    }
+                  },
+                )
+              : HtmlWidget(
+                  info["description"],
+                  onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
+                ),
+          InkWell(
+            onTap: () => onConfirm == null
+                ? dismissLoading()
+                : onConfirm!.call(),
+            child: Container(
+              decoration: ShapeDecoration(
+                color: Color(0xFFFFB20E),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r)),
+              ),
+              margin: EdgeInsets.only(top: 15.h),
+              alignment: Alignment.center,
+              child: Text(
+                "$confirmBtn".tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                  fontFamily: FONT_MEDIUM,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              height: 40.h,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 有计算器
   Widget view2(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -456,7 +525,7 @@ class CouponTipDialog extends StatelessWidget {
                   ),
             InkWell(
               onTap: () => onConfirm == null
-                  ? Navigator.pop(context, true)
+                  ? dismissLoading()
                   : onConfirm!.call(),
               child: Container(
                 decoration: ShapeDecoration(
