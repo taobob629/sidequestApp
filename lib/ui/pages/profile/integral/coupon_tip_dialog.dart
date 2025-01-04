@@ -27,7 +27,6 @@ class CouponTipDialog extends StatelessWidget {
   final int? currentIndex;
   final TextEditingController editingController =
       TextEditingController(text: "6");
-  String inputDigital = "6";
   var addFriendList = <double>[].obs;
   var yourLevelModel = IntegralLevelModel().obs;
 
@@ -568,7 +567,7 @@ class CouponTipDialog extends StatelessWidget {
             InkWell(
               onTap: () {
                 SystemChannels.textInput.invokeMethod('TextInput.hide');
-                if (inputDigital.isNotEmpty) {
+                if (editingController.text.isNotEmpty) {
                   editingController.text =
                       double.parse(editingController.text.minus("1")) < 0
                           ? "1"
@@ -621,13 +620,12 @@ class CouponTipDialog extends StatelessWidget {
                   isDense: true,
                   border: InputBorder.none,
                 ),
-                onChanged: (value) => inputDigital = value,
               ),
             ),
             InkWell(
               onTap: () {
                 SystemChannels.textInput.invokeMethod('TextInput.hide');
-                if (inputDigital.isNotEmpty) {
+                if (editingController.text.isNotEmpty) {
                   editingController.text = editingController.text.add("1");
                   editingController.selection = TextSelection.fromPosition(
                     TextPosition(offset: editingController.text.length),
