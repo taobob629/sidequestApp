@@ -85,7 +85,7 @@ class OtherRegisterPage extends GetView<OtherRegisterCtr> {
     ));
     list.add(10.verticalSpace);
     list.add(AuthInputView(
-      tips: "login password".tr,
+      tips: "store pc login password".tr,
       editingController: controller.loginPsdController,
       keyboardType: TextInputType.visiblePassword,
     ));

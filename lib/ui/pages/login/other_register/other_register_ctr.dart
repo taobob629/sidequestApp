@@ -93,6 +93,10 @@ class OtherRegisterCtr extends GetxController {
             'name': '1',
             'label': 'Female'.tr,
           }),
+          VerifyField.fromJson({
+            'name': '2',
+            'label': 'Prefer not to disclose'.tr,
+          }),
         ],
         title: "Select Gender".tr,
         showInfo: true,
