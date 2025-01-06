@@ -33,6 +33,10 @@ target 'Runner' do
 
   pod  'AlipaySDK-iOS'
 
+# 为了解决PhoneNumberKit升级的错误，需要指定版本，因为这个插件有了新版本4.0会报错如下
+# 否则会报错：Swift Compiler Error (Xcode): Cannot find type 'PhoneNumberKit' in scope
+  pod 'PhoneNumberKit', '3.8.0'
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
