@@ -154,23 +154,31 @@ class OtherRegisterCtr extends GetxController {
     showLoading();
     LoginModel loginModel;
     if (credential != null) {
-      loginModel = await AuthApi.signInApple(
-          credential!, '/peiwan/app/user/appleLogin2',
-          email: email,
+      await AuthApi.signInApple(
+        credential!,
+        '/peiwan/app/user/appleUserUpdatePwd',
+        email: email,
+        birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        sex: selectSex.value.name,
+        pwd: loginPsdController.text,
+        payment: paymentPinController.text,
+        nickName: nickNameEditingController.text,
+      );
+      dismissLoading();
+      Get.back();
+      return;
+    } else {
+      if (googleSignInAccount != null) {
+        loginModel = await AuthApi.signInGoogle(
+          '/peiwan/app/user/googleLogin2',
+          googleSignInAccount!,
+          idToken,
           birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
           sex: selectSex.value.name,
           pwd: loginPsdController.text,
           payment: paymentPinController.text,
-          nickName: nickNameEditingController.text);
-    } else {
-      if (googleSignInAccount != null) {
-        loginModel = await AuthApi.signInGoogle(
-            '/peiwan/app/user/googleLogin2', googleSignInAccount!, idToken,
-            birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-            sex: selectSex.value.name,
-            pwd: loginPsdController.text,
-            payment: paymentPinController.text,
-            nickName: nickNameEditingController.text);
+          nickName: nickNameEditingController.text,
+        );
       } else {
         loginModel = await AuthApi.signInDiscord(
           '/peiwan/app/user/discordLogin2',

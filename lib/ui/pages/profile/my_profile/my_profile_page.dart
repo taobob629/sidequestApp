@@ -64,7 +64,8 @@ class MyProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () => Get.to(() => SettingsPage()),
+                            onTap: () => Get.to(() => SettingsPage())
+                                ?.then((value) => t.onRefresh()),
                             child: Container(
                               width: 30.w,
                               height: 30.w,

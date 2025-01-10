@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sq_hub_app/ui/pages/login/login_page.dart';
+import 'package:sq_hub_app/ui/pages/login/other_register/other_register_page.dart';
 
 import '../../../api/auth_api.dart';
 import '../../../api/index_api.dart';
@@ -144,6 +146,16 @@ class SettingsPageController extends GetxController {
     showLoading();
     var response = await http.get('/peiwan/app/user/hasPwd');
     dismissLoading();
+    if (Platform.isIOS && !response.data['haspwd']) {
+      String? userIdentifier = StorageManager.getString('userIdentifier');
+      AuthorizationCredentialAppleID credential = AuthorizationCredentialAppleID(
+        userIdentifier: userIdentifier,
+        authorizationCode: '',
+      );
+      Get.to(() => OtherRegisterPage(), arguments: credential);
+      return;
+    }
+
     if (type == 1) {
       Get.to(() => ChangePasswordPage(
         type: 1,

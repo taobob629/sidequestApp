@@ -34,9 +34,12 @@ import '../service/voice_player.dart';
 import '../ui/dialog/dialog_confirm.dart';
 import '../ui/pages/login/login_page.dart';
 import '../ui/pages/login/other_register/other_register_page.dart';
+import '../ui/pages/login/secondary_page.dart';
+import '../ui/pages/main_page.dart';
 import '../ui/pages/messages/chat/chat_page.dart';
 import '../ui/pages/messages/chat/chat_tool.dart';
 import '../ui/pages/profile/balance/balance_page.dart';
+import '../ui/pages/register/register_page.dart';
 import '../ui/pages/scan/qr_login_page.dart';
 import '../ui/pages/scan/scan_page.dart';
 import '../utils/db_helper.dart';
@@ -327,7 +330,7 @@ class UserController extends GetxController {
     if (showLoadings) showLoading(clickMaskDismiss: false);
     LoginModel loginModel = await AuthApi.signInApple(
       credential,
-      '/peiwan/app/user/appleLogin1',
+      '/peiwan/app/user/appleNewLogin',
     ).catchError((e) {
       dismissLoading();
     });
@@ -492,9 +495,24 @@ class UserController extends GetxController {
     String? discriminator,
   }) async {
     if (loginModel.gotoLogin2) {
+      StorageManager.setToken(loginModel.token);
       dismissLoading();
       if (loginFlag == LoginFlag.ios) {
-        Get.to(() => OtherRegisterPage(), arguments: credential);
+        if (loginModel.validate == 0) {
+          await imLogin();
+          Get.offAll(() => MainPage());
+        } else {
+          if (loginModel.secondary == 1) {
+            Get.off(() => SecondaryPage(
+              loginModel: loginModel,
+            ));
+          } else {
+            Get.to(() => RegisterPage(),
+                arguments: {}
+                  ..['type'] = 1
+                  ..['loginModel'] = loginModel);
+          }
+        }
       } else if (loginFlag == LoginFlag.google) {
         if (account != null && idToken != null) {
           Get.to(() => OtherRegisterPage(), arguments: {

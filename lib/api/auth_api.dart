@@ -263,7 +263,7 @@ class AuthApi {
       url,
       data: formData,
     );
-    return LoginModel.fromJson(response.data);
+    return response.data == null ? LoginModel() : LoginModel.fromJson(response.data);
   }
 
   static Future<LoginModel> signInGoogle(
