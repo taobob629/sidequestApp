@@ -27,6 +27,9 @@ class OtherRegisterCtr extends GetxController {
 
   late Rx<DateTime> birthday = DateTime.now().obs;
 
+  // 是否选择了birthday，false没有
+  bool isSelectBirthday = false;
+
   var selectSex = VerifyField.fromJson({
     'name': '',
     'label': '',
@@ -78,6 +81,7 @@ class OtherRegisterCtr extends GetxController {
         return;
       }
       this.birthday.value = date;
+      isSelectBirthday = true;
     }
   }
 
@@ -138,12 +142,14 @@ class OtherRegisterCtr extends GetxController {
       return;
     }
 
-    if (DatetimeUtils.getAge(birthday.value) < 13) {
-      showInfo(
-        "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-            .tr,
-      );
-      return;
+    if (isSelectBirthday) {
+      if (DatetimeUtils.getAge(birthday.value) < 13) {
+        showInfo(
+          "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+              .tr,
+        );
+        return;
+      }
     }
 
     if (selectSex.value.name == '') {
@@ -158,7 +164,9 @@ class OtherRegisterCtr extends GetxController {
         credential!,
         '/peiwan/app/user/appleUserUpdatePwd',
         email: email,
-        birth: formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        birth: formatDate(
+            isSelectBirthday ? birthday.value : DateTime(2000, 1, 1),
+            [dd, '/', mm, '/', yyyy]),
         sex: selectSex.value.name,
         pwd: loginPsdController.text,
         payment: paymentPinController.text,

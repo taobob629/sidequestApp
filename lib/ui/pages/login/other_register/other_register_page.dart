@@ -236,6 +236,24 @@ class OtherRegisterPage extends GetView<OtherRegisterCtr> {
         ),
       ),
     ));
+    list.add(Row(
+      children: [
+        Checkbox(
+          shape: CircleBorder(),
+          activeColor: AppColor.accent,
+          value: true,
+          onChanged: (v) => null,
+        ),
+        Text(
+          "I confirm that I am 18 years old or older".tr,
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: FONT_MEDIUM,
+            fontSize: 14.sp,
+          ),
+        )
+      ],
+    ));
     return list;
   }
 }
