@@ -10,10 +10,10 @@ import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/integral_task_model.dart';
+import '../../../../widget/gradient_border_widget.dart';
 import '../../../../widget/progress_bar/animation_progress_bar.dart';
 import 'ctr/integral_home_ctr.dart';
 import 'integral_detail_page.dart';
-import 'integral_interests_page.dart';
 import 'integral_record_page.dart';
 import 'integral_redemption_page.dart';
 import 'integral_task_detail_page.dart';
@@ -44,112 +44,169 @@ class IntegralHomePage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Obx(() => ExtendedImage.network(
-                                '${t.integralInfoModel.value.pointInfo?.memberPhoto}',
-                                width: 40.w,
-                                height: 40.w,
-                                shape: BoxShape.circle,
-                                fit: BoxFit.cover,
-                                loadStateChanged: (ExtendedImageState state) {
-                                  switch (state.extendedImageLoadState) {
-                                    case LoadState.failed:
-                                      return ExtendedImage.asset(
-                                        ImageUtils.default_logo,
-                                        width: 40.w,
-                                        height: 40.w,
-                                        shape: BoxShape.circle,
-                                        fit: BoxFit.cover,
-                                      );
-                                  }
-                                },
-                              )),
-                          10.horizontalSpace,
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Obx(() => Text(
-                                      '${t.integralInfoModel.value.pointInfo?.nickName}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                      ),
+                                Row(
+                                  children: [
+                                    Obx(() => ExtendedImage.network(
+                                          '${t.integralInfoModel.value.pointInfo?.memberPhoto}',
+                                          width: 40.w,
+                                          height: 40.w,
+                                          shape: BoxShape.circle,
+                                          fit: BoxFit.cover,
+                                          loadStateChanged:
+                                              (ExtendedImageState state) {
+                                            switch (
+                                                state.extendedImageLoadState) {
+                                              case LoadState.failed:
+                                                return ExtendedImage.asset(
+                                                  ImageUtils.default_logo,
+                                                  width: 40.w,
+                                                  height: 40.w,
+                                                  shape: BoxShape.circle,
+                                                  fit: BoxFit.cover,
+                                                );
+                                            }
+                                          },
+                                        )),
+                                    10.horizontalSpace,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Obx(() => Text(
+                                              '${t.integralInfoModel.value.pointInfo?.nickName}',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16.sp,
+                                                fontFamily: FONT_MEDIUM,
+                                              ),
+                                            )),
+                                        6.verticalSpace,
+                                        GestureDetector(
+                                          behavior: HitTestBehavior.translucent,
+                                          onTap: () => Get.to(
+                                              () => IntegralRecordPage()),
+                                          child: Row(
+                                            children: [
+                                              Obx(() => Text(
+                                                    'Points:${t.integralInfoModel.value.pointInfo?.points}',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Color(0xFF9CA3AF),
+                                                      fontSize: 16.sp,
+                                                      fontFamily: FONT_MEDIUM,
+                                                    ),
+                                                  )),
+                                              3.horizontalSpace,
+                                              Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                color: Color(0xFF9CA3AF),
+                                                size: 13.sp,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Obx(() => GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => t.toInterestsPage(),
+                                      child: Text(
+                                        'Need ${(t.integralInfoModel.value.pointInfo?.nextExperience ?? 0) - (t.integralInfoModel.value.pointInfo?.experience ?? 0)} xp to level up to Lv${(t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1}.',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13.sp,
+                                          fontFamily: 'DIN',
+                                        ),
+                                      ).paddingOnly(top: 20.h),
                                     )),
                                 6.verticalSpace,
-                                GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () =>
-                                      Get.to(() => IntegralRecordPage()),
-                                  child: Row(
-                                    children: [
-                                      Obx(() => Text(
-                                            'Points:${t.integralInfoModel.value.pointInfo?.points}',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Color(0xFF9CA3AF),
-                                              fontSize: 16.sp,
-                                              fontFamily: FONT_MEDIUM,
-                                            ),
-                                          )),
-                                      3.horizontalSpace,
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        color: Color(0xFF9CA3AF),
-                                        size: 13.sp,
+                                Obx(() => GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => t.toInterestsPage(),
+                                      child: SizedBox(
+                                        width: 200.w,
+                                        child: FAProgressBar(
+                                          size: 6.h,
+                                          currentValue: (t
+                                                      .integralInfoModel
+                                                      .value
+                                                      .pointInfo
+                                                      ?.experience ??
+                                                  0) /
+                                              (t
+                                                      .integralInfoModel
+                                                      .value
+                                                      .pointInfo
+                                                      ?.nextExperience ??
+                                                  0),
+                                          progressGradient: LinearGradient(
+                                              colors: [
+                                                hexColor('#FF760E'),
+                                                hexColor('#FFB20E')
+                                              ]),
+                                          backgroundColor: hexColor('#45494B'),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    )),
                               ],
                             ),
                           ),
-                          Obx(() => GestureDetector(
-                                onTap: () => t.toInterestsPage(),
-                                child: Image.asset(
-                                  'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade ?? 0}_icon.webp',
-                                  scale: 2,
-                                ),
-                              )),
+                          Column(
+                            children: [
+                              Obx(() => GestureDetector(
+                                    onTap: () => t.toInterestsPage(),
+                                    child: Image.asset(
+                                      'assets/images/integral_lv${t.integralInfoModel.value.pointInfo?.expGrade ?? 0}_icon.webp',
+                                      scale: 2,
+                                    ),
+                                  )),
+                              10.verticalSpace,
+                              t.integralInfoModel.value.pointInfo
+                                          ?.expGradeState ==
+                                      0
+                                  ? InkWell(
+                                      onTap: () => t.upgrade(),
+                                      child: GradientBorderWidget(
+                                        child: Text(
+                                          'Upgrade'.tr,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            color: hexColor('#FFB20E'),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(40.r),
+                                      ),
+                                      child: GradientBorderWidget(
+                                        colors: [Colors.grey, Colors.grey],
+                                        child: Text(
+                                          'Upgrade'.tr,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            color:
+                                                Colors.white.withOpacity(0.6),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          ),
                           15.horizontalSpace,
                         ],
                       ),
-                      Obx(() => GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => t.toInterestsPage(),
-                            child: Text(
-                              'Need ${(t.integralInfoModel.value.pointInfo?.nextExperience ?? 0) - (t.integralInfoModel.value.pointInfo?.experience ?? 0)} xp to level up to Lv${(t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1}.',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontFamily: 'DIN',
-                              ),
-                            ),
-                          )),
-                      6.verticalSpace,
-                      Obx(() => GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => t.toInterestsPage(),
-                            child: SizedBox(
-                              width: 200.w,
-                              child: FAProgressBar(
-                                size: 6.h,
-                                currentValue: (t.integralInfoModel.value
-                                            .pointInfo?.experience ??
-                                        0) /
-                                    (t.integralInfoModel.value.pointInfo
-                                            ?.nextExperience ??
-                                        0),
-                                progressGradient: LinearGradient(colors: [
-                                  hexColor('#FF760E'),
-                                  hexColor('#FFB20E')
-                                ]),
-                                backgroundColor: hexColor('#45494B'),
-                              ),
-                            ),
-                          )),
-                      30.verticalSpace,
+                      20.verticalSpace,
                       Row(
                         children: [
                           Expanded(

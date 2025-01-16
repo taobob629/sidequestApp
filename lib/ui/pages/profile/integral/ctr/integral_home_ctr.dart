@@ -186,4 +186,15 @@ class IntegralHomeCtr extends GetxController {
     }
     return isToday;
   }
+
+  void upgrade() async {
+    showLoading();
+    final response = await http.post('/app/point/up/grade');
+    dismissLoading();
+    if (response.data == true) {
+      showError("Successful".tr);
+
+      requestData();
+    }
+  }
 }

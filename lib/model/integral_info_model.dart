@@ -122,6 +122,7 @@ class PointInfo {
   int? nextExpGrade;
   String? nickName;
   String? memberPhoto;
+  int? expGradeState;
 
   PointInfo({
     this.id,
@@ -135,6 +136,7 @@ class PointInfo {
     this.nextExpGrade,
     this.nickName,
     this.memberPhoto,
+    this.expGradeState,
   });
 
   factory PointInfo.fromJson(Map<String, dynamic> json) => PointInfo(
@@ -149,6 +151,7 @@ class PointInfo {
         nextExpGrade: json["nextExpGrade"],
         nickName: json["nickName"],
         memberPhoto: json["memberPhoto"],
+        expGradeState: json["expGradeState"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -163,5 +166,6 @@ class PointInfo {
         "nextExpGrade": nextExpGrade,
         "nickName": nickName,
         "memberPhoto": memberPhoto,
+        "expGradeState": expGradeState,
       };
 }
