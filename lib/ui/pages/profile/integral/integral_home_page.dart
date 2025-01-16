@@ -1073,31 +1073,35 @@ class IntegralHomePage extends StatelessWidget {
                 color: Color(0xFF2C2C33),
                 borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
-                  color: t.isToday(model)
-                      ? hexColor('#FFB20E')
-                      : Colors.transparent,
+                  color: Colors.transparent,
                   width: 1.w,
                 ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'x${model.point}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: 'DIN',
-                      fontWeight: FontWeight.w400,
+              child: GradientBorderWidget(
+                colors: t.isToday(model)
+                    ? null
+                    : [Colors.transparent, Colors.transparent],
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'x${model.point}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontFamily: 'DIN',
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  8.verticalSpace,
-                  Image.asset(
-                    t.getCheckInIcon(model),
-                    width: 28.w,
-                    height: 28.w,
-                  ),
-                ],
+                    8.verticalSpace,
+                    Image.asset(
+                      t.getCheckInIcon(model),
+                      width: 34.w,
+                      height: 34.w,
+                    ),
+                  ],
+                ),
               ),
             ),
             Text(

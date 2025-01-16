@@ -6,12 +6,14 @@ class GradientBorderWidget extends StatelessWidget {
   final double? borderRadius;
   final Widget child;
   final List<Color>? colors;
+  final EdgeInsetsGeometry? padding;
 
   const GradientBorderWidget({
     Key? key,
     required this.child,
     this.colors,
     this.borderRadius,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -22,10 +24,11 @@ class GradientBorderWidget extends StatelessWidget {
         colors: colors,
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 10.w,
-          vertical: 6.h,
-        ),
+        padding: padding ??
+            EdgeInsets.symmetric(
+              horizontal: 10.w,
+              vertical: 6.h,
+            ),
         child: child,
       ),
     );

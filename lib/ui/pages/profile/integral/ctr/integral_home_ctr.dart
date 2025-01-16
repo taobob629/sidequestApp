@@ -152,7 +152,8 @@ class IntegralHomeCtr extends GetxController {
     DateTime inputDate;
 
     // 如果输入的月和日大于当前月和日，则认为是上一年的日期
-    if (monthPart > now.month || (monthPart == now.month && dayPart > now.day)) {
+    if (monthPart > now.month ||
+        (monthPart == now.month && dayPart > now.day)) {
       inputDate = DateTime(now.year - 1, monthPart, dayPart);
     } else {
       inputDate = DateTime(now.year, monthPart, dayPart);
@@ -192,7 +193,14 @@ class IntegralHomeCtr extends GetxController {
     final response = await http.post('/app/point/up/grade');
     dismissLoading();
     if (response.data == true) {
-      showError("Successful".tr);
+      showCustom(
+        SignSuccessDialog(
+          points: "",
+          title: 'Upgrade successfully!'.tr,
+          congratulations:
+              'Congratulations,you have upgrade to LV.${(integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1}',
+        ),
+      );
 
       requestData();
     }
