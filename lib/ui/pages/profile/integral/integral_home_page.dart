@@ -170,7 +170,7 @@ class IntegralHomePage extends StatelessWidget {
                               10.verticalSpace,
                               t.integralInfoModel.value.pointInfo
                                           ?.expGradeState ==
-                                      0
+                                      1
                                   ? InkWell(
                                       onTap: () => t.upgrade(),
                                       child: GradientBorderWidget(

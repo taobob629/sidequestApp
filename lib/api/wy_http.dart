@@ -97,6 +97,7 @@ class ApiInterceptor extends InterceptorsWrapper {
           isSigningIn = true;
           UserController.find.switchLogin();
         }
+        return handler.next(response);
       } else {
         dismissLoading(status: SmartStatus.loading);
         if (respData.msg.isEmpty) {
