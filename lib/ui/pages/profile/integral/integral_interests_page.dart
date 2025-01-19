@@ -104,9 +104,7 @@ class IntegralInterestsPage extends StatelessWidget {
                             ),
                             6.verticalSpace,
                             Text(
-                              ctr.currentUserVipLevel != (index + 1)
-                                  ? "Only ${(ctr.integralModel.value.levelConfigVoList[index].threshold) - (ctr.integralModel.value.levelConfigVoList[index].nowExperience)} EXP left to reach Level ${ctr.integralModel.value.levelConfigVoList[index].level}"
-                                  : "You've achieved the this level",
+                              ctr.integralModel.value.levelConfigVoList[index].description.toString(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF9CA3AF),

@@ -122,6 +122,7 @@ class PointInfo {
   int? nextExpGrade;
   String? nickName;
   String? memberPhoto;
+  String? desc;
   int? expGradeState;
 
   PointInfo({
@@ -136,6 +137,7 @@ class PointInfo {
     this.nextExpGrade,
     this.nickName,
     this.memberPhoto,
+    this.desc,
     this.expGradeState,
   });
 
@@ -151,6 +153,7 @@ class PointInfo {
         nextExpGrade: json["nextExpGrade"],
         nickName: json["nickName"],
         memberPhoto: json["memberPhoto"],
+        desc: json["desc"],
         expGradeState: json["expGradeState"],
       );
 
@@ -166,6 +169,7 @@ class PointInfo {
         "nextExpGrade": nextExpGrade,
         "nickName": nickName,
         "memberPhoto": memberPhoto,
+        "desc": desc,
         "expGradeState": expGradeState,
       };
 }

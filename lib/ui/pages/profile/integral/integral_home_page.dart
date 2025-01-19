@@ -118,7 +118,7 @@ class IntegralHomePage extends StatelessWidget {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => t.toInterestsPage(),
                                       child: Text(
-                                        'Need ${(t.integralInfoModel.value.pointInfo?.nextExperience ?? 0) - (t.integralInfoModel.value.pointInfo?.experience ?? 0)} xp to level up to Lv${(t.integralInfoModel.value.pointInfo?.expGrade ?? 0) + 1}.',
+                                        '${t.integralInfoModel.value.pointInfo?.desc}',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 13.sp,
