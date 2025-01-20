@@ -149,28 +149,28 @@ class IntegralHomeCtr extends GetxController {
     if (dayPart == 0 || monthPart == 0) return ImageUtils.integral_checkin_icon;
 
     // 构造 DateTime 对象
-    DateTime inputDate;
+    // DateTime inputDate;
 
     // 如果输入的月和日大于当前月和日，则认为是上一年的日期
-    if (monthPart > now.month ||
-        (monthPart == now.month && dayPart > now.day)) {
-      inputDate = DateTime(now.year - 1, monthPart, dayPart);
-    } else {
-      inputDate = DateTime(now.year, monthPart, dayPart);
-    }
+    // if (monthPart > now.month ||
+    //     (monthPart == now.month && dayPart > now.day)) {
+    //   inputDate = DateTime(now.year - 1, monthPart, dayPart);
+    // } else {
+    //   inputDate = DateTime(now.year, monthPart, dayPart);
+    // }
 
     // 0未签到 1已签到 2待签到
     if (model.state == 1) {
-      // 已经签到的用绿色
+      // 已经签到的用黄色
       return ImageUtils.integral_checkin_icon;
-    } else if (model.state == 0) {
+    } /*else if (model.state == 0) {
       // 过期未签到的用灰色， 判断是否是今天或今天之后
       if (inputDate.isBefore(DateTime(now.year, now.month, now.day))) {
         return ImageUtils.integral_checkin_grey_icon;
       }
       return ImageUtils.integral_checkin_icon;
-    }
-    return ImageUtils.integral_checkin_icon;
+    }*/
+    return ImageUtils.integral_checkin_grey_icon;
   }
 
   bool isToday(Sign model) {

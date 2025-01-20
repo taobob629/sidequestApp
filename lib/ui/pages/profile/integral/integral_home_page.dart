@@ -145,7 +145,7 @@ class IntegralHomePage extends StatelessWidget {
                                                       .value
                                                       .pointInfo
                                                       ?.nextExperience ??
-                                                  0),
+                                                  1),
                                           progressGradient: LinearGradient(
                                               colors: [
                                                 hexColor('#FF760E'),
