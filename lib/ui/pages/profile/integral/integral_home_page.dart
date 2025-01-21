@@ -139,13 +139,15 @@ class IntegralHomePage extends StatelessWidget {
                                                       .value
                                                       .pointInfo
                                                       ?.experience ??
-                                                  0) /
-                                              (t
+                                                  0)
+                                              .toDouble(),
+                                          maxValue: (t
                                                       .integralInfoModel
                                                       .value
                                                       .pointInfo
                                                       ?.nextExperience ??
-                                                  1),
+                                                  1)
+                                              .toDouble(),
                                           progressGradient: LinearGradient(
                                               colors: [
                                                 hexColor('#FF760E'),
