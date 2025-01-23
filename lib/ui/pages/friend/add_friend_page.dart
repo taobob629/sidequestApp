@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/common/empty_view.dart';
 import 'package:sq_hub_app/config/app_color.dart';
@@ -173,51 +174,67 @@ class AddFriendPage extends StatelessWidget {
         Expanded(
           child: Obx(() => ctr.friendList.isNotEmpty
               ? ListView.separated(
-                  itemBuilder: (c, i) => Container(
-                    padding: EdgeInsets.fromLTRB(
-                      16.w,
-                      4.h,
-                      18.w,
-                      14.h,
-                    ),
-                    child: Row(
+                  itemBuilder: (c, i) => Slidable(
+                    key: ValueKey(i),
+                    enabled: ctr.friendList[i].friendState == 3,
+                    endActionPane: ActionPane(
+                      extentRatio: 0.3,
+                      motion: StretchMotion(),
                       children: [
-                        ImageUtil.networkImage(
-                          url: '${ctr.friendList[i].memberPhoto}',
-                          width: 40.w,
-                          height: 40.w,
-                          fit: BoxFit.contain,
-                          border: 40.w,
-                        ).marginOnly(right: 10.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${ctr.friendList[i].nickName}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontFamily: FONT_MEDIUM,
-                                  color: Colors.white,
-                                ),
-                              ).paddingOnly(bottom: 4.h),
-                              Text(
-                                '${ctr.friendList[i].memberCode}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontFamily: FONT_LIGHT,
-                                  color: Colors.white.withOpacity(0.6),
-                                ),
-                              ),
-                            ],
-                          ),
+                        SlidableAction(
+                          onPressed: (c) => ctr.cancelFriends(ctr.friendList[i]),
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                          label: 'Cancel',
                         ),
-                        ctr.getFunByState(ctr.friendList[i]),
                       ],
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(
+                        16.w,
+                        4.h,
+                        18.w,
+                        14.h,
+                      ),
+                      child: Row(
+                        children: [
+                          ImageUtil.networkImage(
+                            url: '${ctr.friendList[i].memberPhoto}',
+                            width: 40.w,
+                            height: 40.w,
+                            fit: BoxFit.contain,
+                            border: 40.w,
+                          ).marginOnly(right: 10.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${ctr.friendList[i].nickName}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    color: Colors.white,
+                                  ),
+                                ).paddingOnly(bottom: 4.h),
+                                Text(
+                                  '${ctr.friendList[i].memberCode}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontFamily: FONT_LIGHT,
+                                    color: Colors.white.withOpacity(0.6),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ctr.getFunByState(ctr.friendList[i]),
+                        ],
+                      ),
                     ),
                   ),
                   separatorBuilder: (c, i) => Container(

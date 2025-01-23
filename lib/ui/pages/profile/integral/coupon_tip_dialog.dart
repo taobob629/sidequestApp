@@ -22,6 +22,7 @@ import 'ctr/integral_interests_ctr.dart';
 
 class CouponTipDialog extends StatelessWidget {
   final dynamic info;
+  final int limitConnectionsCount;
   final String? confirmBtn;
   final Function? onConfirm;
   final int? currentIndex;
@@ -37,6 +38,7 @@ class CouponTipDialog extends StatelessWidget {
 
   CouponTipDialog({
     this.info,
+    this.limitConnectionsCount = 0,
     this.currentIndex,
     this.confirmBtn = "OK",
     this.onConfirm,
@@ -229,7 +231,7 @@ class CouponTipDialog extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Bring Friends Combo Discount Calculator",
+                  "Play with Friends discount".tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
@@ -239,6 +241,14 @@ class CouponTipDialog extends StatelessWidget {
                 ),
               ],
             ),
+            Text(
+              "Receive the gaming rate discount when gaming simultaneously with your Connections.\nAt this Level, the discount can be applied with up to $limitConnectionsCount different Connections.",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontFamily: FONT_MEDIUM,
+              ),
+            ).paddingOnly(top: 13.h),
             Text(
               "Enter Base Hourly Price (£):",
               style: TextStyle(
@@ -384,7 +394,7 @@ class CouponTipDialog extends StatelessWidget {
                             yourLevelModel.value.friendLimitCount - 1
                         ? addFriendList.add(1.0)
                         : showToast(
-                            "You can only add up to ${yourLevelModel.value.friendLimitCount} friends per level."),
+                            " You have reached the maximum friends combo at this level"),
                     child: Container(
                       height: 38.h,
                       decoration: BoxDecoration(

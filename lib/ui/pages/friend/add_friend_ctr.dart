@@ -11,6 +11,7 @@ import '../../../config/icon_font.dart';
 import '../../../controller/user_controller.dart';
 import '../../../utils/toast_utils.dart';
 import '../../dialog/dialog_confirm.dart';
+import '../../dialog/dialog_sign_success.dart';
 import 'approval/approval_page.dart';
 
 class AddFriendCtr extends GetxController {
@@ -121,7 +122,12 @@ class AddFriendCtr extends GetxController {
     });
     dismissLoading();
     if (result.data == true) {
-      showToast("Successfully".tr);
+      showCustom(SignSuccessDialog(
+        points: "",
+        congratulations: result.statusMessage,
+        title: "Successful".tr,
+      ));
+      searchFriend(Get.context!);
     }
   }
 
@@ -226,5 +232,32 @@ class AddFriendCtr extends GetxController {
           ),
         );
     }
+  }
+
+  void cancelFriends(FriendModel model) async {
+    showCustom(ConfirmDialog(
+      title: "Confirm",
+      info: "Are you sure to cancel this connection request?",
+      onConfirm: () async {
+        dismissLoading();
+        int toMemberId = model.toMemberId ?? -1;
+        if (UserController.find.userProfile.memberId == toMemberId) {
+          toMemberId = model.memberId ?? -1;
+        }
+
+        showLoading();
+        final result = await http.post('/app/point/cancel/friend', data: {
+          "toMemberId": isSearchFriend.value ? model.id : toMemberId,
+        });
+        dismissLoading();
+        if (result.data == true) {
+          if (isSearchFriend.value) {
+            searchFriend(Get.context!);
+            return;
+          }
+          requestData();
+        }
+      },
+    ));
   }
 }

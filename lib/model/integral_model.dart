@@ -29,6 +29,7 @@ class LevelConfigVoList {
   int nowExperience;
   String? levelCoupons;
   List<CouponsModel> coupons;
+  int? limitConnectionsCount;
 
   LevelConfigVoList({
     this.id,
@@ -41,6 +42,7 @@ class LevelConfigVoList {
     required this.nowExperience,
     this.levelCoupons,
     required this.coupons,
+    this.limitConnectionsCount,
   });
 
   factory LevelConfigVoList.fromJson(Map<String, dynamic> json) =>
@@ -54,6 +56,7 @@ class LevelConfigVoList {
         locked: json["locked"],
         nowExperience: json["nowExperience"] ?? 0,
         levelCoupons: json["levelCoupons"],
+        limitConnectionsCount: json["limitConnectionsCount"],
         coupons: json["coupons"] == null
             ? []
             : List<CouponsModel>.from(
@@ -70,6 +73,7 @@ class LevelConfigVoList {
         "locked": locked,
         "nowExperience": nowExperience,
         "levelCoupons": levelCoupons,
+        "limitConnectionsCount": limitConnectionsCount,
         "coupons": List<dynamic>.from(coupons.map((x) => x.toJson())),
       };
 }

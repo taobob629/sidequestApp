@@ -102,6 +102,11 @@ class IntegralInterestsCtr extends GetxController {
       CouponTipDialog(
         currentIndex: i,
         info: contentList[i],
+        limitConnectionsCount: integralModel
+                .value
+                .levelConfigVoList[currentVIPIndex.value]
+                .limitConnectionsCount ??
+            0,
       ),
       alignment: i != 0 ? Alignment.center : Alignment.bottomCenter,
     );
