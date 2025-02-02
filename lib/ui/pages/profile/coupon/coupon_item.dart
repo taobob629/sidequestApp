@@ -60,7 +60,8 @@ class CouponItem extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(mainpadding, 16, mainpadding, 16),
+                  padding:
+                      EdgeInsets.fromLTRB(mainpadding, 16, mainpadding, 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -76,7 +77,8 @@ class CouponItem extends StatelessWidget {
                                     '${model.discount}',
                                     // '${model.discount}',
                                     style: TextStyle(
-                                        color: model.available == CouponModel.AVILABLE
+                                        color: model.available ==
+                                                CouponModel.AVILABLE
                                             ? Colors.white
                                             : Colors.grey,
                                         fontFamily: FONT_LIGHT,
@@ -97,7 +99,8 @@ class CouponItem extends StatelessWidget {
                                             child: Text(
                                               '${model.unit}',
                                               style: TextStyle(
-                                                  color: model.available == CouponModel.AVILABLE
+                                                  color: model.available ==
+                                                          CouponModel.AVILABLE
                                                       ? Colors.white
                                                       : Colors.grey,
                                                   fontFamily: FONT_LIGHT,
@@ -114,23 +117,29 @@ class CouponItem extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  PWidget.text('${listModel.typeName}', [
-                                    model.available == CouponModel.AVILABLE
-                                        ? Colors.yellow
-                                        : Colors.grey,
-                                    25
-                                  ],),
+                                  PWidget.text(
+                                    '${listModel.typeName}',
+                                    [
+                                      model.available == CouponModel.AVILABLE
+                                          ? Colors.yellow
+                                          : Colors.grey,
+                                      25
+                                    ],
+                                  ),
                                   PWidget.text('${model.name}', [
                                     model.available == CouponModel.AVILABLE
                                         ? Colors.yellow
                                         : Colors.grey,
                                     15
-                                  ]),
+                                  ], {
+                                    'max': 2
+                                  }),
                                   PWidget.boxh(3),
                                   Text(
                                     '${model.description}',
                                     style: TextStyle(
-                                        color: model.available == CouponModel.AVILABLE
+                                        color: model.available ==
+                                                CouponModel.AVILABLE
                                             ? Colors.white70
                                             : Colors.grey,
                                         fontSize: 14,
@@ -154,10 +163,14 @@ class CouponItem extends StatelessWidget {
             Positioned(
               top: 15,
               right: 15,
-              child: PWidget.text(
-                  '${'Available'.tr} : ${model.usedCount}',
-                  [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 14],
-                  {'ff': 'DIN'}),
+              child: PWidget.text('${'Available'.tr} : ${model.usedCount}', [
+                model.available == CouponModel.AVILABLE
+                    ? Colors.white
+                    : Colors.grey,
+                14
+              ], {
+                'ff': 'DIN'
+              }),
             ),
           Positioned(
             bottom: 15,
@@ -165,10 +178,14 @@ class CouponItem extends StatelessWidget {
             // left: 20,
             child: Container(
               //    alignment: Alignment.center,
-              child: PWidget.text(
-                  '${'Expire Date'.tr} : ${model.expireTime}',
-                  [model.available == CouponModel.AVILABLE ? Colors.white : Colors.grey, 14],
-                  {'ff': 'DIN'}),
+              child: PWidget.text('${'Expire Date'.tr} : ${model.expireTime}', [
+                model.available == CouponModel.AVILABLE
+                    ? Colors.white
+                    : Colors.grey,
+                14
+              ], {
+                'ff': 'DIN'
+              }),
             ),
           )
         ],
