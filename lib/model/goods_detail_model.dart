@@ -111,7 +111,7 @@ class GoodsDetailModel extends Equatable{
 }
 
 class GoodsParams extends Equatable {
-  double price;
+  num price;
   String name;
 
   GoodsParams({
