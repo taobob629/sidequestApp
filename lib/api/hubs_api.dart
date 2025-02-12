@@ -53,6 +53,23 @@ class HubsApi {
     return list;
   }
 
+  static Future<List<StoreTeaModel>> getBannerTeaList(
+    int? storeId,
+    int? categoryId,
+    String? subCategoryId,
+  ) async {
+    var response =
+        await http.get('/sideQuest/app/hubs/bannerTeas', queryParameters: {
+      "storeId": storeId,
+      "categoryId": categoryId,
+      "subCategoryId": subCategoryId,
+    });
+    List<StoreTeaModel> list = response.data
+        .map<StoreTeaModel>((item) => StoreTeaModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
   static Future<List<TeaCategoryModel>> getTeaCategory(int? storeId) async {
     var response =
         await http.get('/sideQuest/app/hubs/teaCategory', queryParameters: {

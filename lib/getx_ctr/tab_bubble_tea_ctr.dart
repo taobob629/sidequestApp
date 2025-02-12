@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
+import 'package:sq_hub_app/utils/utils.dart';
 
 import '../api/hubs_api.dart';
 import '../common/dialog_selector.dart';
@@ -261,17 +262,22 @@ class TabBubbleTeaCtr extends GetxController {
   }
 
   void jumpPage(String? link) async {
+    flog("link $link");
     if (link != null) {
       try {
         Map<String, dynamic> jsonMap = json.decode(link);
         String name = jsonMap['name'];
+        String subCategoryId = jsonMap['subCategoryId'] ?? '';
         int categoryId = jsonMap['categoryId'];
         int goodId = jsonMap['goodId'];
         int type = jsonMap['type'];
         if (type == 1) {
           showLoading();
-          teaList.assignAll(
-              await HubsApi.getTeaList(currentSelectStore.value.id, categoryId));
+          teaList.assignAll(await HubsApi.getBannerTeaList(
+            currentSelectStore.value.id,
+            categoryId,
+            subCategoryId,
+          ));
           dismissLoading();
           Get.to(() => TeaADListPage());
         } else if (type == 0) {
