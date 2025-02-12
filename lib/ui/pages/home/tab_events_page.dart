@@ -9,6 +9,7 @@ import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../api/index_api.dart';
 import '../../../common/getx_refresh_controller.dart';
+import '../../../common/web_page.dart';
 import '../../../config/app_color.dart';
 import '../../../model/what_on_event_model.dart';
 import '../events/event/event_page.dart';
@@ -28,10 +29,7 @@ class TabEventsPage extends StatelessWidget {
             child: controller.list.isNotEmpty
                 ? ListView.separated(
                     itemBuilder: (c, i) => InkWell(
-                      onTap: () => Get.to(() => EventPage(
-                            id: controller.list[i].id,
-                            type: controller.list[i].matchDiff,
-                          )),
+                      onTap: () => controller.gotoEvent(controller.list[i]),
                       child: Container(
                         decoration: BoxDecoration(
                           color: hexColor('141414'),
@@ -243,5 +241,19 @@ class TabEventsPageController extends GetxRefreshController<WhatOnEventModel> {
       return 48.w;
     }
     return 36.w;
+  }
+
+  void gotoEvent(WhatOnEventModel model) {
+    if (model.thirdLink != null) {
+      Get.to(() => WebPage(
+        title: "title",
+        url: model.thirdLink,
+      ));
+      return;
+    }
+    Get.to(() => EventPage(
+      id: model.id,
+      type: model.matchDiff,
+    ));
   }
 }

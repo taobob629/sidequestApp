@@ -32,7 +32,7 @@ class ConnectionsCtr extends GetxController
               width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Text('My Connections'.tr),
+        child: Text('My connections'.tr),
       )),
       Obx(() => Container(
         height: 34.h,

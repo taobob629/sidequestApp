@@ -6,6 +6,7 @@ class WhatOnEventModel {
   final int matchDiff;
   String? time;
   String? title;
+  String? thirdLink;
 
   WhatOnEventModel({
     required this.joins,
@@ -15,6 +16,7 @@ class WhatOnEventModel {
     required this.matchDiff,
     this.time,
     this.title,
+    this.thirdLink,
   });
 
   factory WhatOnEventModel.fromJson(Map<String, dynamic> json) => WhatOnEventModel(
@@ -25,6 +27,7 @@ class WhatOnEventModel {
     matchDiff: json["matchDiff"] ?? 0,
     time: json["time"],
     title: json["title"],
+    thirdLink: json["thirdLink"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -35,6 +38,7 @@ class WhatOnEventModel {
     "matchDiff": matchDiff,
     "time": time,
     "title": title,
+    "thirdLink": thirdLink,
   };
 }
 
