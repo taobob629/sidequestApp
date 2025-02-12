@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/utils/utils.dart';
 
 import '../../../api/wy_http.dart';
 import '../../../config/app_color.dart';
@@ -50,6 +51,11 @@ class ConnectionsCtr extends GetxController
       )),
     ];
     tabBarController = TabController(length: tabsList.length, vsync: this);
+    tabBarController.addListener(() {
+      flog("tabBarController.index = ${tabBarController.index}, ${tabBarController.indexIsChanging}");
+      // 在这里执行你的逻辑
+      currentIndex.value = tabBarController.index;
+    });
 
     requestData();
   }

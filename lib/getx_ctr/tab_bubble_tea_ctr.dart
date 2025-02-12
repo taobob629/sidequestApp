@@ -262,19 +262,23 @@ class TabBubbleTeaCtr extends GetxController {
 
   void jumpPage(String? link) async {
     if (link != null) {
-      Map<String, dynamic> jsonMap = json.decode(link);
-      String name = jsonMap['name'];
-      int categoryId = jsonMap['categoryId'];
-      int goodId = jsonMap['goodId'];
-      int type = jsonMap['type'];
-      if (type == 1) {
-        showLoading();
-        teaList.assignAll(
-            await HubsApi.getTeaList(currentSelectStore.value.id, categoryId));
-        dismissLoading();
-        Get.to(() => TeaADListPage());
-      } else if (type == 0) {
-        Get.to(() => BubbleTeaDetailPage(), arguments: goodId);
+      try {
+        Map<String, dynamic> jsonMap = json.decode(link);
+        String name = jsonMap['name'];
+        int categoryId = jsonMap['categoryId'];
+        int goodId = jsonMap['goodId'];
+        int type = jsonMap['type'];
+        if (type == 1) {
+          showLoading();
+          teaList.assignAll(
+              await HubsApi.getTeaList(currentSelectStore.value.id, categoryId));
+          dismissLoading();
+          Get.to(() => TeaADListPage());
+        } else if (type == 0) {
+          Get.to(() => BubbleTeaDetailPage(), arguments: goodId);
+        }
+      } catch (e) {
+        showToast(e.toString());
       }
     }
   }

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/config/app_color.dart';
 import 'package:sq_hub_app/ui/pages/addgame/add_game_account_page.dart';
+import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../../../config/icon_font.dart';
 import '../friend/add_friend_page.dart';
@@ -37,7 +38,6 @@ class ConnectionsPage extends StatelessWidget {
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             unselectedLabelColor: Colors.white,
             labelColor: hexColor('#FFB20E'),
-            onTap: (index) => ctr.currentIndex.value = index,
             labelStyle: TextStyle(
               fontSize: 14.sp,
               fontFamily: FONT_LIGHT,

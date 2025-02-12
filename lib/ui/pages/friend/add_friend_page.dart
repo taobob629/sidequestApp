@@ -182,7 +182,8 @@ class AddFriendPage extends StatelessWidget {
                       motion: StretchMotion(),
                       children: [
                         SlidableAction(
-                          onPressed: (c) => ctr.cancelFriends(ctr.friendList[i]),
+                          onPressed: (c) =>
+                              ctr.cancelFriends(ctr.friendList[i]),
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           label: 'Cancel',
@@ -244,7 +245,14 @@ class AddFriendPage extends StatelessWidget {
                   ),
                   itemCount: ctr.friendList.length,
                 )
-              : EmptyView()),
+              : Text(
+                  "What Are Connections?\nConnections represent the number of friends you can link to your account for exclusive benefits. With Connections, you can:\n1. Play Together for More Rewards: Join games with your connected friends to unlock combo discounts and other bonuses.\n2. Grow Your Network: Change your Connections list once a month to add new friends or adjust your linked group.\n3. Level Up for More Connections: The higher your level, the more Connections you can have, unlocking bigger rewards and better group benefits.",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14.sp,
+                    fontFamily: FONT_LIGHT,
+                  ),
+                ).marginSymmetric(horizontal: 16.w, vertical: 40.h)),
         ),
       ],
     );
