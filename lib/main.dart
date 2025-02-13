@@ -38,6 +38,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = HttpsOverrides();
 
@@ -54,7 +57,7 @@ void main() async {
   PaintingBinding.instance.imageCache.maximumSizeBytes = 1000 << 20;
   if (env.contains("dev") || env.contains("test")) {
     PluginManager.instance // 注册插件
-      .register(DioInspector(dio: http));
+        .register(DioInspector(dio: http));
     runApp(UMEWidget(enable: true, child: app));
   } else {
     runApp(app);

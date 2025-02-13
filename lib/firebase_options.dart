@@ -41,19 +41,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCmYBoVJ0sieOiO0ElEB1D48hUAaqdibDM',
-    appId: '1:760458602993:android:723c8e8653df547535bc50',
-    messagingSenderId: '760458602993',
-    projectId: 'sidequest-b26dd',
-    storageBucket: 'sidequest-b26dd.appspot.com',
+    apiKey: 'AIzaSyBLaVxE8zfhGRlvi0A6Rg3TIgYAGZef9-E',
+    appId: '1:858619460172:android:53f4b06b5c397c3c9812e9',
+    messagingSenderId: '858619460172',
+    projectId: 'sqsky-d9333',
+    storageBucket: 'sqsky-d9333.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA5tAeq3w02AtUsVQJN3dby8qi9HA7BD0s',
-    appId: '1:337857089229:ios:7b030b8601831e6376a384',
-    messagingSenderId: '337857089229',
-    projectId: 'sidequest-push',
-    storageBucket: 'sidequest-push.appspot.com',
+    apiKey: 'AIzaSyA_qgLB4lCE2qKZSuB3kibhFwGt35Yg5Ao',
+    appId: '1:858619460172:ios:e800e332e6ad450b9812e9',
+    messagingSenderId: '858619460172',
+    projectId: 'sqsky-d9333',
+    storageBucket: 'sqsky-d9333.firebasestorage.app',
     // iosClientId: 'com.googleusercontent.apps.40635894328-lgg8oi13171vnaijmp0b35mp1cp3famc',
     iosBundleId: 'com.uk.co.sq.hub',
   );

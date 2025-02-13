@@ -2,17 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sq_hub_app/image_utils.dart';
+import 'package:sq_hub_app/ui/dialog/dialog_confirm.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
-import 'package:sq_hub_app/ui/pages/profile/task/task_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
 
@@ -182,13 +182,11 @@ class MainPageController extends FullLifeCycleController
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
+    _requestPermission();
+
     await AppConfig.flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onSelectNotification: selectNotification);
-
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
 
     FirebaseMessaging.instance
         .getToken()
@@ -220,6 +218,47 @@ class MainPageController extends FullLifeCycleController
     }
   }
 
+  Future<void> _requestPermission() async {
+    if (Platform.isAndroid) {
+      // Android 13+ 需要手动请求通知权限
+      if (await Permission.notification.isDenied) {
+        await Permission.notification.request();
+      }
+    }
+
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+      Get.dialog(
+        ConfirmDialog(
+          title: "Notification permission disabled".tr,
+          info:
+              "Please turn on notification permissions in system settings to receive important notifications."
+                  .tr,
+          onConfirm: () {
+            Get.back();
+            openAppSettings();
+          },
+        ),
+      );
+    }
+  }
+
   @override
   void onReady() {
     super.onReady();
@@ -234,10 +273,8 @@ class MainPageController extends FullLifeCycleController
     IndexApi.checkVersion().then((value) {
       if (value.upgrade) {
         if (Get.context != null) {
-          Get.dialog(
-            UpgradeDialog(model: value),
-            barrierDismissible: !value.force
-          );
+          Get.dialog(UpgradeDialog(model: value),
+              barrierDismissible: !value.force);
         }
       }
     });
@@ -245,10 +282,8 @@ class MainPageController extends FullLifeCycleController
     _timer = Timer.periodic(Duration(minutes: 5), (timer) {
       IndexApi.checkVersion().then((value) {
         if (value.upgrade) {
-          Get.dialog(
-              UpgradeDialog(model: value),
-              barrierDismissible: !value.force
-          );
+          Get.dialog(UpgradeDialog(model: value),
+              barrierDismissible: !value.force);
           _timer.cancel();
         }
       });
