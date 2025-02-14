@@ -191,6 +191,8 @@ class MainPageController extends FullLifeCycleController
     FirebaseMessaging.instance
         .getToken()
         .then((value) => StorageManager.setPushToken(value));
+    FirebaseMessaging.instance.onTokenRefresh
+        .listen((fcmToken) => StorageManager.setPushToken(fcmToken));
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print('Got a message whilst in the foreground!');
       showLocalNotification(message);
