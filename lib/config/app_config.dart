@@ -30,10 +30,10 @@ class AppConfig {
 
   static String? name;
 
-  static String _devServer = 'http://114.117.203.137:8081';
-  static String _devServer2 = 'http://139.186.149.117:8081';
-  static String _testServer = 'http://43.136.135.198:8081';
-  static String _prodServer = 'https://sidequesthub.com';
+  static String devServer = 'http://114.117.203.137:8081';
+  static String devServer2 = 'http://139.186.149.117:8081';
+  static String testServer = 'http://43.136.135.198:8081';
+  static String prodServer = 'https://sidequestmeta.com';
 
   static final isProd = const bool.fromEnvironment('dart.vm.product');
 
@@ -142,13 +142,13 @@ class AppConfig {
   static String getBaseServer() {
     String env = StorageManager.getEnv();
     if (env == "dev137") {
-      return _devServer;
+      return devServer;
     } else if (env == "dev127") {
-      return _devServer2;
+      return devServer2;
     } else if (env == "dev198") {
-      return _testServer;
+      return testServer;
     }
-    return _prodServer;
+    return prodServer;
   }
 
   static Future<Widget> createApp() async {

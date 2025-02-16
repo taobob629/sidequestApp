@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/config/app_config.dart';
 
 import '../../../../common/base_scaffold.dart';
 import '../../../../common/floating_button.dart';
@@ -79,7 +80,7 @@ class DeveloperPage extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: "http://114.117.203.137:8081",
+                              text: AppConfig.devServer,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Colors.red,
@@ -109,7 +110,7 @@ class DeveloperPage extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: "http://139.186.149.117:8081",
+                              text: AppConfig.devServer2,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Colors.red,
@@ -139,7 +140,7 @@ class DeveloperPage extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: "http://43.136.135.198:8081",
+                              text: AppConfig.testServer,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Colors.red,
@@ -169,7 +170,7 @@ class DeveloperPage extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: "https://sidequesthub.com",
+                              text: AppConfig.prodServer,
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Colors.red,
