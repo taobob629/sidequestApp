@@ -75,3 +75,17 @@ class VerifyField extends SelectorItem {
     return true;
   }
 }
+
+class LoginBtnModel {
+  bool discordLogin = false;
+  bool appleLogin = false;
+  bool googleLogin = false;
+
+  LoginBtnModel();
+
+  LoginBtnModel.fromJson(Map<String, dynamic> json) {
+    discordLogin = json["discordLogin"] == null ? false : json["discordLogin"];
+    appleLogin = json["appleLogin"] == null ? false : json["appleLogin"];
+    googleLogin = json["googleLogin"] == null ? false : json["googleLogin"];
+  }
+}

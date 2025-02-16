@@ -9,6 +9,7 @@ import 'package:sq_hub_app/ui/pages/login/secondary_page.dart';
 import 'package:sq_hub_app/ui/pages/main_page.dart';
 import 'package:sq_hub_app/ui/pages/register/register_page.dart';
 
+import '../../../api/wy_http.dart';
 import '../../../common/base_controller.dart';
 import '../../../common/colorful_button.dart';
 import '../../../common/keyboard_visibility_scaffold.dart';
@@ -159,72 +160,83 @@ class LoginPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Visibility(
-                              visible: Platform.isIOS,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => controller.loginWithApple(),
-                                child: Container(
-                                  width: 46.w,
-                                  height: 46.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(46.r),
-                                    border: Border.all(
-                                      color: Color(0xff707070),
-                                      width: 1.w,
+                            Obx(() => Visibility(
+                                  visible: controller
+                                          .loginBtnModel.value.appleLogin &&
+                                      Platform.isIOS,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () => controller.loginWithApple(),
+                                    child: Container(
+                                      width: 46.w,
+                                      height: 46.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(46.r),
+                                        border: Border.all(
+                                          color: Color(0xff707070),
+                                          width: 1.w,
+                                        ),
+                                      ),
+                                      child: Image.asset(
+                                        ImageUtils.apple_icon,
+                                        scale: 4,
+                                      ),
                                     ),
                                   ),
-                                  child: Image.asset(
-                                    ImageUtils.apple_icon,
-                                    scale: 4,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Visibility(
-                              visible: Platform.isAndroid,
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => controller.loginWithGoogle(),
-                                child: Container(
-                                  width: 46.w,
-                                  height: 46.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(46.r),
-                                    border: Border.all(
-                                      color: Color(0xff707070),
-                                      width: 1.w,
+                                )),
+                            Obx(() => Visibility(
+                                  visible: controller
+                                          .loginBtnModel.value.googleLogin &&
+                                      Platform.isAndroid,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () => controller.loginWithGoogle(),
+                                    child: Container(
+                                      width: 46.w,
+                                      height: 46.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(46.r),
+                                        border: Border.all(
+                                          color: Color(0xff707070),
+                                          width: 1.w,
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.all(8.r),
+                                      child: Image.asset(
+                                        ImageUtils.google_icon,
+                                        scale: 4,
+                                      ),
                                     ),
                                   ),
-                                  padding: EdgeInsets.all(8.r),
-                                  child: Image.asset(
-                                    ImageUtils.google_icon,
-                                    scale: 4,
-                                  ),
-                                ),
-                              ),
-                            ),
+                                )),
                             15.horizontalSpace,
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => controller.loginWithDiscord(),
-                              child: Container(
-                                width: 46.w,
-                                height: 46.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(46.r),
-                                  border: Border.all(
-                                    color: Color(0xff707070),
-                                    width: 1.w,
+                            Obx(() => Visibility(
+                                  visible: controller
+                                      .loginBtnModel.value.discordLogin,
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () => controller.loginWithDiscord(),
+                                    child: Container(
+                                      width: 46.w,
+                                      height: 46.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(46.r),
+                                        border: Border.all(
+                                          color: Color(0xff707070),
+                                          width: 1.w,
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.all(8.r),
+                                      child: Image.asset(
+                                        ImageUtils.discord_icon,
+                                        scale: 4,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                padding: EdgeInsets.all(8.r),
-                                child: Image.asset(
-                                  ImageUtils.discord_icon,
-                                  scale: 4,
-                                ),
-                              ),
-                            ),
+                                )),
                           ],
                         ),
                       ],
@@ -265,6 +277,8 @@ class LoginPageController extends BasePageController {
   late FocusNode emailFocusNode;
   late FocusNode passwordFocusNode;
 
+  var loginBtnModel = LoginBtnModel().obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -275,6 +289,8 @@ class LoginPageController extends BasePageController {
 
     emailFocusNode = FocusNode();
     passwordFocusNode = FocusNode();
+
+    requestData();
   }
 
   @override
@@ -292,6 +308,11 @@ class LoginPageController extends BasePageController {
     // emailFocusNode.dispose();
     // passwordFocusNode.dispose();
     super.onClose();
+  }
+
+  void requestData() async {
+    final response = await http.get('/sideQuest/app/sq/user/loginPage');
+    loginBtnModel.value = LoginBtnModel.fromJson(response.data);
   }
 
   void loginWithApple() {

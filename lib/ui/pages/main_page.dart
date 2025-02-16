@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -182,11 +183,15 @@ class MainPageController extends FullLifeCycleController
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
-    _requestPermission();
-
     await AppConfig.flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onSelectNotification: selectNotification);
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    _requestPermission();
 
     FirebaseMessaging.instance
         .getToken()
