@@ -386,7 +386,6 @@ class UserController extends GetxController {
     } catch (e) {
       dismissLoading();
       flog('sign in err $e');
-      showError(e.toString());
     }
   }
 
@@ -504,8 +503,8 @@ class UserController extends GetxController {
         } else {
           if (loginModel.secondary == 1) {
             Get.off(() => SecondaryPage(
-              loginModel: loginModel,
-            ));
+                  loginModel: loginModel,
+                ));
           } else {
             Get.to(() => RegisterPage(),
                 arguments: {}
@@ -711,7 +710,9 @@ class UserController extends GetxController {
   }
 
   void _dealMsg(V2TimMessage msg) {
-    if (msg.customElem == null || msg.customElem?.data == null || msg.customElem?.data == "") {
+    if (msg.customElem == null ||
+        msg.customElem?.data == null ||
+        msg.customElem?.data == "") {
       return;
     }
 
