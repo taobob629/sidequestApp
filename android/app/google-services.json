@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "858619460172",
-    "project_id": "sqsky-d9333",
-    "storage_bucket": "sqsky-d9333.firebasestorage.app"
+    "project_number": "760458602993",
+    "project_id": "sidequest-b26dd",
+    "storage_bucket": "sidequest-b26dd.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:858619460172:android:53f4b06b5c397c3c9812e9",
+        "mobilesdk_app_id": "1:760458602993:android:723c8e8653df547535bc50",
         "android_client_info": {
           "package_name": "uk.co.sidequest.wy"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBLaVxE8zfhGRlvi0A6Rg3TIgYAGZef9-E"
+          "current_key": "AIzaSyCmYBoVJ0sieOiO0ElEB1D48hUAaqdibDM"
         }
       ],
       "services": {

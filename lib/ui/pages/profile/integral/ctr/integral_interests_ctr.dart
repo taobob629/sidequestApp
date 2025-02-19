@@ -100,7 +100,10 @@ class IntegralInterestsCtr extends GetxController {
   void showTipDialog(int i) async {
     showCustom(
       CouponTipDialog(
-        currentIndex: i,
+        isCal: contentList[i]['title']
+            .toString()
+            .toLowerCase()
+            .contains("play with friends"),
         info: contentList[i],
         limitConnectionsCount: integralModel
                 .value
@@ -108,7 +111,12 @@ class IntegralInterestsCtr extends GetxController {
                 .limitConnectionsCount ??
             0,
       ),
-      alignment: i != 0 ? Alignment.center : Alignment.bottomCenter,
+      alignment: contentList[i]['title']
+              .toString()
+              .toLowerCase()
+              .contains("play with friends")
+          ? Alignment.bottomCenter
+          : Alignment.center,
     );
   }
 }

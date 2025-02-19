@@ -33,7 +33,8 @@ class AppConfig {
   static String devServer = 'http://114.117.203.137:8081';
   static String devServer2 = 'http://139.186.149.117:8081';
   static String testServer = 'http://43.136.135.198:8081';
-  static String prodServer = 'https://sidequestmeta.com';
+  static String prodServer = 'https://sidequesthub.com:8081';
+  // static String prodServer = 'https://sidequestmeta.com';
 
   static final isProd = const bool.fromEnvironment('dart.vm.product');
 

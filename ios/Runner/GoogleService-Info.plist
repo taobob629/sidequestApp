@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA_qgLB4lCE2qKZSuB3kibhFwGt35Yg5Ao</string>
+	<string>AIzaSyAKsK0Qm3So2JCTTJcFMXs7Q4rp3M8uL08</string>
 	<key>GCM_SENDER_ID</key>
-	<string>858619460172</string>
+	<string>760458602993</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.uk.co.sq.hub</string>
 	<key>PROJECT_ID</key>
-	<string>sqsky-d9333</string>
+	<string>sidequest-b26dd</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sqsky-d9333.firebasestorage.app</string>
+	<string>sidequest-b26dd.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:858619460172:ios:e800e332e6ad450b9812e9</string>
+	<string>1:760458602993:ios:8ecdad42dd09036635bc50</string>
 </dict>
 </plist>

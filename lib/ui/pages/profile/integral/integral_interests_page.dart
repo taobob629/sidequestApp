@@ -2,16 +2,13 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
-import '../../../../controller/user_controller.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/integral_model.dart';
 import '../../../../widget/progress_bar/animation_progress_bar.dart';
-import '../../../dialog/dialog_confirm.dart';
-import '../task/task_page.dart';
-import 'coupon_tip_dialog.dart';
 import 'ctr/integral_interests_ctr.dart';
 
 class IntegralInterestsPage extends StatelessWidget {
@@ -104,7 +101,9 @@ class IntegralInterestsPage extends StatelessWidget {
                             ),
                             6.verticalSpace,
                             Text(
-                              ctr.integralModel.value.levelConfigVoList[index].description.toString(),
+                              ctr.integralModel.value.levelConfigVoList[index]
+                                  .description
+                                  .toString(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF9CA3AF),
@@ -211,12 +210,11 @@ class IntegralInterestsPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Image.asset(
-                                  i % 2 == 0
-                                      ? ImageUtils.icon_invitation
-                                      : ImageUtils.icon_bubble,
+                                ImageUtil.networkImage(
+                                  url: '${ctr.contentList[i]['icon']}',
                                   width: 40.w,
                                   height: 40.w,
+                                  fit: BoxFit.cover,
                                 ),
                                 Expanded(
                                   child: Column(

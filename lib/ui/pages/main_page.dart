@@ -40,9 +40,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var padding = MediaQuery.of(context).padding;
-    print('padding.bottom = ${padding.bottom}');
-
     return WillPopScope(
       onWillPop: () async {
         if (controller.currentIndex.value != 0) {
@@ -187,15 +184,8 @@ class MainPageController extends FullLifeCycleController
         initializationSettings,
         onSelectNotification: selectNotification);
 
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
     _requestPermission();
 
-    FirebaseMessaging.instance
-        .getToken()
-        .then((value) => StorageManager.setPushToken(value));
     FirebaseMessaging.instance.onTokenRefresh
         .listen((fcmToken) => StorageManager.setPushToken(fcmToken));
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {

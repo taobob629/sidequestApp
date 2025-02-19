@@ -25,7 +25,8 @@ class CouponTipDialog extends StatelessWidget {
   final int limitConnectionsCount;
   final String? confirmBtn;
   final Function? onConfirm;
-  final int? currentIndex;
+  // 是否有计算器
+  final bool? isCal;
   final TextEditingController editingController =
       TextEditingController(text: "6");
   var addFriendList = <double>[].obs;
@@ -39,14 +40,14 @@ class CouponTipDialog extends StatelessWidget {
   CouponTipDialog({
     this.info,
     this.limitConnectionsCount = 0,
-    this.currentIndex,
+    this.isCal,
     this.confirmBtn = "OK",
     this.onConfirm,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (currentIndex != 0) {
+    if (isCal == false) {
       return view1(context);
     }
     for (int i = 0; i <= 6; i++) {
