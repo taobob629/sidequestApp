@@ -25,7 +25,7 @@ class DeveloperPage extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Push Token".tr,
+                    "Subscription ID".tr,
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,

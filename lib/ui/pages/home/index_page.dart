@@ -32,13 +32,13 @@ class IndexPageController extends GetxController
   }
 
   void initOneSignal() async {
-    var onesignalId = await OneSignal.User.getOnesignalId();
-    if (onesignalId != null) {
-      StorageManager.setPushToken(onesignalId);
+    String? subId = OneSignal.User.pushSubscription.id;
+    if (subId != null && subId.isNotEmpty) {
+      StorageManager.setPushToken(subId);
     }
 
-    OneSignal.User.addObserver((state) {
-      StorageManager.setPushToken(state.current.onesignalId);
+    OneSignal.User.pushSubscription.addObserver((state) {
+      StorageManager.setPushToken(OneSignal.User.pushSubscription.id);
     });
 
     OneSignal.Notifications.addClickListener((event) {
