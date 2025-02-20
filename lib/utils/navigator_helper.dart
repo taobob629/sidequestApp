@@ -16,6 +16,7 @@ import '../model/pay_order_model.dart';
 import '../model/task_model.dart';
 import '../ui/pages/booking/booking_page.dart';
 import '../ui/pages/events/event/event_page.dart';
+import '../ui/pages/friend/approval/approval_page.dart';
 import '../ui/pages/home/news_page.dart';
 import '../ui/pages/hubs/bubble_tea_detail_page.dart';
 import '../ui/pages/notification/notification_page.dart';
@@ -148,6 +149,10 @@ class NavigatorHelper {
 
       case "goods":
         Get.to(() => BubbleTeaDetailPage(), arguments: additionalData["id"]);
+        break;
+
+      case "friends":
+        await Get.to(() => ApprovalPage());
         break;
 
       default:
