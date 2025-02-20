@@ -1,3 +1,5 @@
+import 'package:sq_hub_app/utils/storage_manager.dart';
+
 import '../api/wy_http.dart';
 import '../model/album_item_model.dart';
 import '../model/game_detail_model.dart';
@@ -13,7 +15,9 @@ abstract class ProfileApi {
 
   /// profile 用户信息
   static Future getProfileInfo() async {
-    var response = await http.get('/sideQuest/app/sq/user/memberInfo2');
+    String pushToken = StorageManager.getPushToken();
+    var response = await http.get('/sideQuest/app/sq/user/memberInfo2',
+        queryParameters: {"pushToken": pushToken});
     return ProfileModel.fromJson(response.data);
   }
 
@@ -28,7 +32,8 @@ abstract class ProfileApi {
 
   /// profile-post  自己帖子列表
   static Future<List<PostItemModel>> getMyPostList({int page = 0}) async {
-    var response = await http.get('/sideQuest/app/social/myPosts', queryParameters: {
+    var response =
+        await http.get('/sideQuest/app/social/myPosts', queryParameters: {
       "pageNum": page,
       "pageSize": 20,
     });

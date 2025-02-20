@@ -44,7 +44,6 @@ import '../ui/pages/scan/qr_login_page.dart';
 import '../ui/pages/scan/scan_page.dart';
 import '../utils/db_helper.dart';
 import '../utils/login_flag.dart';
-import '../utils/notification/notifications_controller.dart';
 import '../utils/storage_manager.dart';
 import '../utils/utils.dart';
 import '../widget/voice_widget.dart';
@@ -728,15 +727,15 @@ class UserController extends GetxController {
         }
         break;
 
-      case 'notify':
-        Map<String, dynamic> target = map['target'];
-        NotificationController.createNewNotification(
-          title: map["title"],
-          content: map["content"],
-          id: target["id"].toString(),
-          type: target["type"],
-        );
-        break;
+      // case 'notify':
+      //   Map<String, dynamic> target = map['target'];
+      //   NotificationController.createNewNotification(
+      //     title: map["title"],
+      //     content: map["content"],
+      //     id: target["id"].toString(),
+      //     type: target["type"],
+      //   );
+      //   break;
     }
   }
 

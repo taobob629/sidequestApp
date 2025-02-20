@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/ui/pages/main_page.dart';
-import 'package:sq_hub_app/utils/notification/notifications_controller.dart';
 import 'package:sq_hub_app/widget/custom_error_widget.dart';
 import 'package:sq_hub_app/widget/custom_loading_widget.dart';
 import 'package:sq_hub_app/widget/custom_success_widget.dart';
@@ -28,8 +26,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotificationController.startListeningNotificationEvents();
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp, //只能纵向
       DeviceOrientation.portraitDown, //只能纵向
