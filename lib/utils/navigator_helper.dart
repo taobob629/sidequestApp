@@ -138,7 +138,7 @@ class NavigatorHelper {
       case "event":
         Get.to(() => EventPage(
               id: additionalData["id"],
-              type: 1,
+              type: additionalData['eventType'],
             ));
         break;
 
