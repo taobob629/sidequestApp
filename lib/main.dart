@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sq_hub_app/utils/platform_utils.dart';
 import 'package:sq_hub_app/utils/storage_manager.dart';
@@ -40,6 +41,11 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = HttpsOverrides();
+
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize("2e18b91f-f1f0-4faa-85fd-13b564ae7ad9");
+  OneSignal.Notifications.requestPermission(true);
 
   await getAppPackageInfo();
   await AppConfig.init("default");

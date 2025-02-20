@@ -109,6 +109,7 @@ dependencies:
   collection: ^1.16.0
   qr_flutter: ^4.0.0
   csslib: 0.17.0
+  onesignal_flutter: ^5.2.9
   # device preview for test
   # device_preview: ^1.1.0
   tencent_cloud_chat_uikit:
