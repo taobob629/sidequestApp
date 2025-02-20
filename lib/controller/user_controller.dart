@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,6 @@ import '../model/login_model.dart';
 import '../model/profile_model.dart';
 import '../model/user_info_model.dart';
 import '../model/user_model.dart';
-import '../service/push_service.dart';
 import '../service/voice_player.dart';
 import '../ui/dialog/dialog_confirm.dart';
 import '../ui/pages/login/login_page.dart';
@@ -546,18 +544,6 @@ class UserController extends GetxController {
       db = DBHelper(loginModel.user.id);
     }
     done?.call(loginModel);
-  }
-
-  uploadOfflinePushInfoToken() async {
-    if (!kIsWeb) {
-      ChannelPush.requestPermission();
-      Future.delayed(const Duration(seconds: 5), () async {
-        final bool isUploadSuccess =
-            await ChannelPush.uploadToken(PushConfig.appInfo);
-        // ignore: avoid_print
-        print("Push token upload result: $isUploadSuccess");
-      });
-    }
   }
 
   void logout({Function? done}) async {

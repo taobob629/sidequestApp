@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
@@ -13,7 +11,6 @@ import 'package:sq_hub_app/widget/route.dart';
 import 'api/wy_http.dart';
 import 'config/app_config.dart';
 import 'config/https_overrides.dart';
-import 'firebase_options.dart';
 
 PackageInfo? packageInfo;
 //var deviceInfo;
@@ -28,18 +25,9 @@ Future<void> getAppPackageInfo() async {
   flog(packageInfo!.version, 'packageInfo');
 }
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print('Handling a background message ${message.messageId}');
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   HttpOverrides.global = HttpsOverrides();
 
   //Remove this method to stop OneSignal Debugging

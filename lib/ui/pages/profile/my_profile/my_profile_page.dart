@@ -504,20 +504,20 @@ class MyProfilePage extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: Obx(() => _dashboardLabelItem(
-                                ImageUtils.message_icon,
-                                "Notifications".tr,
-                                onTap: () => Get.to(() => NotificationPage()),
-                                badgeNum:
-                                    UserController.find.unreadMsgCount.value,
-                              )),
-                        ),
-                        Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_activities,
                             "Activities".tr,
                             onTap: () => Get.to(() => MyEventsPage()),
                           ),
+                        ),
+                        Expanded(
+                          child: Obx(() => _dashboardLabelItem(
+                            ImageUtils.message_icon,
+                            "Notifications".tr,
+                            onTap: () => Get.to(() => NotificationPage()),
+                            badgeNum:
+                            UserController.find.unreadMsgCount.value,
+                          )),
                         ),
                       ],
                     ),

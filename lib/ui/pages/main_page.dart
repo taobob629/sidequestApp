@@ -2,16 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart' hide Badge;
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sq_hub_app/image_utils.dart';
-import 'package:sq_hub_app/ui/dialog/dialog_confirm.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
@@ -22,7 +18,6 @@ import '../../common/web_page.dart';
 import '../../config/app_color.dart';
 import '../../config/app_config.dart';
 import '../../controller/user_controller.dart';
-import '../../firebase_options.dart';
 import '../../service/location_service.dart';
 import '../../utils/storage_manager.dart';
 import '../../utils/toast_utils.dart';
@@ -31,7 +26,6 @@ import '../dialog/dialog_ad.dart';
 import '../dialog/dialog_upgrade.dart';
 import 'home/tab_events_page.dart';
 import 'login/login_page.dart';
-import 'notification/notification_page.dart';
 
 GlobalKey<ScaffoldState> homeDrawerKey = GlobalKey();
 
@@ -185,32 +179,6 @@ class MainPageController extends FullLifeCycleController
         onSelectNotification: selectNotification);
 
     _requestPermission();
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print('Got a message whilst in the foreground!');
-      showLocalNotification(message);
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('On Remote Message Opened App');
-      Get.to(() => NotificationPage());
-    });
-
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
-    if (initialMessage != null) {
-      print('Restart app get remote message');
-      Get.to(() => NotificationPage());
-    }
-
-    NotificationAppLaunchDetails? notificationAppLaunchDetails = await AppConfig
-        .flutterLocalNotificationsPlugin
-        .getNotificationAppLaunchDetails();
-    if (notificationAppLaunchDetails != null &&
-        notificationAppLaunchDetails.didNotificationLaunchApp) {
-      print(
-          'Restart app get local message::${notificationAppLaunchDetails.didNotificationLaunchApp}');
-      Get.to(() => NotificationPage());
-    }
   }
 
   Future<void> _requestPermission() async {
@@ -219,38 +187,6 @@ class MainPageController extends FullLifeCycleController
       if (await Permission.notification.isDenied) {
         await Permission.notification.request();
       }
-    }
-
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      print('User granted provisional permission');
-    } else {
-      print('User declined or has not accepted permission');
-      Get.dialog(
-        ConfirmDialog(
-          title: "Notification permission disabled".tr,
-          info:
-              "Please turn on notification permissions in system settings to receive important notifications."
-                  .tr,
-          onConfirm: () {
-            Get.back();
-            openAppSettings();
-          },
-        ),
-      );
     }
   }
 
@@ -308,48 +244,6 @@ class MainPageController extends FullLifeCycleController
 
   void updateCurrentIndex(int index) {
     currentIndex.value = index;
-  }
-
-  void showLocalNotification(RemoteMessage message) async {
-    if (message.notification != null) {
-      RemoteNotification? notification = message.notification;
-      FilePathAndroidBitmap? largeIcon;
-      BigPictureStyleInformation? bigPictureStyleInformation;
-      if (notification?.android?.imageUrl != null) {
-        var file = await DefaultCacheManager()
-            .getSingleFile(notification!.android!.imageUrl!);
-        largeIcon = FilePathAndroidBitmap(file.path);
-        bigPictureStyleInformation = BigPictureStyleInformation(
-          FilePathAndroidBitmap(file.path),
-          hideExpandedLargeIcon: true,
-        );
-      }
-
-      AndroidNotificationDetails androidPlatformChannelSpecifics =
-          AndroidNotificationDetails('system'.tr, 'System Notification'.tr,
-              channelDescription: 'system notification'.tr,
-              importance: Importance.max,
-              priority: Priority.high,
-              largeIcon: largeIcon,
-              styleInformation: bigPictureStyleInformation,
-              ticker: 'ticker'.tr);
-      IOSNotificationDetails iosPlatformChannelSpecifics =
-          IOSNotificationDetails(
-              presentAlert: true,
-              presentBadge: true,
-              presentSound: true,
-              badgeNumber: 1,
-              threadIdentifier: 'system');
-      NotificationDetails platformChannelSpecifics = NotificationDetails(
-          android: androidPlatformChannelSpecifics,
-          iOS: iosPlatformChannelSpecifics);
-      await AppConfig.flutterLocalNotificationsPlugin.show(
-          0,
-          '${notification?.title}',
-          '${notification?.body}',
-          platformChannelSpecifics,
-          payload: '');
-    }
   }
 
   void checkAd() {
