@@ -29,7 +29,6 @@ import '../../../../widget/my_progressbar.dart';
 import '../../../consum/list/view.dart';
 import '../../booking/booking_page.dart';
 import '../../connections/connections_page.dart';
-import '../../messages/messages_page.dart';
 import '../../order/list/view.dart';
 import '../balance/balance_page.dart';
 import '../developer/developer_page.dart';

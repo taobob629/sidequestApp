@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tencent_cloud_chat_uikit/ui/controller/tim_uikit_conversation_controller.dart';
 
 import '../../common/home_indicator.dart';
 import '../../common/keep_alive_wrapper.dart';
 import '../../controller/user_controller.dart';
-import '../pages/messages/chat/conversation_list_page.dart';
 
 class PlayPage extends StatelessWidget {
   final controller = Get.put(PlayPageController());
@@ -55,7 +53,7 @@ class PlayPage extends StatelessWidget {
   List<Widget> createPages() {
     List<Widget> pages = [];
 
-    Widget page = Obx(() => userController.imLoginDone.value ? ConversationListPage() : Container());
+    Widget page = Container();
     pages.add(KeepAliveWrapper(child: page));
     return pages;
   }
@@ -71,8 +69,6 @@ class PlayPage extends StatelessWidget {
 
 class PlayPageController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
-
-  TIMUIKitConversationController conversationController = TIMUIKitConversationController();
 
   @override
   void onInit() {

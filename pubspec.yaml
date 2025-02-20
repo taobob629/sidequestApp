@@ -104,6 +104,7 @@ dependencies:
        url: https://github.com/sikandernoori/flutter_app_badger.git
   flutter_rating_bar: ^4.0.1
 
+  file_picker: ^4.6.1
   libphonenumber_plugin: 0.3.1
   equatable: ^2.0.5
   collection: ^1.16.0
@@ -112,8 +113,6 @@ dependencies:
   onesignal_flutter: ^5.2.9
   # device preview for test
   # device_preview: ^1.1.0
-  tencent_cloud_chat_uikit:
-    path: plugins/tencent_cloud_chat_uikit
 
 dependency_overrides:
   permission_handler: ^10.0.0
@@ -123,8 +122,6 @@ dependency_overrides:
   firebase_core: 1.20.0
   firebase_messaging: 12.0.1
   modal_bottom_sheet: ^3.0.0-pre
-  tencent_extended_text: ^1.0.2
-  tencent_extended_text_field: ^1.0.1
   js: 0.6.4
   in_app_purchase: 3.1.7
 #  path_provider: 2.0.11

@@ -1,30 +1,21 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:tencent_cloud_chat_uikit/data_services/core/core_services_implements.dart';
-import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
 import '../../api/wy_http.dart';
-import '../../utils/navigator_helper.dart';
 import '../../utils/toast_utils.dart';
 import '../api/auth_api.dart';
-import '../api/im_api.dart';
 import '../api/pay_api.dart';
 import '../api/profile_api.dart';
 import '../config/app_config.dart';
 import '../event_bus/beans/user_info_suc_bean.dart';
 import '../event_bus/event_bus.dart';
 import '../model/db_model.dart';
-import '../model/im_sig_model.dart';
 import '../model/login_model.dart';
 import '../model/profile_model.dart';
 import '../model/user_info_model.dart';
@@ -36,8 +27,6 @@ import '../ui/pages/login/login_page.dart';
 import '../ui/pages/login/other_register/other_register_page.dart';
 import '../ui/pages/login/secondary_page.dart';
 import '../ui/pages/main_page.dart';
-import '../ui/pages/messages/chat/chat_page.dart';
-import '../ui/pages/messages/chat/chat_tool.dart';
 import '../ui/pages/profile/balance/balance_page.dart';
 import '../ui/pages/register/register_page.dart';
 import '../ui/pages/scan/qr_login_page.dart';
@@ -73,8 +62,6 @@ class UserController extends GetxController {
   }
 
   RxList<String> imBlackList = RxList();
-
-  final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
 
   late Timer _timer;
 
@@ -224,7 +211,7 @@ class UserController extends GetxController {
         concelBtn: 'CANCEL'.tr,
         onConfirm: () {
           Get.back();
-          toRecordPage(Get.context!!);
+          toRecordPage(Get.context!);
         },
       ));
     }
@@ -497,7 +484,6 @@ class UserController extends GetxController {
       dismissLoading();
       if (loginFlag == LoginFlag.ios) {
         if (loginModel.validate == 0) {
-          await imLogin();
           Get.offAll(() => MainPage());
         } else {
           if (loginModel.secondary == 1) {
@@ -559,7 +545,6 @@ class UserController extends GetxController {
     if (loginModel.user.id != 0) {
       db = DBHelper(loginModel.user.id);
     }
-    await imLogin();
     done?.call(loginModel);
   }
 
@@ -575,170 +560,6 @@ class UserController extends GetxController {
     }
   }
 
-  ///处理推送点击事件
-  void handleClickNotification(Map<String, dynamic> msg) async {
-    String ext = msg['ext'] ?? "";
-    if (ext.isEmpty) return;
-    Map<String, dynamic> extMsp = jsonDecode(ext);
-    String convId = extMsp["conversationID"] ?? "";
-    if (convId.isNotEmpty) {
-      Future.delayed(Duration(seconds: 1)).then((value) async {
-        var conversationManager =
-            TencentImSDKPlugin.v2TIMManager.getConversationManager();
-        V2TimValueCallback<V2TimConversation> conv =
-            await conversationManager.getConversation(conversationID: convId);
-        if (conv.data != null) {
-          Get.to(() => ChatPage(selectedConversation: conv.data!));
-        }
-      });
-    } else {
-      // 通知栏的消息
-      NavigatorHelper.gotoConfigTarget(json.encode(extMsp["goto"]));
-      AuthApi.appNotifyCallback(
-        userProfile.memberId,
-        ext,
-        Platform.isAndroid ? 'Android' : 'IOS',
-      );
-    }
-  }
-
-  jumpChat(uk) async {
-    if (uk == null) {
-      return;
-    }
-
-    if (Get.isRegistered<ChatController>(tag: "ChatKey")) {
-      Get.back();
-    } else {
-      var conversationManager =
-          TencentImSDKPlugin.v2TIMManager.getConversationManager();
-      V2TimValueCallback<V2TimConversation> conv = await conversationManager
-          .getConversation(conversationID: "c2c_${uk}");
-      if (conv.data != null)
-        Get.to(() => ChatPage(
-              selectedConversation: conv.data!,
-            ));
-    }
-  }
-
-  initOfflinePush() async {
-    await ChannelPush.init(handleClickNotification);
-    uploadOfflinePushInfoToken();
-  }
-
-  imLogin() async {
-    flog('imLogin --${imLoginDone.value}');
-    if (imLoginDone.value == false) {
-      ImSigModel userSig = await ImApi.login();
-      if (userSig.token.isEmpty) return;
-      // if(userSig == ""){
-      //   userSig = "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwoZQweKU7MSCgswUJSsTAxAwN4KIp1YUZBalKlkZmpqaGgHFIaIlmbkgMTMzIDIztzSHmpGZDjIxozIovcIrSjvRvyBG39vA0T-Q2bHMLyOyoCzEPzAxvNDc0MPfMTs7MTLVwlapFgDpNC9g";
-      // }
-      // print("~~~~~~~~~${userSig.token}~~~~~~~~~~~~~");
-      await _coreInstance
-          .login(userID: "${userSig.uid}", userSig: userSig.token)
-          .then((value) async {
-        if (value.code != 0) {
-          showToast(value.desc);
-        } else {
-          imLoginDone.value = true;
-        }
-        //执行登录 IM 成功后调用。初始化push
-        initOfflinePush();
-        // print("~~~~~~~~~im login done~~~~~~~~~~~~~");
-        TencentImSDKPlugin.v2TIMManager
-            .getConversationManager()
-            .addConversationListener(
-                listener: V2TimConversationListener(
-                    onTotalUnreadMessageCountChanged: (count) {
-              flog(count, 'onTotalUnreadMessageCountChanged');
-              unreadMsgCount.value = count;
-              FlutterAppBadger.isAppBadgeSupported().then((value) {
-                flog(value, 'onTotalUnreadMessageCountChanged');
-                if (unreadMsgCount.value == 0) {
-                  FlutterAppBadger.removeBadge();
-                } else {
-                  FlutterAppBadger.updateBadgeCount(unreadMsgCount.value,
-                      title: 'New Message');
-                }
-              });
-            }, onConversationChanged: (v) {
-              flog(v.length, 'onConversationChanged');
-            }, onNewConversation: (v) {
-              flog(v.length, 'onNewConversation');
-            }));
-        TencentImSDKPlugin.v2TIMManager
-            .getMessageManager()
-            .addAdvancedMsgListener(listener:
-                V2TimAdvancedMsgListener(onRecvNewMessage: (V2TimMessage msg) {
-          //播放提示音
-          if (msg.customElem?.data != null) {
-            var data = msg.customElem!.data!;
-            if (data.contains(ChatTool.converFilters.first)) {
-              if (unreadMsgCount > 0) {
-                unreadMsgCount.value -= 1;
-                FlutterAppBadger.updateBadgeCount(unreadMsgCount.value);
-              }
-            } else {
-              FlutterRingtonePlayer.playNotification();
-            }
-          } else {
-            FlutterRingtonePlayer.playNotification();
-          }
-          _dealMsg(msg);
-        }));
-
-        unreadMsgCount.value = await ChatTool.getUnreadMsgCount();
-
-        ///获取未读数量
-        // var v2timValueCallback = await TencentImSDKPlugin.v2TIMManager.getConversationManager().getTotalUnreadMessageCount();
-        // if (v2timValueCallback.code == 0) {
-        //   flog(v2timValueCallback.data, 'getTotalUnreadMessageCount');
-        //   unreadMsgCount.value = v2timValueCallback.data!;
-        //   FlutterAppBadger.isAppBadgeSupported().then((value) {
-        //     if (unreadMsgCount.value == 0) {
-        //       FlutterAppBadger.removeBadge();
-        //     } else {
-        //       flog(value, 'getTotalUnreadMessageCount');
-        //       FlutterAppBadger.updateBadgeCount(unreadMsgCount.value, title: 'New Message');
-        //     }
-        //   });
-        // }
-      });
-    }
-  }
-
-  void _dealMsg(V2TimMessage msg) {
-    if (msg.customElem == null ||
-        msg.customElem?.data == null ||
-        msg.customElem?.data == "") {
-      return;
-    }
-
-    flog('收到的消息： ${msg.customElem!.data!}');
-    Map<String, dynamic> map = json.decode(msg.customElem!.data!);
-
-    switch (map["type"]) {
-      case 'Riot_Notify':
-        // 拳头登录成功的通知
-        String str = Get.routing.current;
-        if ('/WebPage' == str) {
-          Get.back(result: true);
-        }
-        break;
-
-      // case 'notify':
-      //   Map<String, dynamic> target = map['target'];
-      //   NotificationController.createNewNotification(
-      //     title: map["title"],
-      //     content: map["content"],
-      //     id: target["id"].toString(),
-      //     type: target["type"],
-      //   );
-      //   break;
-    }
-  }
-
   void logout({Function? done}) async {
     user.value = UserModel();
     userProfile = ProfileModel();
@@ -747,7 +568,6 @@ class UserController extends GetxController {
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
     StorageManager.clear(StorageManager.kToken);
-    await _coreInstance.logout();
     imLoginDone.value = false;
     unreadMsgCount.value = 0;
     done?.call();
@@ -756,7 +576,6 @@ class UserController extends GetxController {
   Future<void> appLogout() async {
     showLoading();
     await AuthApi.signOut();
-    await _coreInstance.logout();
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
     dismissLoading();
     logout(done: () => Get.offAll(() => LoginPage()));

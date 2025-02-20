@@ -372,7 +372,6 @@ class LoginPageController extends BasePageController {
   void loginSuccess(LoginModel loginModel) {
     dismissLoading();
     if (loginModel.validate == 0) {
-      UserController.find.imLogin();
       //如果是从登录页面跳转的，跳转到选择游戏页面先
       // var fromRegister = Get.arguments?['fromRegister'];
       // if (fromRegister == true) {

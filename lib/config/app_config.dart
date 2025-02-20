@@ -5,12 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
 import 'package:sq_hub_app/utils/storage_manager.dart';
-import 'package:tencent_cloud_chat_uikit/data_services/core/core_services.dart';
-import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
 import '../api/wy_http.dart';
 import '../app.dart';
-import 'app_color.dart';
 
 var splashBg =
     'https://sidequest-1307226287.cos.eu-frankfurt.myqcloud.com/APPcover/pic_bg.png';
@@ -23,8 +20,6 @@ class AppConfig {
 
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  static final CoreServicesImpl _coreInstance = TIMUIKitCore.getInstance();
 
   static OverlayEntry? overlayEntry;
 
@@ -88,56 +83,6 @@ class AppConfig {
     Stripe.merchantIdentifier = "merchant.com.sidequesthub.sq.hub";
     Stripe.urlScheme = 'flutterstripe';
     await Stripe.instance.applySettings();
-
-    bool? initDone = await _coreInstance.init(
-        sdkAppID:
-            (env.contains("dev") || env.contains("test")) ? 40000072 : 40000072,
-        // 控制台申请的 SDKAppID
-        loglevel: LogLevelEnum.V2TIM_LOG_NONE,
-        language: LanguageEnum.en,
-        listener: V2TimSDKListener(),
-        onTUIKitCallbackListener: (TIMCallback callbackValue) {
-          switch(callbackValue.type) {
-            case TIMCallbackType.INFO:
-            // Shows the recommend text for info callback directly
-              print('');
-              break;
-            case TIMCallbackType.API_ERROR:
-            //Prints the API error to console, and shows the error message.
-              print("Error from TUIKit: ${callbackValue.errorMsg}, Code: ${callbackValue.errorCode}");
-              if (callbackValue.errorCode == 10004 && callbackValue.errorMsg!.contains("not support @all")) {
-                print('');
-              }else{
-                print('');
-              }
-              break;
-            case TIMCallbackType.FLUTTER_ERROR:
-            default:
-            // prints the stack trace to console or shows the catch error
-              if(callbackValue.catchError != null){
-                print('');
-              }else{
-                print(callbackValue.stackTrace);
-              }
-          }
-
-        });
-    if (initDone == true) {
-      _coreInstance.setTheme(
-        theme: TUITheme(
-            textColor: Colors.white,
-            chatBgColor: Colors.transparent,
-            conversationItemTitleTextColor: Colors.white,
-            conversationItemBorderColor: Colors.transparent,
-            conversationItemBgColor: Colors.transparent,
-            conversationItemPinedBgColor: Colors.transparent,
-            chatMessageTongueBgColor: AppColor.color3033,
-            lightPrimaryColor: AppColor.background,
-            inputFillColor: AppColor.color3033,
-            chatMessageItemFromSelfBgColor: AppColor.color302D,
-            chatMessageItemFromOthersBgColor: AppColor.itemBg),
-      );
-    }
   }
 
   static String getBaseServer() {

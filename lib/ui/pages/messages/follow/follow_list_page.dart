@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/common/empty_view.dart';
-import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
 import '../../../../api/im_api.dart';
 import '../../../../api/user_api.dart';
@@ -21,7 +20,6 @@ import '../../../../utils/toast_utils.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widget/level.dart';
 import '../../../../widget/sex_age_widget.dart';
-import '../chat/custom_message_view.dart';
 
 class FollowListPage extends StatelessWidget {
   static void to({var groupName, var gid}) {
@@ -230,37 +228,5 @@ class FollowListController extends GetxRefreshController<AttentionModel> {
     showToast('Share sucess!'.tr);
     Get.back();
     return;
-    var nickName = UserController.find.userProfile.nickName;
-    var params = Map()
-      ..['invitor'] = nickName // 邀请人名字
-      ..['type'] = MessageType.TYPE_INVITE //invite
-      ..['groupId'] = gid //群id
-      ..['group_name'] = groupName; //群名字
-    flog('params $params');
-    V2TimValueCallback<V2TimMsgCreateInfoResult> createCustomMessageRes =
-        await TencentImSDKPlugin.v2TIMManager
-            .getMessageManager()
-            .createCustomMessage(
-              data: json.encode(params),
-              desc: '',
-              extension: '自定义extension',
-            );
-    flog(createCustomMessageRes.code);
-    if (createCustomMessageRes.code == 0) {
-      //发送消息
-      String? id = createCustomMessageRes.data?.id;
-      V2TimValueCallback<V2TimMessage> sendMessageRes = await TencentImSDKPlugin
-          .v2TIMManager
-          .getMessageManager()
-          .sendMessage(id: id!, receiver: "UK20021778", groupID: "");
-      if (sendMessageRes.code == 0) {
-        // 发送成功
-      } else {
-        showToast('邀请失败,错误码${sendMessageRes.code}');
-      }
-      flog(sendMessageRes.code);
-    } else {
-      showToast('邀请失败,错误码${createCustomMessageRes.code}');
-    }
   }
 }

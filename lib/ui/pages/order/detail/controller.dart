@@ -7,7 +7,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tencent_cloud_chat_uikit/tencent_cloud_chat_uikit.dart';
 
 import '../../../../api/im_api.dart';
 import '../../../../api/order_api.dart';
@@ -19,7 +18,6 @@ import '../../../../utils/utils.dart';
 import '../../../dialog/dialog_comment.dart';
 import '../../../dialog/dialog_confirm.dart';
 import '../../../im/dialog_reject.dart';
-import '../../messages/chat/chat_page.dart';
 import '../controller.dart';
 
 class OrderDetailPageController extends BasePageController {
@@ -114,30 +112,6 @@ class OrderDetailPageController extends BasePageController {
   void onRefresh(orderId) {
     id = orderId;
     initData();
-  }
-
-  toChat(BuildContext context) async {
-    if (Get.isRegistered<ChatController>(tag: "ChatKey")) {
-      Get.back();
-    } else {
-      var conversationManager = TencentImSDKPlugin.v2TIMManager.getConversationManager();
-      V2TimValueCallback<V2TimConversation> conv = await conversationManager.getConversation(conversationID: "c2c_${model?.uk}");
-      if (conv.data != null) {
-        Get.to(() => ChatPage(
-              selectedConversation: conv.data!,
-              orderSn: '${model?.orderSn}',
-            ));
-        // await Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => ChatPage(
-        //       selectedConversation: conv.data!,
-        //       orderSn: '${model?.orderSn}',
-        //     ),
-        //   ),
-        // );
-      }
-    }
   }
 
 /*double get starRes => _starRes.value;

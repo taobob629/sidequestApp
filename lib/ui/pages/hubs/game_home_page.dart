@@ -11,7 +11,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../common/base_scaffold.dart';
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
-import '../../../controller/user_controller.dart';
 import '../../../image_utils.dart';
 import '../../../model/player_info_mdoel.dart';
 import '../../../widget/sex_age_widget.dart';
@@ -55,7 +54,6 @@ class GameHomePage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () => UserController.find.jumpChat(_ctr.uk),
                       child: Container(
                         width: 150.w,
                         height: 42.h,

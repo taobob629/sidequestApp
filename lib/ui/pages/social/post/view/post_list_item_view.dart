@@ -138,17 +138,15 @@ class PostListItemView extends GetView<PostListController> {
               ],
             ),
             12.verticalSpace,
-            model.type == TYPE_DEFAULT
-                ? Text(
-                    model.content,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                : imUtil.buildGroupInviteWidget(
-                    context, model.content, model.imageList.first),
+            if (model.type == TYPE_DEFAULT)
+              Text(
+                model.content,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             if (model.imageList.isNotEmpty)
               Container(
                 height: 210.h,

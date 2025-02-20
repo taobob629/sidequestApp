@@ -14,7 +14,6 @@ import 'package:badges/badges.dart' as badges;
 import '../../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
 import '../../../controller/user_controller.dart';
-import '../messages/messages_page.dart';
 import 'controller.dart';
 
 class TabSocialPage extends StatelessWidget {
@@ -85,7 +84,6 @@ class TabSocialPage extends StatelessWidget {
               ),
             ),
             if (controller.selectTopTabIndex.value == 0) PostListPage(),
-            if (controller.selectTopTabIndex.value == 1) MessagesPage(),
           ],
         ));
   }

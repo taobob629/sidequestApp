@@ -78,8 +78,6 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
         Get.back();
         MainPageController.find.currentIndex.value = 3;
         MainPageController.find.controller.jumpToPage(3);
-      } else {
-        UserController.find.jumpChat(uk);
       }
     }
   }

@@ -14,7 +14,7 @@ import '../../../../../service/voice_player.dart';
 import '../../../../../utils/permission_util.dart';
 import '../../../../../utils/toast_utils.dart';
 import '../../../../../utils/utils.dart';
-import '../../../../../widget/im/voice_record.dart';
+import '../../../../../widget/profile/voice_record.dart';
 
 const int record_type_service = 1;
 const int record_type_default = 0;
