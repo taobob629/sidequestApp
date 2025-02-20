@@ -44,24 +44,12 @@ class IndexPageController extends GetxController
     OneSignal.Notifications.addClickListener((event) {
       NavigatorHelper.notificationJump(event.notification.additionalData);
       OneSignal.Notifications.clearAll();
-      FlutterAppBadger.removeBadge();
+      FlutterAppBadger.isAppBadgeSupported().then((value) {
+        flog(value, 'onTotalUnreadMessageCountChanged');
+        FlutterAppBadger.removeBadge();
+      });
     });
     OneSignal.Notifications.addForegroundWillDisplayListener(
         (event) => flog("收到了消息了，弹出通知"));
-    OneSignal.InAppMessages.addClickListener((event) {
-      flog("event");
-    });
-    OneSignal.InAppMessages.addWillDisplayListener((event) {
-      print("ON WILL DISPLAY IN APP MESSAGE ${event.message.messageId}");
-    });
-    OneSignal.InAppMessages.addDidDisplayListener((event) {
-      print("ON DID DISPLAY IN APP MESSAGE ${event.message.messageId}");
-    });
-    OneSignal.InAppMessages.addWillDismissListener((event) {
-      print("ON WILL DISMISS IN APP MESSAGE ${event.message.messageId}");
-    });
-    OneSignal.InAppMessages.addDidDismissListener((event) {
-      print("ON DID DISMISS IN APP MESSAGE ${event.message.messageId}");
-    });
   }
 }
