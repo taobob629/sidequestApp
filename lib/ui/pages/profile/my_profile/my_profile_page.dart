@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sq_hub_app/ui/pages/notification/notification_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/qrcode/my_qr_code_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/select_avatar_dialog.dart';
 import 'package:sq_hub_app/ui/pages/profile/vip/vip_page.dart';
@@ -506,8 +507,8 @@ class MyProfilePage extends StatelessWidget {
                         Expanded(
                           child: Obx(() => _dashboardLabelItem(
                                 ImageUtils.message_icon,
-                                "Messages".tr,
-                                onTap: () => Get.to(() => MessagesPage()),
+                                "Notifications".tr,
+                                onTap: () => Get.to(() => NotificationPage()),
                                 badgeNum:
                                     UserController.find.unreadMsgCount.value,
                               )),
