@@ -38,7 +38,6 @@ class AppController extends GetxController {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    FirebaseMessaging.instance.getToken().then((value) => StorageManager.setPushToken(value));
   }
 
   bool showGoogleSingIn = false;

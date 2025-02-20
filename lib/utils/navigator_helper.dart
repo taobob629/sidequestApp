@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/ui/pages/profile/address/list/address_page.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
+import 'package:sq_hub_app/utils/utils.dart';
 
 import '../api/post_api.dart';
 import '../api/profile_api.dart';
@@ -11,12 +12,13 @@ import '../common/address_model.dart';
 import '../common/web_page.dart';
 import '../controller/user_controller.dart';
 import '../model/coupon_model.dart';
-import '../model/goods_detail_model.dart';
 import '../model/pay_order_model.dart';
 import '../model/task_model.dart';
 import '../ui/pages/booking/booking_page.dart';
 import '../ui/pages/events/event/event_page.dart';
 import '../ui/pages/home/news_page.dart';
+import '../ui/pages/hubs/bubble_tea_detail_page.dart';
+import '../ui/pages/notification/notification_page.dart';
 import '../ui/pages/pay/pay_page.dart';
 import '../ui/pages/playwith/play_balance_page.dart';
 import '../ui/pages/profile/balance/balance_page.dart';
@@ -126,6 +128,32 @@ class NavigatorHelper {
         onSelect?.call(model);
       }
     }).whenComplete(() => whenComplete?.call());
+  }
+
+  static Future<void> notificationJump(
+      Map<String, dynamic>? additionalData) async {
+    flog("additionalData = $additionalData");
+    if (additionalData == null) return;
+    switch (additionalData["type"]) {
+      case "event":
+        Get.to(() => EventPage(
+              id: additionalData["id"],
+              type: 1,
+            ));
+        break;
+
+      case "news":
+        Get.to(() => NewsPage(id: additionalData["id"]));
+        break;
+
+      case "goods":
+        Get.to(() => BubbleTeaDetailPage(), arguments: additionalData["id"]);
+        break;
+
+      default:
+        Get.to(() => NotificationPage());
+        break;
+    }
   }
 
   static Future<void> gotoConfigTarget(String content) async {

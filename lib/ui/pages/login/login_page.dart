@@ -21,7 +21,6 @@ import '../../../model/login_model.dart';
 import '../../../utils/storage_manager.dart';
 import '../../../utils/toast_utils.dart';
 import 'auth_input_view.dart';
-import 'choose_game/view.dart';
 import 'forget_page.dart';
 
 class LoginPage extends StatelessWidget {

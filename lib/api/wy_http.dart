@@ -38,6 +38,9 @@ class HeaderInterceptor extends InterceptorsWrapper {
     if (options.headers['X-Wanyoo-Token'] == null) {
       options.headers['X-Wanyoo-Token'] = StorageManager.getToken();
     }
+    if (StorageManager.getPushToken().isNotEmpty) {
+      options.headers['pushToken'] = StorageManager.getPushToken();
+    }
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
     // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';

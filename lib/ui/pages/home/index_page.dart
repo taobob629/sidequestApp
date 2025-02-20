@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sq_hub_app/api/index_api.dart';
-import 'package:sq_hub_app/common/keep_alive_wrapper.dart';
-import 'package:sq_hub_app/config/icon_font.dart';
-import 'package:sq_hub_app/ui/pages/home/tab_bundles_page.dart';
-import 'package:sq_hub_app/ui/pages/home/tab_events_page.dart';
-import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:sq_hub_app/utils/navigator_helper.dart';
+import 'package:sq_hub_app/utils/storage_manager.dart';
 
-import '../../../config/app_color.dart';
 import '../../../controller/user_controller.dart';
-import '../../../model/index_tab_model.dart';
-import 'tab_headlines_page.dart';
+import '../../../utils/utils.dart';
 import 'tab_news_page.dart';
 
 class IndexPage extends StatelessWidget {
@@ -27,11 +21,43 @@ class IndexPage extends StatelessWidget {
 
 class IndexPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
-
   @override
   void onInit() {
     super.onInit();
 
     Get.put(TabNewsPageController());
+
+    initOneSignal();
+  }
+
+  void initOneSignal() async {
+    var onesignalId = await OneSignal.User.getOnesignalId();
+    if (onesignalId != null) {
+      StorageManager.setPushToken(onesignalId);
+    }
+
+    OneSignal.User.addObserver((state) {
+      StorageManager.setPushToken(state.current.onesignalId);
+    });
+
+    OneSignal.Notifications.addClickListener((event) =>
+        NavigatorHelper.notificationJump(event.notification.additionalData));
+    OneSignal.Notifications.addForegroundWillDisplayListener(
+        (event) => flog("收到了消息了，弹出通知"));
+    OneSignal.InAppMessages.addClickListener((event) {
+      flog("event");
+    });
+    OneSignal.InAppMessages.addWillDisplayListener((event) {
+      print("ON WILL DISPLAY IN APP MESSAGE ${event.message.messageId}");
+    });
+    OneSignal.InAppMessages.addDidDisplayListener((event) {
+      print("ON DID DISPLAY IN APP MESSAGE ${event.message.messageId}");
+    });
+    OneSignal.InAppMessages.addWillDismissListener((event) {
+      print("ON WILL DISMISS IN APP MESSAGE ${event.message.messageId}");
+    });
+    OneSignal.InAppMessages.addDidDismissListener((event) {
+      print("ON DID DISMISS IN APP MESSAGE ${event.message.messageId}");
+    });
   }
 }

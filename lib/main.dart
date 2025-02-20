@@ -44,7 +44,8 @@ void main() async {
 
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize("2e18b91f-f1f0-4faa-85fd-13b564ae7ad9");
+  // OneSignal.initialize("2e18b91f-f1f0-4faa-85fd-13b564ae7ad9");
+  OneSignal.initialize("d476c63a-6ddb-440c-868a-4345808db89f");
   OneSignal.Notifications.requestPermission(true);
 
   await getAppPackageInfo();
