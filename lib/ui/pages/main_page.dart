@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:local_notifications_for_us/local_notifications_for_us.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
@@ -224,6 +226,11 @@ class MainPageController extends FullLifeCycleController
   @override
   void onResumed() {
     UserController.find.switchLogin(checkLastLoginTime: true);
+
+    OneSignal.Notifications.clearAll();
+    FlutterAppBadger.isAppBadgeSupported().then((value) {
+      FlutterAppBadger.removeBadge();
+    });
   }
 
   @override

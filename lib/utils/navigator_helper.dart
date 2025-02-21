@@ -155,6 +155,10 @@ class NavigatorHelper {
         await Get.to(() => ApprovalPage());
         break;
 
+      case "voucher":
+        await Get.to(() => gotoCouponPage(couponType: 5));
+        break;
+
       default:
         Get.to(() => NotificationPage());
         break;

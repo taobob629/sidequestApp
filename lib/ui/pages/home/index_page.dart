@@ -35,6 +35,11 @@ class IndexPageController extends GetxController
     String? subId = OneSignal.User.pushSubscription.id;
     if (subId != null && subId.isNotEmpty) {
       StorageManager.setPushToken(subId);
+
+      OneSignal.Notifications.clearAll();
+      FlutterAppBadger.isAppBadgeSupported().then((value) {
+        FlutterAppBadger.removeBadge();
+      });
     }
 
     OneSignal.User.pushSubscription.addObserver((state) {
