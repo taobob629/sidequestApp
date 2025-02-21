@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sq_hub_app/ui/pages/login/login_page.dart';
 import 'package:sq_hub_app/ui/pages/login/other_register/other_register_page.dart';
+import 'package:sq_hub_app/ui/pages/setting/receive_notify_page.dart';
 
 import '../../../api/auth_api.dart';
 import '../../../api/index_api.dart';
@@ -67,6 +68,11 @@ class SettingsPage extends StatelessWidget {
               title: "Delete Account".tr,
               info: UserController.find.user.value.email,
               onTap: () => controller.deleteAccount(),
+            ),
+            SettingItem(
+              title: "Receive All Notification".tr,
+              onTap: () => Get.to(() => ReceiveNotifyPage())
+                  ?.then((value) => UserController.find.updateInfo()),
             ),
             SettingItem(
               title: "About Us".tr,
@@ -148,7 +154,8 @@ class SettingsPageController extends GetxController {
     dismissLoading();
     if (Platform.isIOS && !response.data['haspwd']) {
       String? userIdentifier = StorageManager.getString('userIdentifier');
-      AuthorizationCredentialAppleID credential = AuthorizationCredentialAppleID(
+      AuthorizationCredentialAppleID credential =
+          AuthorizationCredentialAppleID(
         userIdentifier: userIdentifier,
         authorizationCode: '',
       );
@@ -158,14 +165,14 @@ class SettingsPageController extends GetxController {
 
     if (type == 1) {
       Get.to(() => ChangePasswordPage(
-        type: 1,
-        hasPwd: response.data['haspwd'],
-      ));
+            type: 1,
+            hasPwd: response.data['haspwd'],
+          ));
     } else {
       Get.to(() => ChangePasswordPage(
-        type: 2,
-        hasPwd: response.data['haspin'],
-      ));
+            type: 2,
+            hasPwd: response.data['haspin'],
+          ));
     }
   }
 
@@ -225,10 +232,7 @@ Deleting your account will remove your profile and all of your content from Side
     if (!model.upgrade) {
       showError("You are using the latest version".tr);
     } else {
-      Get.dialog(
-          UpgradeDialog(model: model),
-          barrierDismissible: !model.force
-      );
+      Get.dialog(UpgradeDialog(model: model), barrierDismissible: !model.force);
     }
   }
 

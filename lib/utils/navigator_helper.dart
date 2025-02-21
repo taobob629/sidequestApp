@@ -152,11 +152,15 @@ class NavigatorHelper {
         break;
 
       case "friends":
-        await Get.to(() => ApprovalPage());
+        Get.to(() => ApprovalPage());
         break;
 
       case "voucher":
-        await Get.to(() => gotoCouponPage(couponType: 5));
+        Get.to(() => gotoCouponPage(couponType: 5));
+        break;
+
+      case "booking":
+        Get.to(() => BookingPage());
         break;
 
       default:

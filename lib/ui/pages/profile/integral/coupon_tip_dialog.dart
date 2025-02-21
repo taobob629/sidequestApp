@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -18,6 +19,7 @@ import '../../../../config/app_color.dart';
 import '../../../../image_utils.dart';
 import '../../../../model/integral_lv_model.dart';
 import '../../../../utils/toast_utils.dart';
+import '../../connections/connections_page.dart';
 import 'ctr/integral_interests_ctr.dart';
 
 class CouponTipDialog extends StatelessWidget {
@@ -25,6 +27,7 @@ class CouponTipDialog extends StatelessWidget {
   final int limitConnectionsCount;
   final String? confirmBtn;
   final Function? onConfirm;
+
   // 是否有计算器
   final bool? isCal;
   final TextEditingController editingController =
@@ -242,12 +245,27 @@ class CouponTipDialog extends StatelessWidget {
                 ),
               ],
             ),
-            Text(
-              "Receive the gaming rate discount when gaming simultaneously with your Connections.\nAt this Level, the discount can be applied with up to $limitConnectionsCount different Connections.",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontFamily: FONT_MEDIUM,
+            RichText(
+              text: TextSpan(
+                text:
+                    "Receive the gaming rate discount when gaming simultaneously with your Connections.\nAt this Level, the discount can be applied with up to $limitConnectionsCount different ",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                  fontFamily: FONT_MEDIUM,
+                ),
+                children: [
+                  TextSpan(
+                    text: "Connections.",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontFamily: FONT_MEDIUM,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Get.to(() => ConnectionsPage()),
+                  ),
+                ],
               ),
             ).paddingOnly(top: 13.h),
             Text(

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:sq_hub_app/model/integral_info_model.dart';
+import 'package:sq_hub_app/widget/custom_loading_widget.dart';
 
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
@@ -23,11 +24,20 @@ class IntegralHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Obx(
-        () => t.isLoading.value
-            ? Container()
-            : SingleChildScrollView(
-                controller: t.scrollController,
-                child: Container(
+        () => SingleChildScrollView(
+          controller: t.scrollController,
+          child: t.isLoading.value
+              ? Container(
+                  width: 1.sw,
+                  height: 1.sh,
+                  alignment: Alignment.center,
+                  child: CustomLoadingWidget(
+                    backgroundColor: Colors.transparent,
+                    color: Colors.white,
+                    size: 40.sp,
+                  ),
+                )
+              : Container(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -557,7 +567,7 @@ class IntegralHomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
+        ),
       );
 
   Widget signInfoWidget() => Obx(() => t.isAppTab.value

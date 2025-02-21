@@ -32,7 +32,7 @@ class ConnectionsCtr extends GetxController
               width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Text('My connections'.tr),
+        child: Text('My Connections'.tr),
       )),
       Obx(() => Container(
         height: 34.h,
@@ -47,7 +47,7 @@ class ConnectionsCtr extends GetxController
               width: 1.w),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Text('Add game account'.tr),
+        child: Text('Add Game Account'.tr),
       )),
     ];
     tabBarController = TabController(length: tabsList.length, vsync: this);

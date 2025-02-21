@@ -54,7 +54,6 @@ class IntegralHomeCtr extends GetxController {
   }
 
   void requestData() async {
-    showLoading();
     final responseList = await Future.wait([
       http.get('/app/point/info'),
       http.get('/app/point/task/list',
@@ -63,7 +62,6 @@ class IntegralHomeCtr extends GetxController {
     ]);
 
     dismissLoading();
-    isLoading.value = false;
     integralInfoModel.value = IntegralInfoModel.fromJson(responseList[0].data);
     integralTaskList.value = responseList[1]
         .data
@@ -74,6 +72,7 @@ class IntegralHomeCtr extends GetxController {
     if (list.isNotEmpty) {
       goods.value = list[0];
     }
+    Future.delayed(Duration(milliseconds: 500), () => isLoading.value = false);
   }
 
   void toInterestsPage() async {

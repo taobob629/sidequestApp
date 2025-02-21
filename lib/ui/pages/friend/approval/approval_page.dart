@@ -12,6 +12,10 @@ class ApprovalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!Get.isRegistered<AddFriendCtr>()) {
+      Get.put(AddFriendCtr());
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(

@@ -57,6 +57,7 @@ class ProfileModel {
   bool vipCanceled = false;
   int totalmins = 0;
   int avamins = 0;
+  int notification = 0;
 
   balanceMoney() {
     return '£$balance';
@@ -68,6 +69,7 @@ class ProfileModel {
       this.voice,
       this.totalmins = 0,
       this.avamins = 0,
+      this.notification = 0,
       this.isAuth = 0,
       this.sidekickLevel = 1,
       this.nickName = "",
@@ -178,6 +180,7 @@ class ProfileModel {
     orderNum = json["OrderNum"] ?? 0;
     taskNum = json["taskNum"] ?? 0;
     avamins = json["avamins"] ?? 0;
+    notification = json["notification"] ?? 0;
     totalmins = json["totalmins"] ?? 0;
     orders = json["orders"] ?? 0;
     giftOrderNum = json["giftOrderNum"] ?? 0;

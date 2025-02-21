@@ -136,17 +136,27 @@ class AddFriendCtr extends GetxController {
   }
 
   void addOrRejectFriends(bool isAdd, int? memberId) async {
-    showLoading();
-    await http.post('/app/point/set/friend', data: {
-      "memberId": memberId,
-      // 1同意 4拒绝
-      "friendState": isAdd ? 1 : 4,
-    });
-    dismissLoading();
-    requestData();
-    if (Get.isRegistered<ApprovalCtr>()) {
-      ApprovalCtr.find.requestData();
-    }
+    Get.dialog(
+      ConfirmDialog(
+        title: isAdd ? "Accept".tr : "Reject".tr,
+        info: "Are you sure ${isAdd ? "Accept".tr : "Reject".tr}".tr,
+        onConfirm: () async {
+          Get.back();
+          showLoading();
+          await http.post('/app/point/set/friend', data: {
+            "memberId": memberId,
+            // 1同意 4拒绝
+            "friendState": isAdd ? 1 : 4,
+          });
+          dismissLoading();
+          requestData();
+          if (Get.isRegistered<ApprovalCtr>()) {
+            ApprovalCtr.find.requestData();
+          }
+        },
+      ),
+      barrierColor: Colors.black26,
+    );
   }
 
   Widget getFunByState(FriendModel model) {
