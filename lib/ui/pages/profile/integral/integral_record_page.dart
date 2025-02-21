@@ -3,9 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sq_hub_app/common/empty_view.dart';
-import 'package:sq_hub_app/ui/pages/main_page.dart';
-import 'package:sq_hub_app/ui/pages/setting/settings_page.dart';
-import 'package:sq_hub_app/utils/toast_utils.dart';
 
 import '../../../../common/base_scaffold.dart';
 import '../../../../config/icon_font.dart';

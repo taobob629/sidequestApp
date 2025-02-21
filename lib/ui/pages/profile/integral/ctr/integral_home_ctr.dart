@@ -72,7 +72,7 @@ class IntegralHomeCtr extends GetxController {
     if (list.isNotEmpty) {
       goods.value = list[0];
     }
-    Future.delayed(Duration(milliseconds: 500), () => isLoading.value = false);
+    isLoading.value = false;
   }
 
   void toInterestsPage() async {

@@ -17,6 +17,9 @@ class IntegralRedemptionPage extends StatelessWidget {
   Widget build(BuildContext context) => Obx(() => _ctr.tabs.isEmpty
       ? Container()
       : Container(
+          width: 1.sw,
+          height: 1.sh,
+          color: AppColor.background,
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Stack(
             children: [

@@ -23,6 +23,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: 1.sw,
         height: 1.sh,
+        color: AppColor.background,
         child: Obx(() => ctr.model.value.taskName == null
             ? Container()
             : Stack(

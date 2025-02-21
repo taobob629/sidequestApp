@@ -39,6 +39,7 @@ class IntegralHomePage extends StatelessWidget {
                 )
               : Container(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  color: AppColor.background,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
