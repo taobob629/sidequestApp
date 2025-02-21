@@ -8,6 +8,7 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 
 import '../utils/utils.dart';
 
@@ -29,8 +30,8 @@ class LocationService {
 
   //初始化...
   LocationService._internal() {}
-  Position? position;
   StreamSubscription<Position>? positionStream;
+  Rx<Position?> position = Rx<Position?>(null);
 
   init() async {
     bool serviceEnabled;
@@ -51,7 +52,7 @@ class LocationService {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    position = await Geolocator.getCurrentPosition();
+    position.value = await Geolocator.getCurrentPosition();
     final LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
@@ -59,9 +60,9 @@ class LocationService {
     positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? pos) {
-      position = pos;
+      position.value = pos;
     });
-   flog('position: $position');
+    flog('position: $position');
   }
 
   dispose() {

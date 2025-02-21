@@ -497,8 +497,8 @@ class TabBundlesPageController extends GetxController {
           List<String> latLog =
               storesList[i].map!.replaceAll(" ", "").split(",");
           double distances = Geolocator.distanceBetween(
-            LocationService().position?.latitude ?? 51.51272691932477,
-            LocationService().position?.longitude ?? -0.12896615379992515,
+            LocationService().position.value?.latitude ?? 51.51272691932477,
+            LocationService().position.value?.longitude ?? -0.12896615379992515,
             double.parse(latLog[0]),
             double.parse(latLog[1]),
           );
@@ -582,8 +582,8 @@ class TabBundlesPageController extends GetxController {
             currentSelectStore.value.map!.replaceAll(" ", "").split(",");
 
         minDistances.value = Geolocator.distanceBetween(
-          LocationService().position?.latitude ?? 51.51272691932477,
-          LocationService().position?.longitude ?? -0.12896615379992515,
+          LocationService().position.value?.latitude ?? 51.51272691932477,
+          LocationService().position.value?.longitude ?? -0.12896615379992515,
           double.parse(latLog[0]),
           double.parse(latLog[1]),
         );

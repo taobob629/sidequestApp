@@ -48,38 +48,62 @@ class TabBubbleTeaCtr extends GetxController {
   // var sb = "".obs;
   var isLoading = true.obs;
 
+  LocationService locationService = LocationService();
+
+  // 位置监听的变量，收到LocationService里面的Getx的position的回调
+  late Worker everPosition;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    everPosition =
+        ever(locationService.position, (Position? pos) => calDistance());
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+
+    everPosition.dispose();
+  }
+
+  void calDistance() {
+    for (int i = 0; i < storesList.length; i++) {
+      if (storesList[i].map != null) {
+        List<String> latLog =
+        storesList[i].map!.replaceAll(" ", "").split(",");
+        double distances = Geolocator.distanceBetween(
+          locationService.position.value?.latitude ?? 51.51272691932477,
+          locationService.position.value?.longitude ?? -0.12896615379992515,
+          double.parse(latLog[0]),
+          double.parse(latLog[1]),
+        );
+        if (i == 0) {
+          minDistances.value = distances;
+        }
+
+        flog('distances = $distances, $i');
+        // sb.value += "${storesList[i].name}和当前设备相距：$distances";
+
+        if (distances < minDistances.value) {
+          minDistances.value = distances;
+          currentSelectStore.value = storesList[i];
+        }
+      }
+    }
+    if (currentSelectStore.value.id == null) {
+      currentSelectStore.value = storesList.first;
+    }
+  }
+
   void requestData() {
     isLoading.value = true;
     Future.delayed(Duration(milliseconds: 200), () async {
       // sb.value = "";
       storesList.value = await HubsApi.getStores();
       if (storesList.isNotEmpty) {
-        for (int i = 0; i < storesList.length; i++) {
-          if (storesList[i].map != null) {
-            List<String> latLog =
-                storesList[i].map!.replaceAll(" ", "").split(",");
-            double distances = Geolocator.distanceBetween(
-              LocationService().position?.latitude ?? 51.51272691932477,
-              LocationService().position?.longitude ?? -0.12896615379992515,
-              double.parse(latLog[0]),
-              double.parse(latLog[1]),
-            );
-            if (i == 0) {
-              minDistances.value = distances;
-            }
-
-            print('distances = $distances, $i');
-            // sb.value += "${storesList[i].name}和当前设备相距：$distances";
-
-            if (distances < minDistances.value) {
-              minDistances.value = distances;
-              currentSelectStore.value = storesList[i];
-            }
-          }
-        }
-        if (currentSelectStore.value.id == null) {
-          currentSelectStore.value = storesList.first;
-        }
+        calDistance();
 
         requestStoreInDataByStoreId(currentSelectStore.value.id, false);
       } else {
@@ -190,8 +214,8 @@ class TabBubbleTeaCtr extends GetxController {
             currentSelectStore.value.map!.replaceAll(" ", "").split(",");
 
         minDistances.value = Geolocator.distanceBetween(
-          LocationService().position?.latitude ?? 51.51272691932477,
-          LocationService().position?.longitude ?? -0.12896615379992515,
+          locationService.position.value?.latitude ?? 51.51272691932477,
+          locationService.position.value?.longitude ?? -0.12896615379992515,
           double.parse(latLog[0]),
           double.parse(latLog[1]),
         );

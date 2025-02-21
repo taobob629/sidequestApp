@@ -106,6 +106,7 @@ class MainPage extends StatelessWidget {
                             selectIconName: ImageUtils.tab_games,
                             normalIconName: ImageUtils.tab_games_normal,
                             onTap: () {
+                              LocationService().init();
                               controller.controller.jumpToPage(2);
                               controller.updateCurrentIndex(2);
                             }),
