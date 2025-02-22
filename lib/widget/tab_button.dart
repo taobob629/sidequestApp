@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sq_hub_app/image_utils.dart';
+import 'package:badges/badges.dart' as badges;
 
 class TabButton extends StatefulWidget {
   final int index;
@@ -8,6 +8,7 @@ class TabButton extends StatefulWidget {
   final String selectIconName;
   final String normalIconName;
   final Function onTap;
+  final bool? showBadge;
 
   TabButton({
     required this.index,
@@ -15,6 +16,7 @@ class TabButton extends StatefulWidget {
     required this.selectIconName,
     required this.normalIconName,
     required this.onTap,
+    this.showBadge,
   });
 
   @override
@@ -56,10 +58,14 @@ class _TabButtonState extends State<TabButton>
           alignment: Alignment.center,
           width: 56.h,
           height: 56.h,
-          child: Image.asset(
-            widget.selectIconName,
-            fit: BoxFit.contain,
-            height: 56.h,
+          child: badges.Badge(
+            showBadge: widget.showBadge ?? false,
+            position: badges.BadgePosition(end: 0, top: 16),
+            child: Image.asset(
+              widget.selectIconName,
+              fit: BoxFit.contain,
+              height: 56.h,
+            ),
           ),
         ),
       );
@@ -70,9 +76,13 @@ class _TabButtonState extends State<TabButton>
           height: 56.h,
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           color: Colors.transparent,
-          child: Image.asset(
-            widget.normalIconName,
-            fit: BoxFit.contain,
+          child: badges.Badge(
+            showBadge: widget.showBadge ?? false,
+            position: badges.BadgePosition(end: 0, top: 16),
+            child: Image.asset(
+              widget.normalIconName,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
       );

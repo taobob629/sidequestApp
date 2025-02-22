@@ -83,50 +83,56 @@ class MainPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         TabButton(
-                            index: 0,
-                            currentIndex: controller.currentIndex.value,
-                            selectIconName: ImageUtils.tab_home,
-                            normalIconName: ImageUtils.tab_home_normal,
-                            onTap: () {
-                              controller.controller.jumpToPage(0);
-                              controller.updateCurrentIndex(0);
-                            }),
+                          index: 0,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_home,
+                          normalIconName: ImageUtils.tab_home_normal,
+                          onTap: () {
+                            controller.controller.jumpToPage(0);
+                            controller.updateCurrentIndex(0);
+                          },
+                        ),
                         TabButton(
-                            index: 1,
-                            currentIndex: controller.currentIndex.value,
-                            selectIconName: ImageUtils.tab_social,
-                            normalIconName: ImageUtils.tab_social_normal,
-                            onTap: () {
-                              controller.controller.jumpToPage(1);
-                              controller.updateCurrentIndex(1);
-                            }),
+                          index: 1,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_social,
+                          normalIconName: ImageUtils.tab_social_normal,
+                          onTap: () {
+                            controller.controller.jumpToPage(1);
+                            controller.updateCurrentIndex(1);
+                          },
+                        ),
                         TabButton(
-                            index: 2,
-                            currentIndex: controller.currentIndex.value,
-                            selectIconName: ImageUtils.tab_games,
-                            normalIconName: ImageUtils.tab_games_normal,
-                            onTap: () {
-                              LocationService().init();
-                              controller.controller.jumpToPage(2);
-                              controller.updateCurrentIndex(2);
-                            }),
+                          index: 2,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_games,
+                          normalIconName: ImageUtils.tab_games_normal,
+                          onTap: () {
+                            LocationService().init();
+                            controller.controller.jumpToPage(2);
+                            controller.updateCurrentIndex(2);
+                          },
+                        ),
                         TabButton(
-                            index: 3,
-                            currentIndex: controller.currentIndex.value,
-                            selectIconName: ImageUtils.tab_profile,
-                            normalIconName: ImageUtils.tab_profile_normal,
-                            onTap: () {
-                              var account = StorageManager.getToken();
-                              if (account.isEmpty) {
-                                Get.to(() => LoginPage());
-                              } else {
-                                controller.controller.jumpToPage(3);
-                                controller.updateCurrentIndex(3);
-                                if (Get.isRegistered<ProfileController>()) {
-                                  ProfileController.find.onRefresh();
-                                }
+                          index: 3,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_profile,
+                          normalIconName: ImageUtils.tab_profile_normal,
+                          showBadge: UserController.find.showProfileBadge.value,
+                          onTap: () {
+                            var account = StorageManager.getToken();
+                            if (account.isEmpty) {
+                              Get.to(() => LoginPage());
+                            } else {
+                              UserController.find.showProfileBadge.value = false;
+                              controller.controller.jumpToPage(3);
+                              controller.updateCurrentIndex(3);
+                              if (Get.isRegistered<ProfileController>()) {
+                                ProfileController.find.onRefresh();
                               }
-                            }),
+                            }
+                          },
+                        ),
                       ],
                     )),
               ),

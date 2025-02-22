@@ -12,8 +12,6 @@ import 'tab_news_page.dart';
 class IndexPage extends StatelessWidget {
   final controller = Get.put(IndexPageController());
 
-  final userController = Get.find<UserController>();
-
   @override
   Widget build(BuildContext context) {
     return TabNewsPage();
@@ -22,6 +20,7 @@ class IndexPage extends StatelessWidget {
 
 class IndexPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
+
   @override
   void onInit() {
     super.onInit();
@@ -55,6 +54,6 @@ class IndexPageController extends GetxController
       });
     });
     OneSignal.Notifications.addForegroundWillDisplayListener(
-        (event) => flog("收到了消息了，弹出通知"));
+        (event) => UserController.find.showProfileBadge.value = true);
   }
 }

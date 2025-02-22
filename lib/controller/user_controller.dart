@@ -78,6 +78,9 @@ class UserController extends GetxController {
   var unreadMsgCount = 0.obs;
   final online = false.obs;
 
+  // profile的红点显示
+  var showProfileBadge = false.obs;
+
   GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
       'email',

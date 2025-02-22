@@ -70,7 +70,7 @@ class SettingsPage extends StatelessWidget {
               onTap: () => controller.deleteAccount(),
             ),
             SettingItem(
-              title: "Receive All Notification".tr,
+              title: "Notifications".tr,
               onTap: () => Get.to(() => ReceiveNotifyPage())
                   ?.then((value) => UserController.find.updateInfo()),
             ),
