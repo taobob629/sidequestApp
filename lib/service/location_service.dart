@@ -52,7 +52,6 @@ class LocationService {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    position.value = await Geolocator.getCurrentPosition();
     final LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
@@ -62,6 +61,7 @@ class LocationService {
             .listen((Position? pos) {
       position.value = pos;
     });
+    position.value = await Geolocator.getCurrentPosition();
     flog('position: $position');
   }
 
