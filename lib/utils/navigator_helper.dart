@@ -25,6 +25,7 @@ import '../ui/pages/playwith/play_balance_page.dart';
 import '../ui/pages/profile/balance/balance_page.dart';
 import '../ui/pages/profile/coupon/coupon_page.dart';
 import '../ui/pages/profile/edit/edit_profile_page.dart';
+import '../ui/pages/profile/integral/integral_detail_page.dart';
 import '../ui/pages/profile/other_profile/other_profile_page.dart';
 import '../ui/pages/profile/task/detail/task_detail_page.dart';
 import '../ui/pages/search/search_page.dart';
@@ -156,11 +157,15 @@ class NavigatorHelper {
         break;
 
       case "voucher":
-        Get.to(() => gotoCouponPage(couponType: 5));
+        gotoCouponPage(couponType: 5);
         break;
 
       case "booking":
         Get.to(() => BookingPage());
+        break;
+
+      case "points":
+        Get.to(() => IntegralDetailPage(), arguments: additionalData["id"]);
         break;
 
       default:

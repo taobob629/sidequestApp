@@ -139,7 +139,9 @@ class AddFriendCtr extends GetxController {
     Get.dialog(
       ConfirmDialog(
         title: isAdd ? "Accept".tr : "Reject".tr,
-        info: "Are you sure ${isAdd ? "Accept".tr : "Reject".tr}".tr,
+        info: isAdd
+            ? "Are you sure to accept the connection request?".tr
+            : "Are you sure to reject the connection request?".tr,
         onConfirm: () async {
           Get.back();
           showLoading();
