@@ -7,6 +7,7 @@ import '../../../common/base_scaffold.dart';
 import '../../../common/empty_view.dart';
 import '../../../common/getx_refresh_controller.dart';
 import '../../../config/app_config.dart';
+import '../../../controller/user_controller.dart';
 import '../../../model/notification_model.dart';
 import 'notification_item.dart';
 
@@ -55,6 +56,7 @@ class NotificationPageController extends GetxRefreshController<NotificationModel
   void onReady() async {
     super.onReady();
     await AppConfig.flutterLocalNotificationsPlugin.cancelAll();
+    UserController.find.showProfileBadge.value = false;
   }
 
   Future<List<NotificationModel>> loadData({int pageNum = 1}) async {

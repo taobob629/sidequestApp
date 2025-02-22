@@ -93,7 +93,9 @@ class TabBubbleTeaCtr extends GetxController {
       }
     }
     if (currentSelectStore.value.id == null) {
-      currentSelectStore.value = storesList.first;
+      if (storesList.isNotEmpty) {
+        currentSelectStore.value = storesList.first;
+      }
     }
   }
 

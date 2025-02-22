@@ -512,12 +512,13 @@ class MyProfilePage extends StatelessWidget {
                         ),
                         Expanded(
                           child: Obx(() => _dashboardLabelItem(
-                            ImageUtils.message_icon,
-                            "Notifications".tr,
-                            onTap: () => Get.to(() => NotificationPage()),
-                            badgeNum:
-                            UserController.find.unreadMsgCount.value,
-                          )),
+                                ImageUtils.message_icon,
+                                "Notifications".tr,
+                                onTap: () => Get.to(() => NotificationPage()),
+                                badgeNum: userController.showProfileBadge.value
+                                    ? 9999
+                                    : 0,
+                              )),
                         ),
                       ],
                     ),
@@ -767,7 +768,7 @@ class MyProfilePage extends StatelessWidget {
               badges.Badge(
                 showBadge: badgeNum > 0,
                 badgeContent: Text(
-                  '$badgeNum',
+                  badgeNum == 9999 ? '' : '$badgeNum',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10.sp,

@@ -124,7 +124,6 @@ class MainPage extends StatelessWidget {
                             if (account.isEmpty) {
                               Get.to(() => LoginPage());
                             } else {
-                              UserController.find.showProfileBadge.value = false;
                               controller.controller.jumpToPage(3);
                               controller.updateCurrentIndex(3);
                               if (Get.isRegistered<ProfileController>()) {
