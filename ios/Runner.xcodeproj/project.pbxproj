@@ -71,6 +71,7 @@
 		151B3E382C6D96B100E64B38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		152919362C72E0B9000584FC /* AlipayPlusClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipayPlusClient.framework; sourceTree = "<group>"; };
 		152919382C72E0DB000584FC /* AlipayPlusResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipayPlusResource.bundle; sourceTree = "<group>"; };
+		155488F52D70074300B86672 /* stripe-ios-spm */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "stripe-ios-spm"; sourceTree = "<group>"; };
 		15AE061E2B512A900020E6ED /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		15C259142D66FC7D0046A4B9 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		15C259162D66FC7D0046A4B9 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -166,6 +167,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				155488F52D70074300B86672 /* stripe-ios-spm */,
 				152919382C72E0DB000584FC /* AlipayPlusResource.bundle */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
@@ -749,7 +751,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
