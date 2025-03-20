@@ -92,8 +92,7 @@ dependencies:
 #  audioplayers: 0.8.1
   just_audio: 0.9.32
   flutter_app_badger:
-     git:
-       url: https://github.com/sikandernoori/flutter_app_badger.git
+    path: plugins/flutter_app_badger
   flutter_rating_bar: ^4.0.1
 
   file_picker: ^4.6.1
