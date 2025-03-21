@@ -121,7 +121,8 @@ class IntegralDetailPage extends StatelessWidget {
                               ),
                             ),
                             10.verticalSpace,
-                            infoWidget('${ctr.integralGoodsDetailModel.value.des}')
+                            infoWidget(
+                                '${ctr.integralGoodsDetailModel.value.des}')
                           ],
                         ),
                       ),
@@ -131,16 +132,16 @@ class IntegralDetailPage extends StatelessWidget {
               )),
         floatingActionButton: ColorfulButton(
           margin: EdgeInsets.only(bottom: 10.h),
-          child: Text(
-            ctr.integralGoodsDetailModel.value.enoughPoint == true
-                ? "${ctr.integralGoodsDetailModel.value.price} points"
-                : "Insufficient points, earn points".tr,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontFamily: "DIN",
-            ),
-          ),
+          child: Obx(() => Text(
+                ctr.integralGoodsDetailModel.value.enoughPoint == true
+                    ? "${ctr.integralGoodsDetailModel.value.price} points"
+                    : "Insufficient points, earn points".tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontFamily: "DIN",
+                ),
+              )),
           height: 50.h,
           width: 0.85.sw,
           onTap: () => ctr.integralGoodsDetailModel.value.enoughPoint == true

@@ -45,31 +45,25 @@ class IntegralRedemptionPage extends StatelessWidget {
                     ),
                   ),
                   30.verticalSpace,
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'My points',
-                              style: TextStyle(
-                                color: Color(0xFF9CA3AF),
-                                fontSize: 13.sp,
-                                fontFamily: 'DIN',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            10.verticalSpace,
-                            Text(
-                              '${_ctr.points}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        'My points',
+                        style: TextStyle(
+                          color: Color(0xFF9CA3AF),
+                          fontSize: 13.sp,
+                          fontFamily: 'DIN',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      10.verticalSpace,
+                      Text(
+                        '${_ctr.integralInfoModel.value.pointInfo?.pointsTotal}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32.sp,
+                          fontFamily: FONT_MEDIUM,
                         ),
                       ),
                     ],
@@ -80,7 +74,6 @@ class IntegralRedemptionPage extends StatelessWidget {
                     marginLeft: 0,
                     marginRight: 0,
                     viewAllText: '',
-                    onTap: () => Get.to(() => IntegralRedemptionPage()),
                   ),
                   Container(
                     height: 30.h,
@@ -138,8 +131,7 @@ class IntegralRedemptionPage extends StatelessWidget {
 
   Widget pointsRedemptionWidget(int index) => GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => Get.to(() => IntegralDetailPage(),
-            arguments: _ctr.selectGoods[index]['id']),
+        onTap: () => _ctr.exchange(_ctr.selectGoods[index]['id']),
         child: Container(
           decoration: ShapeDecoration(
             gradient: LinearGradient(
