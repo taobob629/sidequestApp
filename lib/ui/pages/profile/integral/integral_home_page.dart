@@ -386,11 +386,7 @@ class IntegralHomePage extends StatelessWidget {
                                   Center(
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.translucent,
-                                      onTap: () => Get.to(
-                                        () => IntegralRedemptionPage(),
-                                        arguments: t.integralInfoModel.value
-                                            .pointInfo?.pointsTotal,
-                                      ),
+                                      onTap: () => t.toRedemptionPage(),
                                       child: Row(
                                         children: [
                                           10.horizontalSpace,
@@ -544,11 +540,7 @@ class IntegralHomePage extends StatelessWidget {
                         leftText: "Points Redemption".tr,
                         marginLeft: 0,
                         marginRight: 0,
-                        onTap: () => Get.to(
-                          () => IntegralRedemptionPage(),
-                          arguments:
-                              t.integralInfoModel.value.pointInfo?.pointsTotal,
-                        ),
+                        onTap: () => t.toRedemptionPage(),
                       ),
                       Obx(() => GridView.builder(
                             padding: EdgeInsets.zero,
@@ -790,7 +782,7 @@ class IntegralHomePage extends StatelessWidget {
 
   Widget pointsRedemptionWidget(dynamic good) => GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => Get.to(() => IntegralDetailPage(), arguments: good['id']),
+        onTap: () => t.jumpDetail(good["id"]),
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF202026),

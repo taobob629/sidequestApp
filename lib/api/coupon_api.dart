@@ -91,6 +91,11 @@ class CouponApi {
     var response =
         await http.get('/app/coupon/add', queryParameters: ({"code": code}));
 
+    if (response.data != null) {
+      if (response.data["code"] != 200) {
+        return null;
+      }
+    }
     return response.statusMessage;
   }
 

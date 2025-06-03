@@ -210,6 +210,7 @@ class TabBubbleTeaCtr extends GetxController {
       showInfo: true,
     ));
     if (value != null) {
+      categoryStr.value = 'All/Select Type';
       currentSelectStore.value = value as BubbleTeaStoreModel;
       if (currentSelectStore.value.map != null) {
         List<String> latLog =

@@ -37,6 +37,6 @@ class IntegralDetailCtr extends GetxController {
       return;
     }
     showToast("Successful");
-    Get.back();
+    Get.back(result: true);
   }
 }

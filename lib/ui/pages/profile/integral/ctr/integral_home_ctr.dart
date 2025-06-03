@@ -8,9 +8,13 @@ import '../../../../../model/integral_info_model.dart';
 import '../../../../../model/integral_task_model.dart';
 import '../../../../../utils/toast_utils.dart';
 import '../../../../dialog/dialog_sign_success.dart';
+import '../integral_detail_page.dart';
 import '../integral_interests_page.dart';
+import '../integral_redemption_page.dart';
 
 class IntegralHomeCtr extends GetxController {
+  static IntegralHomeCtr get find => Get.find();
+
   final ScrollController scrollController = ScrollController();
   final GlobalKey taskCenterKey = GlobalKey();
 
@@ -73,6 +77,18 @@ class IntegralHomeCtr extends GetxController {
       goods.value = list[0];
     }
     isLoading.value = false;
+  }
+
+  void jumpDetail(id) async {
+    final result = await Get.to(() => IntegralDetailPage(), arguments: id);
+    if (result != null) {
+      requestData();
+    }
+  }
+
+  void toRedemptionPage() async {
+    await Get.to(() => IntegralRedemptionPage());
+    requestData();
   }
 
   void toInterestsPage() async {
@@ -162,7 +178,8 @@ class IntegralHomeCtr extends GetxController {
     if (model.state == 1) {
       // 已经签到的用黄色
       return ImageUtils.integral_checkin_icon;
-    } /*else if (model.state == 0) {
+    }
+    /*else if (model.state == 0) {
       // 过期未签到的用灰色， 判断是否是今天或今天之后
       if (inputDate.isBefore(DateTime(now.year, now.month, now.day))) {
         return ImageUtils.integral_checkin_grey_icon;
