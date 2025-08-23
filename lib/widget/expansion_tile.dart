@@ -193,11 +193,11 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> with SingleTi
     final ThemeData theme = Theme.of(context);
     _borderColorTween.end = theme.dividerColor;
     _headerColorTween
-      ..begin = theme.textTheme.subtitle1!.color
-      ..end = theme.accentColor;
+      ..begin = theme.textTheme.subtitle1!.color;
+      // ..end = theme.accentColor;
     _iconColorTween
-      ..begin = theme.unselectedWidgetColor
-      ..end = theme.accentColor;
+      ..begin = theme.unselectedWidgetColor;
+      // ..end = theme.accentColor;
     _backgroundColorTween
       ..begin = widget.collapsedBackgroundColor
       ..end = widget.backgroundColor;

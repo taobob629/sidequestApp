@@ -49,7 +49,7 @@ showCustom(
   Widget widget, {
   bool clickMaskDismiss = true,
   String? tag,
-  AlignmentGeometry? alignment,
+      Alignment? alignment,
   bool? backDismiss,
   Color? maskColor,
   // 点击事件是否穿透
@@ -72,7 +72,7 @@ showAttach(
   Widget widget, {
   required BuildContext targetContext,
   bool clickMaskDismiss = true,
-  AlignmentGeometry? alignment,
+      Alignment? alignment,
   Color? maskColor,
 }) async {
   return SmartDialog.showAttach(

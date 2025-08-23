@@ -170,11 +170,7 @@ class PostListItemView extends GetView<PostListController> {
                                 borderRadius: BorderRadius.circular(15),
                                 color: Color(0xff313033)),
                             clipBehavior: Clip.antiAlias,
-                            child: QrImage(
-                              foregroundColor: Colors.white,
-                              data: jsonEncode(
-                                  Map()..['gid'] = model.imageList[i]),
-                            ),
+                            child: null,
                           )
                         : GestureDetector(
                             onTap: () {
