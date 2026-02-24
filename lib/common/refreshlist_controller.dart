@@ -16,7 +16,7 @@ import 'http_interface.dart';
 const int DEFAULT_PAGE = 1;
 const int DEFAULT_PAGE_SIZE = 10;
 
-abstract class RefreshListController<T> extends BasePageController with ListHttpRequest, RefreshListener {
+abstract class RefreshListController<T> extends BasePageController implements ListHttpRequest, RefreshListener {
   int page = DEFAULT_PAGE;
   int pageSize = DEFAULT_PAGE_SIZE;
   bool isRefresh = false;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_editor/image_editor.dart';
 import 'package:sq_hub_app/config/icon_font.dart';
 
 import '../../common/colorful_button.dart';

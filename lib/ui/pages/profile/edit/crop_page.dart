@@ -40,7 +40,6 @@ class CropPage extends StatelessWidget {
           color: Colors.black,
           child: ExtendedImage.file(
             image,
-            cacheRawData: true,
             fit: BoxFit.contain,
             mode: ExtendedImageMode.editor,
             extendedImageEditorKey: controller.editorKey,

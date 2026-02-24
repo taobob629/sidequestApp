@@ -79,6 +79,14 @@ class IntegralHomePage extends StatelessWidget {
                                                   shape: BoxShape.circle,
                                                   fit: BoxFit.cover,
                                                 );
+                                              case LoadState.loading:
+                                                return CustomLoadingWidget(
+                                                  backgroundColor: Colors.transparent,
+                                                  color: Colors.white,
+                                                  size: 40.sp,
+                                                );
+                                              default:
+                                                return null;
                                             }
                                           },
                                         )),

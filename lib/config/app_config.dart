@@ -25,7 +25,7 @@ class AppConfig {
 
   static String? name;
 
-  static String devServer = 'http://dev.sidequesthub.com:8081';
+  static String devServer = 'http://146.56.192.175:8081';
   static String devServer2 = 'http://139.186.149.117:8081';
   static String testServer = 'http://43.136.135.198:8081';
   static String prodServer = 'https://sidequesthub.com:8081';

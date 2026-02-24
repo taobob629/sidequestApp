@@ -49,7 +49,7 @@ class MainPage extends StatelessWidget {
           showInfo("Press again to exit".tr);
         } else {
           controller.lastPopTime = DateTime.now();
-          // 閫€鍑篴pp
+          // 退出app
           // await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
           exit(0);
         }
@@ -61,7 +61,7 @@ class MainPage extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(0),
             child: AppBar(
-              title: const Text("Flutter 鐣欑潃鐘舵€佹爮楂樺害锛屽幓鎺塧ppbar楂樺害"),
+              title: const Text("Flutter 留着状态栏高度，去掉appbar高度"),
             ),
           ),
           body: Column(
@@ -92,7 +92,7 @@ class MainPage extends StatelessWidget {
                             controller.updateCurrentIndex(0);
                           },
                         ),
-                        // 隐藏第二个TAB - TabEventsPage
+                        // ���صڶ���TAB - TabEventsPage
         // TabButton(
         //   index: 1,
         //   currentIndex: controller.currentIndex.value,
@@ -192,7 +192,7 @@ class MainPageController extends FullLifeCycleController
 
   Future<void> _requestPermission() async {
     if (Platform.isAndroid) {
-      // Android 13+ 闇€瑕佹墜鍔ㄨ姹傞€氱煡鏉冮檺
+      // Android 13+ 需要手动请求通知权限
       if (await Permission.notification.isDenied) {
         await Permission.notification.request();
       }
@@ -290,7 +290,6 @@ class MainPageController extends FullLifeCycleController
     print('onDidReceiveLocalNotification: $title');
   }
 }
-
 
 
 

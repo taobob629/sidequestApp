@@ -3,7 +3,6 @@ buildscript {
 //    ext.kotlin_version = '1.7.10'
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 
@@ -15,13 +14,28 @@ buildscript {
     }
 }
 
+// 全局强制使用SDK 34
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                compileSdkVersion 34
+                if (project.android.hasProperty('defaultConfig')) {
+                    project.android.defaultConfig {
+                        targetSdkVersion 34
+                    }
+                }
+            }
+        }
+    }
+}
+
 allprojects {
     repositories {
         flatDir {
             dirs 'libs'
         }
         google()
-        jcenter()
         mavenCentral()
     }
 }
@@ -32,6 +46,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

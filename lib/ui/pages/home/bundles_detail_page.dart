@@ -47,6 +47,16 @@ class BundlesDetailPage extends StatelessWidget {
                                     height: 274.h,
                                     fit: BoxFit.cover,
                                   );
+                                case LoadState.loading:
+                                  return Container(
+                                    height: 274.h,
+                                    alignment: Alignment.center,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                default:
+                                  return null;
                               }
                             },
                           ),
