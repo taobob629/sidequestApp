@@ -173,7 +173,7 @@ class MainPageController extends FullLifeCycleController
   UserController userController = Get.find<UserController>();
 
   List<Widget> tabs = [
-    Container(color: Color(0xFF0A0A0A)),  // Placeholder for IndexPage
+    IndexPage(),
     StorePage(),
     TabHubsPage(),
     MyProfilePage(),
