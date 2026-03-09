@@ -52,8 +52,8 @@ class ChangePasswordPage extends StatelessWidget {
                           ],
                     label: type == 1 ? "Old Password".tr : "Old Pin".tr,
                     tips: type == 1
-                        ? "Input your old password".tr
-                        : "Input your old pin".tr)
+                        ? "Input your current password".tr
+                        : "Input your current pin".tr)
                 : InputView(
                     autoHeight: true,
                     controller: controller.oldController,

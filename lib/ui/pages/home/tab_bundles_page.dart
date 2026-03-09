@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:geolocator/geolocator.dart';
@@ -154,15 +155,22 @@ class TabBundlesPage extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       4.verticalSpace,
-                                      Text(
-                                        controller.list[i].brief ?? '',
-                                        style: TextStyle(
-                                          fontFamily: FONT_LIGHT,
-                                          fontSize: 12.sp,
-                                          color: Colors.white.withOpacity(0.6),
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
+                                      Html(
+                                        data: controller.list[i].brief ?? '',
+                                        style: {
+                                          "body": Style(
+                                            fontFamily: FONT_LIGHT,
+                                            fontSize: FontSize(12.sp),
+                                            color: Colors.white.withOpacity(0.6),
+                                            margin: Margins.zero,
+                                          ),
+                                          "p": Style(
+                                            fontFamily: FONT_LIGHT,
+                                            fontSize: FontSize(12.sp),
+                                            color: Colors.white.withOpacity(0.6),
+                                            margin: Margins.zero,
+                                          ),
+                                        },
                                       ),
                                       4.verticalSpace,
                                       Text(
@@ -292,16 +300,24 @@ class TabBundlesPage extends StatelessWidget {
                     ),
                     Visibility(
                       visible: controller.selectList[i].brief != null,
-                      child: Text(
-                        '${controller.selectList[i].brief}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 10.sp,
-                          fontFamily: FONT_LIGHT,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      child: Html(
+                        data: controller.selectList[i].brief ?? '',
+                        style: {
+                          "body": Style(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: FontSize(10.sp),
+                            fontFamily: FONT_LIGHT,
+                            fontWeight: FontWeight.w400,
+                            margin: Margins.zero,
+                          ),
+                          "p": Style(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: FontSize(10.sp),
+                            fontFamily: FONT_LIGHT,
+                            fontWeight: FontWeight.w400,
+                            margin: Margins.zero,
+                          ),
+                        },
                       ),
                     )
                   ],

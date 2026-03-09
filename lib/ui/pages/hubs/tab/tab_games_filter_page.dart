@@ -155,7 +155,7 @@ class TabGamesFilterController extends GetxController {
     GamesLeftTabBean(name: "PC".tr, icon: ImageUtils.tab_pc_icon),
     GamesLeftTabBean(name: "Console".tr, icon: ImageUtils.tab_console_icon),
     GamesLeftTabBean(name: "Racing\nsims".tr, icon: ImageUtils.tab_racing_icon),
-    GamesLeftTabBean(name: "Favorite".tr, icon: ImageUtils.tab_favorite_icon),
+    // GamesLeftTabBean(name: "Favorite".tr, icon: ImageUtils.tab_favorite_icon),
   ];
 
   var selectLeftTabIndex = 0.obs;

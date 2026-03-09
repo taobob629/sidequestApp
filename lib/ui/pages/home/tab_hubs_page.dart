@@ -65,7 +65,7 @@ class TabHubsPage extends StatelessWidget {
           if (controller.selectTopTabIndex.value == 0) TabBubbleTeaPage(),
           if (controller.selectTopTabIndex.value == 1) TabBundlesPage(),
           if (controller.selectTopTabIndex.value == 2) TabGamesFilterPage(),
-          if (controller.selectTopTabIndex.value == 3) TabCybercafePage(),
+          // if (controller.selectTopTabIndex.value == 3) TabCybercafePage(),
         ],
       ));
 }
@@ -73,7 +73,7 @@ class TabHubsPage extends StatelessWidget {
 class TabHubsPageController extends GetxController {
   static TabHubsPageController get find => Get.find();
 
-  List<String> topTabs = ["Bubble tea".tr, "Bundles".tr, "Games".tr, "Stores".tr, ];
+  List<String> topTabs = ["Bubble tea".tr, "Bundles".tr, "Games".tr, ];
 
   var selectTopTabIndex = 0.obs;
 
@@ -84,7 +84,7 @@ class TabHubsPageController extends GetxController {
     Get.put(TabGamesFilterController());
     Get.put(TabBubbleTeaCtr());
     Get.put(TabBundlesPageController());
-    Get.put(CybercafeController());
+    // Get.put(CybercafeController());
   }
 
   @override
@@ -106,8 +106,9 @@ class TabHubsPageController extends GetxController {
       TabBundlesPageController.find.requestStoreList();
     } else if (selectTopTabIndex.value == 2) {
       TabGamesFilterController.find.requestData();
-    } else if (selectTopTabIndex.value == 3) {
-      CybercafeController.find.onRefresh();
     }
+    // else if (selectTopTabIndex.value == 3) {
+    //   CybercafeController.find.onRefresh();
+    // }
   }
 }

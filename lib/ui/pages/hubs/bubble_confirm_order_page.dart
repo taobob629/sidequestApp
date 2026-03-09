@@ -191,45 +191,45 @@ class BubbleConfirmOrderPage extends StatelessWidget {
                       20.verticalSpace,
                       Row(
                         children: [
-                          Expanded(
-                            child: Text(
-                              'PICKUP AT'.tr,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () =>
-                                ctr.eatin.value == 0 ? null : ctr.selectTime(),
-                            child: Obx(() => Row(
-                                  children: [
-                                    Text(
-                                      ctr.eatin.value == 0
-                                          ? 'Now'
-                                          : '${ctr.selectHour.value} : ${ctr.selectMin.value}'
-                                              .tr,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13.sp,
-                                        fontFamily: FONT_MEDIUM,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: ctr.eatin.value != 0,
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.white,
-                                        size: 14.sp,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ),
+                          // Expanded(
+                          //   child: Text(
+                          //     'PICKUP AT'.tr,
+                          //     style: TextStyle(
+                          //       color: Colors.white.withOpacity(0.6),
+                          //       fontSize: 13.sp,
+                          //       fontFamily: FONT_MEDIUM,
+                          //       fontWeight: FontWeight.w600,
+                          //     ),
+                          //   ),
+                          // ),
+                          // InkWell(
+                          //   onTap: () =>
+                          //       ctr.eatin.value == 0 ? null : ctr.selectTime(),
+                          //   child: Obx(() => Row(
+                          //         children: [
+                          //           Text(
+                          //             ctr.eatin.value == 0
+                          //                 ? 'Now'
+                          //                 : '${ctr.selectHour.value} : ${ctr.selectMin.value}'
+                          //                     .tr,
+                          //             style: TextStyle(
+                          //               color: Colors.white,
+                          //               fontSize: 13.sp,
+                          //               fontFamily: FONT_MEDIUM,
+                          //               fontWeight: FontWeight.w400,
+                          //             ),
+                          //           ),
+                          //           Visibility(
+                          //             visible: ctr.eatin.value != 0,
+                          //             child: Icon(
+                          //               Icons.arrow_forward_ios,
+                          //               color: Colors.white,
+                          //               size: 14.sp,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       )),
+                          // ),
                         ],
                       ),
                     ],

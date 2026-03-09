@@ -485,17 +485,17 @@ class MyProfilePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(
-                          child: Obx(() => _dashboardLabelItem(
-                                ImageUtils.icon_connection,
-                                "Connections".tr,
-                                badgeNum:
-                                    userController.userProfile.approvalNum,
-                                onTap: () => Get.to(
-                                  () => ConnectionsPage(),
-                                )?.then((value) => t.onRefresh()),
-                              )),
-                        ),
+                        // Expanded(
+                        //   child: Obx(() => _dashboardLabelItem(
+                        //         ImageUtils.icon_connection,
+                        //         "Connections".tr,
+                        //         badgeNum:
+                        //             userController.userProfile.approvalNum,
+                        //         onTap: () => Get.to(
+                        //           () => ConnectionsPage(),
+                        //         )?.then((value) => t.onRefresh()),
+                        //       )),
+                        // ),
                         Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_consumption,
@@ -520,6 +520,8 @@ class MyProfilePage extends StatelessWidget {
                                     : 0,
                               )),
                         ),
+                        // Placeholder to maintain 4-column layout for consistent spacing
+                        Expanded(child: Container()),
                       ],
                     ),
                   ],

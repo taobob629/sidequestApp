@@ -11,6 +11,8 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
+import 'package:sq_hub_app/ui/pages/stores/store_page.dart';
+import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
@@ -106,8 +108,8 @@ class MainPage extends StatelessWidget {
                         TabButton(
                           index: 1,
                           currentIndex: controller.currentIndex.value,
-                          selectIconName: ImageUtils.tab_games,
-                          normalIconName: ImageUtils.tab_games_normal,
+                          selectIconName: ImageUtils.tab_stores,
+                          normalIconName: ImageUtils.tab_stores_normal,
                           onTap: () {
                             LocationService().init();
                             controller.controller.jumpToPage(1);
@@ -116,6 +118,17 @@ class MainPage extends StatelessWidget {
                         ),
                         TabButton(
                           index: 2,
+                          currentIndex: controller.currentIndex.value,
+                          selectIconName: ImageUtils.tab_games,
+                          normalIconName: ImageUtils.tab_games_normal,
+                          onTap: () {
+                            LocationService().init();
+                            controller.controller.jumpToPage(2);
+                            controller.updateCurrentIndex(2);
+                          },
+                        ),
+                        TabButton(
+                          index: 3,
                           currentIndex: controller.currentIndex.value,
                           selectIconName: ImageUtils.tab_profile,
                           normalIconName: ImageUtils.tab_profile_normal,
@@ -160,8 +173,8 @@ class MainPageController extends FullLifeCycleController
   UserController userController = Get.find<UserController>();
 
   List<Widget> tabs = [
-    IndexPage(),
-     // TabEventsPage(),
+    Container(color: Color(0xFF0A0A0A)),  // Placeholder for IndexPage
+    StorePage(),
     TabHubsPage(),
     MyProfilePage(),
   ];

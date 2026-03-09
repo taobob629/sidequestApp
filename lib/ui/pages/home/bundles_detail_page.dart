@@ -1,5 +1,6 @@
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/config/app_color.dart';
@@ -116,19 +117,24 @@ class BundlesDetailPage extends StatelessWidget {
                             ).paddingOnly(left: 16.w, top: 20.h),
                             Visibility(
                               visible: ctr.model.value.brief != null,
-                              child: Text(
-                                ctr.model.value.brief ?? '',
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.6),
-                                  fontSize: 13.sp,
-                                  fontFamily: 'DIN',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ).paddingOnly(
-                                left: 16.w,
-                                right: 110.w,
-                                top: 16.h,
-                                bottom: 12.h,
+                              child: Html(
+                                data: ctr.model.value.brief ?? '',
+                                style: {
+                                  "body": Style(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: FontSize(13.sp),
+                                    fontFamily: 'DIN',
+                                    fontWeight: FontWeight.w400,
+                                    margin: Margins.only(left: 16.w, right: 110.w, top: 16.h, bottom: 12.h),
+                                  ),
+                                  "p": Style(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: FontSize(13.sp),
+                                    fontFamily: 'DIN',
+                                    fontWeight: FontWeight.w400,
+                                    margin: Margins.zero,
+                                  ),
+                                },
                               ),
                             ),
                             Row(
@@ -186,15 +192,25 @@ class BundlesDetailPage extends StatelessWidget {
                                     ],
                                   ).paddingOnly(
                                       left: 16.w, top: 20.h, right: 16.w),
-                                  Text(
-                                    '${ctr.model.value.introduce}',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.6),
-                                      fontSize: 14.sp,
-                                      fontFamily: 'DIN',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ).paddingOnly(left: 44.w, top: 20.h),
+                                  Html(
+                                    data: ctr.model.value.introduce ?? '',
+                                    style: {
+                                      "body": Style(
+                                        color: Colors.white.withOpacity(0.6),
+                                        fontSize: FontSize(14.sp),
+                                        fontFamily: 'DIN',
+                                        fontWeight: FontWeight.w400,
+                                        margin: Margins.only(left: 28.w, top: 20.h),
+                                      ),
+                                      "p": Style(
+                                        color: Colors.white.withOpacity(0.6),
+                                        fontSize: FontSize(14.sp),
+                                        fontFamily: 'DIN',
+                                        fontWeight: FontWeight.w400,
+                                        margin: Margins.zero,
+                                      ),
+                                    },
+                                  ),
                                 ],
                               ),
                             ),

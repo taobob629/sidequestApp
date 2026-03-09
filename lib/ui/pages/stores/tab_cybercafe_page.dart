@@ -12,7 +12,7 @@ import '../../../widget/image_util.dart';
 import '../booking/booking_detail_page.dart';
 
 class TabCybercafePage extends StatelessWidget {
-  final _ctr = CybercafeController.find;
+  CybercafeController get _ctr => Get.find<CybercafeController>();
 
   @override
   Widget build(BuildContext context) {

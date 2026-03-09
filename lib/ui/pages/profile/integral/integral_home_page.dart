@@ -472,31 +472,6 @@ class IntegralHomePage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    14.horizontalSpace,
-                                    InkWell(
-                                      onTap: () => t.isAppTab.value = false,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: !t.isAppTab.value
-                                              ? Colors.yellow
-                                              : Colors.transparent,
-                                          borderRadius:
-                                              BorderRadius.circular(6.r),
-                                        ),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 6.w, vertical: 3.h),
-                                        child: Text(
-                                          "Store check-in".tr,
-                                          style: TextStyle(
-                                            color: !t.isAppTab.value
-                                                ? Colors.black
-                                                : Colors.white,
-                                            fontSize: 13.sp,
-                                            fontFamily: "DIN",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 )),
                             10.verticalSpace,
@@ -504,46 +479,47 @@ class IntegralHomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      titleWidget(
-                        leftText: "Task Center".tr,
-                        marginLeft: 0,
-                        marginRight: 0,
-                        viewAllText: '',
-                        taskCenterKey: t.taskCenterKey,
-                      ),
-                      Container(
-                        height: 30.h,
-                        margin: EdgeInsets.only(bottom: 14.h),
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (c, i) => Obx(() => GestureDetector(
-                                onTap: () => t.selectTaskCenterTab(i),
-                                child: Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 14.w),
-                                  decoration: BoxDecoration(
-                                    color: t.taskCenterIndex.value == i
-                                        ? hexColor('#FFB20E')
-                                        : hexColor('#212127'),
-                                    borderRadius: BorderRadius.circular(30.r),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    t.taskCenterTab[i]["name"],
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                    ),
-                                  ),
-                                ),
-                              )),
-                          separatorBuilder: (c, i) => 10.horizontalSpace,
-                          itemCount: t.taskCenterTab.length,
-                        ),
-                      ),
-                      taskCenterWidget(),
+                      // Task Center 已隐藏
+                      // titleWidget(
+                      //   leftText: "Task Center".tr,
+                      //   marginLeft: 0,
+                      //   marginRight: 0,
+                      //   viewAllText: '',
+                      //   taskCenterKey: t.taskCenterKey,
+                      // ),
+                      // Container(
+                      //   height: 30.h,
+                      //   margin: EdgeInsets.only(bottom: 14.h),
+                      //   child: ListView.separated(
+                      //     scrollDirection: Axis.horizontal,
+                      //     padding: EdgeInsets.zero,
+                      //     itemBuilder: (c, i) => Obx(() => GestureDetector(
+                      //         onTap: () => t.selectTaskCenterTab(i),
+                      //         child: Container(
+                      //           padding:
+                      //               EdgeInsets.symmetric(horizontal: 14.w),
+                      //           decoration: BoxDecoration(
+                      //             color: t.taskCenterIndex.value == i
+                      //                 ? hexColor('#FFB20E')
+                      //                 : hexColor('#212127'),
+                      //             borderRadius: BorderRadius.circular(30.r),
+                      //           ),
+                      //           alignment: Alignment.center,
+                      //           child: Text(
+                      //             t.taskCenterTab[i]["name"],
+                      //             style: TextStyle(
+                      //               color: Colors.white,
+                      //               fontSize: 14.sp,
+                      //               fontFamily: FONT_MEDIUM,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       )),
+                      //     separatorBuilder: (c, i) => 10.horizontalSpace,
+                      //     itemCount: t.taskCenterTab.length,
+                      //   ),
+                      // ),
+                      // taskCenterWidget(),
                       titleWidget(
                         leftText: "Points Redemption".tr,
                         marginLeft: 0,
