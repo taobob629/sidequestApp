@@ -40,8 +40,8 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 34
-    buildToolsVersion "34.0.0"
+    namespace "uk.co.sidequest.wy"
+    compileSdk 34
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -135,5 +135,3 @@ configurations.all {
         }
     }
 }
-
-

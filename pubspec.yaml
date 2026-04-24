@@ -112,6 +112,7 @@ dependency_overrides:
   modal_bottom_sheet: ^3.0.0-pre
   js: 0.6.4
   in_app_purchase: 3.1.7
+  vm_service: 7.1.1
 #  path_provider: 2.0.11
 #  uuid: 3.0.6
 dev_dependencies:

@@ -16,173 +16,173 @@ class TabCybercafePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Obx(() => SmartRefresher(
-        controller: _ctr.refreshController,
-        onLoading: () => _ctr.loadMore(),
-        onRefresh: () => _ctr.onRefresh(),
-        enablePullUp: true,
-        child: ListView.separated(
-          padding: EdgeInsets.zero,
-          itemCount: _ctr.list.length,
-          separatorBuilder: (BuildContext context, int index) =>
-          20.verticalSpace,
-          itemBuilder: (context, index) {
-            final model = _ctr.list[index];
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () =>
-                  Get.to(() => BookingDetailPage(), arguments: model.id),
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.w),
-                height: 320.h,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        decoration: ShapeDecoration(
-                          color: Color(0xFF141414),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.r),
+    return Obx(() => SmartRefresher(
+      controller: _ctr.refreshController,
+      onLoading: () => _ctr.loadMore(),
+      onRefresh: () => _ctr.onRefresh(),
+      enablePullUp: true,
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        itemCount: _ctr.list.length,
+        separatorBuilder: (BuildContext context, int index) =>
+        16.verticalSpace,
+        itemBuilder: (context, index) {
+          final model = _ctr.list[index];
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () =>
+                Get.to(() => BookingDetailPage(), arguments: model.id),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF121212),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.r),
+                          topRight: Radius.circular(20.r),
+                        ),
+                        child: ImageUtil.networkImage(
+                          url: model.headImage,
+                          height: 180.h,
+                          width: Get.width,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned(
+                        left: 16.w,
+                        top: -8.h,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 14.w,
+                            vertical: 8.h,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFFFB20E), Color(0xFFFF9500)],
+                            ),
+                            borderRadius: BorderRadius.circular(12.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            model.shortName,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontFamily: ZEN_DOTS,
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(16.r),
-                                topLeft: Radius.circular(16.r),
-                              ),
-                              child: ImageUtil.networkImage(
-                                url: model.headImage,
-                                height: 180.h,
-                                width: Get.width,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            15.verticalSpace,
-                            Row(
-                              children: [
-                                16.horizontalSpace,
-                                Expanded(
-                                  child: Text(
-                                    model.name,
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
+                            Expanded(
+                              child: Text(
+                                model.name,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontFamily: FONT_MEDIUM,
                                   color: Colors.white,
-                                  size: 18.sp,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
                                 ),
-                                16.horizontalSpace,
-                              ],
-                            ),
-                            10.verticalSpace,
-                            Row(
-                              children: [
-                                16.horizontalSpace,
-                                Text(
-                                  'In operation'.tr,
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    color: Color(0xff32BE48),
-                                  ),
-                                ),
-                                10.horizontalSpace,
-                                Text(
-                                  model.openTime,
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: FONT_MEDIUM,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            10.verticalSpace,
-                            Transform.translate(
-                              offset: Offset(-4.w, 0),
-                              child: Row(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  14.horizontalSpace,
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.white.withOpacity(0.6),
-                                    size: 18.sp,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      height: 36.h,
-                                      child: Text(
-                                        model.address,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          color:
-                                          Colors.white.withOpacity(0.6),
-                                          height: 1.5,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
-                            10.verticalSpace,
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white.withOpacity(0.6),
+                              size: 20.sp,
+                            ),
                           ],
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 16.w,
-                      top: 0,
-                      child: Container(
-                        width: 46.w,
-                        height: 50.h,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              ImageUtils.store_ranking_icon,
+                        12.verticalSpace,
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF10b981),
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              child: Text(
+                                'In operation'.tr,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
-                          ),
+                            16.horizontalSpace,
+                            Text(
+                              model.openTime,
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontFamily: FONT_MEDIUM,
+                                color: Colors.white.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
                         ),
-                        padding: EdgeInsets.only(top: 10.h),
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          _ctr.list[index].shortName,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.sp,
-                            fontFamily: ZEN_DOTS,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        10.verticalSpace,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.white.withOpacity(0.6),
+                              size: 15.sp,
+                            ),
+                            6.horizontalSpace,
+                            Expanded(
+                              child: Text(
+                                model.address,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  color: Colors.white.withOpacity(0.6),
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
-        ),
-      )),
-    );
+            ),
+          );
+        },
+      ),
+    ));
   }
 }
 

@@ -1692,7 +1692,7 @@
         <entry key="vm_service">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/vm_service-7.5.0/lib" />
+              <option value="$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/vm_service-7.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -2040,7 +2040,7 @@
       <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/video_player_avfoundation-2.4.11/lib" />
       <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/video_player_platform_interface-6.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/video_player_web-2.0.17/lib" />
-      <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/vm_service-7.5.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/vm_service-7.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/wakelock-0.6.2/lib" />
       <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/wakelock_macos-0.4.0/lib" />
       <root url="file://$PROJECT_DIR$/../../Android/flutter_cache/hosted/pub.flutter-io.cn/wakelock_platform_interface-0.3.0/lib" />

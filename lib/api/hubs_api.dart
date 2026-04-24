@@ -6,6 +6,9 @@ import '../model/bubble_tea_ad_model.dart';
 import '../model/bubble_tea_store_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
+import '../model/top_food_model.dart';
+import '../model/top_game_model.dart';
+import '../model/top_tea_model.dart';
 import '../model/vip_info_model.dart';
 
 class HubsApi {
@@ -110,5 +113,38 @@ class HubsApi {
       "couponId": couponId,
     });
     return BubbleConfirmOrderModel.fromJson(response.data);
+  }
+
+  static Future<List<TopTeaModel>> getTopTeas() async {
+    var response = await http.get('/sideQuest/app/hubs/topTeas');
+    if (response.data == null) {
+      return [];
+    }
+    List<TopTeaModel> list = response.data
+        .map<TopTeaModel>((item) => TopTeaModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+  static Future<List<TopGameModel>> getTopGames() async {
+    var response = await http.get('/sideQuest/app/hubs/topGames');
+    if (response.data == null) {
+      return [];
+    }
+    List<TopGameModel> list = response.data
+        .map<TopGameModel>((item) => TopGameModel.fromJson(item))
+        .toList();
+    return list;
+  }
+
+  static Future<List<TopFoodModel>> getTopFoods() async {
+    var response = await http.get('/sideQuest/app/hubs/topFoods');
+    if (response.data == null) {
+      return [];
+    }
+    List<TopFoodModel> list = response.data
+        .map<TopFoodModel>((item) => TopFoodModel.fromJson(item))
+        .toList();
+    return list;
   }
 }

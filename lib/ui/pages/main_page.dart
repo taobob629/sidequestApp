@@ -183,6 +183,7 @@ class MainPageController extends FullLifeCycleController
   void onInit() async {
     super.onInit();
     LocationService().init();
+    currentIndex.value = 3; // 默认打开个人资料页面
     controller = PageController(initialPage: currentIndex.value);
     // controller.addListener(() {
     //   var curpage = controller.page;
