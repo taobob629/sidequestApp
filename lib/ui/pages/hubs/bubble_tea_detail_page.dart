@@ -421,9 +421,18 @@ class BubbleTeaDetailPage extends StatelessWidget {
             //   ),
             // ),
             Obx(() => InkWell(
-                  onTap: () => TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
-                      ? Get.to(() => BubbleConfirmOrderPage())
-                      : null,
+                  onTap: () {
+                    if (TabBubbleTeaCtr.find.selectTeaList.isNotEmpty) {
+                      showLoading();
+                      try {
+                        Get.to(() => BubbleConfirmOrderPage(), transition: Transition.noTransition);
+                      } catch (e) {
+                        print('导航错误: $e');
+                      } finally {
+                        dismissLoading();
+                      }
+                    }
+                  },
                   child: Container(
                     width: 100.w,
                     height: 44.w,

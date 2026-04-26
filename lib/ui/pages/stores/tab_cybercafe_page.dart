@@ -12,7 +12,13 @@ import '../../../widget/image_util.dart';
 import '../booking/booking_detail_page.dart';
 
 class TabCybercafePage extends StatelessWidget {
-  CybercafeController get _ctr => Get.find<CybercafeController>();
+  CybercafeController get _ctr {
+    // 确保控制器已经注册
+    if (!Get.isRegistered<CybercafeController>()) {
+      Get.put(CybercafeController());
+    }
+    return Get.find<CybercafeController>();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -18,17 +18,18 @@ class _StorePageState extends State<StorePage> {
   @override
   void initState() {
     super.initState();
+    // 直接注册CybercafeController，确保在页面构建前就完成注册
+    if (!Get.isRegistered<CybercafeController>()) {
+      Get.put(CybercafeController());
+    }
+    CybercafeController.find.onRefresh();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadContent();
     });
   }
 
   void _loadContent() {
-    if (!Get.isRegistered<CybercafeController>()) {
-      Get.put(CybercafeController());
-    }
-    CybercafeController.find.onRefresh();
-
     setState(() {
       _content = SafeArea(
         bottom: true,

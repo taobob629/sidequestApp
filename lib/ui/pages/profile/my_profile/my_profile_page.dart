@@ -103,11 +103,20 @@ class MyProfilePage extends StatelessWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => showCustom(
-                            SelectAvatarDialog(),
-                            alignment: Alignment.bottomCenter,
-                            clickMaskDismiss: true,
-                          ),
+                          onTap: () {
+                            // 当用户数据为空或token为空时，进入登录界面
+                            if (StorageManager.getToken().isEmpty || 
+                                userController.userProfile.memberId == 0 ||
+                                userController.userProfile.memberId == null) {
+                              NavigatorHelper.gotoLoginPage();
+                            } else {
+                              showCustom(
+                                SelectAvatarDialog(),
+                                alignment: Alignment.bottomCenter,
+                                clickMaskDismiss: true,
+                              );
+                            }
+                          },
                           child: Obx(() => Container(
                                 alignment: Alignment.center,
                                 child: Opacity(
@@ -140,9 +149,23 @@ class MyProfilePage extends StatelessWidget {
                                   Row(
                                     children: [
                                       Flexible(
-                                        child: Obx(() => Text(
-                                              userController
-                                                  .userProfile.nickName,
+                                        child: Obx(() {
+                                          var userProfile = userController.getRxuserProfile().value;
+                                          return GestureDetector(
+                                            onTap: () {
+                                              // 当用户数据为空或token为空时，进入登录界面
+                                              if (StorageManager.getToken().isEmpty || 
+                                                  userProfile.memberId == 0 ||
+                                                  userProfile.memberId == null) {
+                                                NavigatorHelper.gotoLoginPage();
+                                              }
+                                            },
+                                            child: Text(
+                                              StorageManager.getToken().isEmpty || 
+                                              userProfile.memberId == 0 ||
+                                              userProfile.memberId == null
+                                                  ? 'LOGIN'
+                                                  : userProfile.nickName,
                                               style: TextStyle(
                                                 fontSize: 20.sp,
                                                 color: Colors.white,
@@ -150,7 +173,9 @@ class MyProfilePage extends StatelessWidget {
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                            )),
+                                            ),
+                                          );
+                                        }),
                                       ),
                                       6.horizontalSpace,
                                       Obx(() => Visibility(
@@ -814,7 +839,7 @@ class ProfileController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    print('ProfileController onInit called');
+    // print('ProfileController onInit called');
     refreshController = RefreshController(initialRefresh: false);
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     background.value =
@@ -824,35 +849,35 @@ class ProfileController extends GetxController
     }
 
     userController.getRxuserProfile().listen((info) {
-      print('Profile updated: ${info.nickName}, memberId: ${info.memberId}');
+      // print('Profile updated: ${info.nickName}, memberId: ${info.memberId}');
       background.value = info.backGround;
       // 当用户信息更新时，同时更新user.value
       user.value = info;
-      print('user.value updated: ${user.value}');
+      // print('user.value updated: ${user.value}');
     });
 
     // 初始化用户数据
-    print('Initializing user data...');
-    print('UserController.userProfile: ${UserController.find.userProfile}');
-    print(
-        'UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
-    print('StorageManager.getToken(): ${StorageManager.getToken()}');
+    // print('Initializing user data...');
+    // print('UserController.userProfile: ${UserController.find.userProfile}');
+    // print(
+    //     'UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
+    // print('StorageManager.getToken(): ${StorageManager.getToken()}');
     user.value = UserController.find.userProfile;
-    print('Initial user.value: ${user.value}');
-    print('Initial user.value.memberId: ${user.value.memberId}');
+    // print('Initial user.value: ${user.value}');
+    // print('Initial user.value.memberId: ${user.value.memberId}');
 
     // 无论用户数据是否为空，只要有token就尝试更新
     if (StorageManager.getToken().isNotEmpty) {
-      print('Token exists, calling updateInfo...');
+      // print('Token exists, calling updateInfo...');
       userController.updateInfo().then((_) {
-        print('updateInfo completed');
-        print(
-            'After update - UserController.userProfile: ${UserController.find.userProfile}');
-        print(
-            'After update - UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
+        // print('updateInfo completed');
+        // print(
+        //     'After update - UserController.userProfile: ${UserController.find.userProfile}');
+        // print(
+        //     'After update - UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
         user.value = UserController.find.userProfile;
-        print('After update - user.value: ${user.value}');
-        print('After update - user.value.memberId: ${user.value.memberId}');
+        // print('After update - user.value: ${user.value}');
+        // print('After update - user.value.memberId: ${user.value.memberId}');
       }).catchError((error) {
         print('Error in updateInfo: $error');
       });

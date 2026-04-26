@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
 import 'package:sq_hub_app/utils/toast_utils.dart';
@@ -15,7 +15,6 @@ import '../model/bubble_tea_store_model.dart';
 import '../model/goods_detail_model.dart';
 import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
-import '../service/location_service.dart';
 import '../ui/pages/hubs/bubble_tea_detail_page.dart';
 import '../ui/pages/hubs/tea_ad_list_page.dart';
 import 'bubble_tea_detail_ctr.dart';
@@ -48,37 +47,17 @@ class TabBubbleTeaCtr extends GetxController {
   // var sb = "".obs;
   var isLoading = true.obs;
 
-  LocationService locationService = LocationService();
-
-  // 位置监听的变量，收到LocationService里面的Getx的position的回调
-  late Worker everPosition;
-
   @override
   void onInit() {
     super.onInit();
-
-    everPosition =
-        ever(locationService.position, (Position? pos) => calDistance());
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-
-    everPosition.dispose();
   }
 
   void calDistance() {
     for (int i = 0; i < storesList.length; i++) {
       if (storesList[i].map != null) {
         List<String> latLog =
-        storesList[i].map!.replaceAll(" ", "").split(",");
-        double distances = Geolocator.distanceBetween(
-          locationService.position.value?.latitude ?? 51.51272691932477,
-          locationService.position.value?.longitude ?? -0.12896615379992515,
-          double.parse(latLog[0]),
-          double.parse(latLog[1]),
-        );
+            storesList[i].map!.replaceAll(" ", "").split(",");
+        double distances = 0.0;
         if (i == 0) {
           minDistances.value = distances;
         }
@@ -212,17 +191,6 @@ class TabBubbleTeaCtr extends GetxController {
     if (value != null) {
       categoryStr.value = 'All/Select Type';
       currentSelectStore.value = value as BubbleTeaStoreModel;
-      if (currentSelectStore.value.map != null) {
-        List<String> latLog =
-            currentSelectStore.value.map!.replaceAll(" ", "").split(",");
-
-        minDistances.value = Geolocator.distanceBetween(
-          locationService.position.value?.latitude ?? 51.51272691932477,
-          locationService.position.value?.longitude ?? -0.12896615379992515,
-          double.parse(latLog[0]),
-          double.parse(latLog[1]),
-        );
-      }
 
       clearTea();
       requestStoreInDataByStoreId(currentSelectStore.value.id, true);

@@ -12,6 +12,7 @@ import '../../../getx_ctr/bubble_confirm_order_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../model/pay_order_model.dart';
 import '../../../utils/navigator_helper.dart';
+import '../../../utils/toast_utils.dart';
 import '../../../widget/container_tab_indicator.dart';
 
 class BubbleConfirmOrderPage extends StatelessWidget {
@@ -44,414 +45,397 @@ class BubbleConfirmOrderPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            width: 1.sw,
-            height: 200.h,
-            margin: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 18.h,
-            ),
-            decoration: ShapeDecoration(
-              color: Color(0xFF141517),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    width: 230.w,
-                    height: 148.h,
-                    decoration: ShapeDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [Color(0xFF231E13), Color(0x00141517)],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                    ),
+      body: Expanded(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 80.h),
+          child: Column(
+            children: [
+              Container(
+                width: 1.sw,
+                height: 150.h,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 12.h,
+                ),
+                decoration: ShapeDecoration(
+                  color: Color(0xFF141517),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
                   ),
                 ),
-                Positioned(
-                  right: 36.w,
-                  top: 7.h,
-                  width: 38.w,
-                  height: 38.h,
-                  child: Image.asset(ImageUtils.tea_icon),
-                ),
-                Positioned(
-                  right: 8.w,
-                  top: 32.h,
-                  width: 25.w,
-                  height: 25.h,
-                  child: Image.asset(ImageUtils.tea_app_logo_icon),
-                ),
-                Positioned(
-                  right: 14.w,
-                  top: 18.h,
-                  left: 14.w,
-                  bottom: 22.h,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${TabBubbleTeaCtr.find.currentSelectStore.value.name}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontFamily: FONT_MEDIUM,
-                          fontWeight: FontWeight.w600,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        width: 230.w,
+                        height: 148.h,
+                        decoration: ShapeDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [Color(0xFF231E13), Color(0x00141517)],
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
                         ),
                       ),
-                      8.verticalSpace,
-                      Row(
+                    ),
+                    Positioned(
+                      right: 36.w,
+                      top: 7.h,
+                      width: 38.w,
+                      height: 38.h,
+                      child: Image.asset(ImageUtils.tea_icon),
+                    ),
+                    Positioned(
+                      right: 8.w,
+                      top: 32.h,
+                      width: 25.w,
+                      height: 25.h,
+                      child: Image.asset(ImageUtils.tea_app_logo_icon),
+                    ),
+                    Positioned(
+                      right: 14.w,
+                      top: 18.h,
+                      left: 14.w,
+                      bottom: 22.h,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.white.withOpacity(0.6),
-                            size: 12.sp,
-                          ).paddingOnly(top: 4.h),
-                          3.horizontalSpace,
-                          Expanded(
-                            child: Text(
-                              '${TabBubbleTeaCtr.find.currentSelectStore.value.address}',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 10.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w400,
-                                height: 1.8,
-                              ),
+                          Text(
+                            '${TabBubbleTeaCtr.find.currentSelectStore.value.name}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontFamily: FONT_MEDIUM,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ],
-                      ).paddingOnly(right: 45.w),
-                      15.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'TAKE AWAY'.tr,
-                              style: TextStyle(
+                          8.verticalSpace,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.location_on,
                                 color: Colors.white.withOpacity(0.6),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 160.w,
-                            height: 34.h,
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  width: 1.w,
-                                  color: Color(0xFFFFB20E),
+                                size: 12.sp,
+                              ).paddingOnly(top: 4.h),
+                              3.horizontalSpace,
+                              Expanded(
+                                child: Text(
+                                  '${TabBubbleTeaCtr.find.currentSelectStore.value.address}',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: 10.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.8,
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(60.r),
                               ),
-                            ),
-                            child: Theme(
-                              data: Theme.of(context).copyWith(
-                                tabBarTheme:
-                                    Theme.of(context).tabBarTheme.copyWith(
+                            ],
+                          ).paddingOnly(right: 45.w),
+                          15.verticalSpace,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'TAKE AWAY'.tr,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.6),
+                                    fontSize: 13.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 160.w,
+                                height: 34.h,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 1.w,
+                                      color: Color(0xFFFFB20E),
+                                    ),
+                                    borderRadius: BorderRadius.circular(60.r),
+                                  ),
+                                ),
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    tabBarTheme: Theme.of(context)
+                                        .tabBarTheme
+                                        .copyWith(
                                           labelColor: Colors.white,
                                           // 设置想要的选中标签文本颜色
                                           unselectedLabelColor: AppColor.yellow,
                                         ),
-                              ),
-                              child: TabBar(
-                                controller: ctr.tabController,
-                                tabs: ctr.tabs,
-                                labelPadding: EdgeInsets.zero,
-                                overlayColor: MaterialStateProperty.all(
-                                  Colors.transparent,
-                                ),
-                                indicator: ContainerTabIndicator(
-                                  height: 34.h,
-                                  width: 80.w,
-                                  radius: BorderRadius.circular(64.r),
-                                  colors: [AppColor.yellow, AppColor.yellow],
-                                ),
-                                onTap: (index) => ctr.eatin.value = index,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      20.verticalSpace,
-                      Row(
-                        children: [
-                          // Expanded(
-                          //   child: Text(
-                          //     'PICKUP AT'.tr,
-                          //     style: TextStyle(
-                          //       color: Colors.white.withOpacity(0.6),
-                          //       fontSize: 13.sp,
-                          //       fontFamily: FONT_MEDIUM,
-                          //       fontWeight: FontWeight.w600,
-                          //     ),
-                          //   ),
-                          // ),
-                          // InkWell(
-                          //   onTap: () =>
-                          //       ctr.eatin.value == 0 ? null : ctr.selectTime(),
-                          //   child: Obx(() => Row(
-                          //         children: [
-                          //           Text(
-                          //             ctr.eatin.value == 0
-                          //                 ? 'Now'
-                          //                 : '${ctr.selectHour.value} : ${ctr.selectMin.value}'
-                          //                     .tr,
-                          //             style: TextStyle(
-                          //               color: Colors.white,
-                          //               fontSize: 13.sp,
-                          //               fontFamily: FONT_MEDIUM,
-                          //               fontWeight: FontWeight.w400,
-                          //             ),
-                          //           ),
-                          //           Visibility(
-                          //             visible: ctr.eatin.value != 0,
-                          //             child: Icon(
-                          //               Icons.arrow_forward_ios,
-                          //               color: Colors.white,
-                          //               size: 14.sp,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       )),
-                          // ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 1.sw,
-            margin: EdgeInsets.symmetric(
-              horizontal: 16.w,
-            ),
-            decoration: ShapeDecoration(
-              color: Color(0xFF141517),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-            ),
-            padding: EdgeInsets.only(
-              left: 14.w,
-              right: 14.w,
-              top: 18.h,
-              bottom: 22.h,
-            ),
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (c, i) => itemWidget(i),
-              separatorBuilder: (c, i) => 10.verticalSpace,
-              itemCount: TabBubbleTeaCtr.find.selectTeaList.length,
-            ),
-          ),
-          Container(
-            width: 1.sw,
-            margin: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 18.h,
-            ),
-            decoration: ShapeDecoration(
-              color: Color(0xFF141517),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-            ),
-            padding: EdgeInsets.all(8.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Payment Method'.tr,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ).paddingOnly(bottom: 16.h),
-                Obx(() => InkWell(
-                      onTap: () => ctr.isCash.value = true,
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 14.w,
-                            height: 14.w,
-                            margin: EdgeInsets.only(right: 10.w),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 1.w,
-                              ),
-                              borderRadius: BorderRadius.circular(14.r),
-                            ),
-                            alignment: Alignment.center,
-                            child: Container(
-                              width: 10.w,
-                              height: 10.w,
-                              decoration: BoxDecoration(
-                                color: ctr.isCash.value
-                                    ? hexColor('#5EEA41')
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Balance'.tr,
-                              style: TextStyle(
-                                color: hexColor('99ffffff'),
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                              ),
-                            ),
-                          ),
-                          Obx(() => Text(
-                                '£${ctr.totalPrice.value}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22.sp,
-                                  fontFamily: FONT_LIGHT,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                          10.horizontalSpace,
-                          InkWell(
-                            onTap: () => NavigatorHelper.gotoCouponPage(
-                              couponType: 3,
-                              showTabbar: false,
-                              // 只是为了能有返回值创建的一个空的payOrderModel
-                              payOrderModel: PayOrderModel(),
-                              storeId: TabBubbleTeaCtr
-                                  .find.currentSelectStore.value.id,
-                              goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
-                              whenComplete: () =>
-                                  UserController.instance().updateInfo(),
-                              onSelect: (model) => ctr.selectCoupon(model),
-                            ),
-                            child: Obx(() => RichText(
-                                  text: TextSpan(
-                                    text: 'Discount：-${ctr.discount.value} ',
-                                    style: TextStyle(
-                                      color: hexColor('#FFB20E'),
-                                      fontSize: 12.sp,
-                                      fontFamily: FONT_MEDIUM,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    children: [
-                                      WidgetSpan(
-                                        child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.white,
-                                          size: 14.sp,
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                                )),
+                                  child: TabBar(
+                                    controller: ctr.tabController,
+                                    tabs: ctr.tabs,
+                                    labelPadding: EdgeInsets.zero,
+                                    overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent,
+                                    ),
+                                    indicator: ContainerTabIndicator(
+                                      height: 34.h,
+                                      width: 80.w,
+                                      radius: BorderRadius.circular(64.r),
+                                      colors: [
+                                        AppColor.yellow,
+                                        AppColor.yellow
+                                      ],
+                                    ),
+                                    onTap: (index) => ctr.eatin.value = index,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    )),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 16.h,
-                  ),
-                  height: 1.h,
-                  color: hexColor('#303030'),
+                    ),
+                  ],
                 ),
-                // Obx(() => InkWell(
-                //       onTap: () => ctr.isCash.value = false,
-                //       child: Row(
-                //         children: [
-                //           Container(
-                //             width: 14.w,
-                //             height: 14.w,
-                //             margin: EdgeInsets.only(right: 10.w),
-                //             decoration: BoxDecoration(
-                //               border: Border.all(
-                //                 color: Colors.white,
-                //                 width: 1.w,
-                //               ),
-                //               borderRadius: BorderRadius.circular(14.r),
-                //             ),
-                //             alignment: Alignment.center,
-                //             child: Container(
-                //               width: 10.w,
-                //               height: 10.w,
-                //               decoration: BoxDecoration(
-                //                 color: !ctr.isCash.value
-                //                     ? hexColor('#5EEA41')
-                //                     : Colors.transparent,
-                //                 borderRadius: BorderRadius.circular(10.r),
-                //               ),
-                //             ),
-                //           ),
-                //           Expanded(
-                //             child: Text(
-                //               'Points'.tr,
-                //               style: TextStyle(
-                //                 color: hexColor('99ffffff'),
-                //                 fontSize: 13.sp,
-                //                 fontFamily: FONT_MEDIUM,
-                //               ),
-                //             ),
-                //           ),
-                //           Image.asset(
-                //             ImageUtils.coin_red,
-                //             width: 16.w,
-                //             height: 16.w,
-                //           ),
-                //           4.horizontalSpace,
-                //           InkWell(
-                //             onTap: () => NavigatorHelper.gotoCouponPage(
-                //               couponType: 3,
-                //               showTabbar: false,
-                //               // 只是为了能有返回值创建的一个空的payOrderModel
-                //               payOrderModel: PayOrderModel(),
-                //               storeId: TabBubbleTeaCtr
-                //                   .find.currentSelectStore.value.id,
-                //               goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
-                //               whenComplete: () =>
-                //                   UserController.instance().updateInfo(),
-                //               onSelect: (model) => ctr.selectCoupon(model),
-                //             ),
-                //             child: Obx(() => Text(
-                //                   '${ctr.discount.value}Points',
-                //                   style: TextStyle(
-                //                     color: hexColor('#FFB20E'),
-                //                     fontSize: 12.sp,
-                //                     fontFamily: FONT_MEDIUM,
-                //                     fontWeight: FontWeight.w400,
-                //                   ),
-                //                 )),
-                //           ),
-                //         ],
-                //       ),
-                //     )),
-                20.verticalSpace,
-              ],
-            ),
+              ),
+              Container(
+                width: 1.sw,
+                height: 280.h,
+                margin: EdgeInsets.only(
+                  top: 18.h,
+                  left: 16.w,
+                  right: 16.w,
+                ),
+                decoration: ShapeDecoration(
+                  color: Color(0xFF141517),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                ),
+                padding: EdgeInsets.only(
+                  left: 14.w,
+                  right: 14.w,
+                  top: 18.h,
+                  bottom: 22.h,
+                ),
+                child: ListView.separated(
+                  shrinkWrap: false,
+                  itemBuilder: (c, i) => itemWidget(i),
+                  separatorBuilder: (c, i) => 10.verticalSpace,
+                  itemCount: TabBubbleTeaCtr.find.selectTeaList.length,
+                ),
+              ),
+              Container(
+                width: 1.sw,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 18.h,
+                ),
+                decoration: ShapeDecoration(
+                  color: Color(0xFF141517),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                ),
+                padding: EdgeInsets.all(8.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Payment Method'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: FONT_MEDIUM,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ).paddingOnly(bottom: 16.h),
+                    Obx(() => InkWell(
+                          onTap: () => ctr.isCash.value = true,
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 14.w,
+                                height: 14.w,
+                                margin: EdgeInsets.only(right: 10.w),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 1.w,
+                                  ),
+                                  borderRadius: BorderRadius.circular(14.r),
+                                ),
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 10.w,
+                                  height: 10.w,
+                                  decoration: BoxDecoration(
+                                    color: ctr.isCash.value
+                                        ? hexColor('#5EEA41')
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'Balance'.tr,
+                                  style: TextStyle(
+                                    color: hexColor('99ffffff'),
+                                    fontSize: 13.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                  ),
+                                ),
+                              ),
+                              Obx(() => Text(
+                                    '£${ctr.totalPrice.value}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22.sp,
+                                      fontFamily: FONT_LIGHT,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                              10.horizontalSpace,
+                              InkWell(
+                                onTap: () {
+                                  showLoading();
+                                  try {
+                                    NavigatorHelper.gotoCouponPage(
+                                      couponType: 3,
+                                      showTabbar: false,
+                                      // 只是为了能有返回值创建的一个空的payOrderModel
+                                      payOrderModel: PayOrderModel(),
+                                      storeId: TabBubbleTeaCtr
+                                          .find.currentSelectStore.value.id,
+                                      goodsList: TabBubbleTeaCtr.find
+                                          .getGoodsListMap(),
+                                      whenComplete: () {
+                                        UserController.instance().updateInfo();
+                                        dismissLoading();
+                                      },
+                                      onSelect: (model) {
+                                        ctr.selectCoupon(model);
+                                        dismissLoading();
+                                      },
+                                    );
+                                  } catch (e) {
+                                    print('导航错误: $e');
+                                    dismissLoading();
+                                  }
+                                },
+                                child: Obx(() => RichText(
+                                      text: TextSpan(
+                                        text:
+                                            'Discount：-${ctr.discount.value} ',
+                                        style: TextStyle(
+                                          color: hexColor('#FFB20E'),
+                                          fontSize: 12.sp,
+                                          fontFamily: FONT_MEDIUM,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        children: [
+                                          WidgetSpan(
+                                            child: Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.white,
+                                              size: 14.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        )),
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 16.h,
+                      ),
+                      height: 1.h,
+                      color: hexColor('#303030'),
+                    ),
+                    // Obx(() => InkWell(
+                    //       onTap: () => ctr.isCash.value = false,
+                    //       child: Row(
+                    //         children: [
+                    //           Container(
+                    //             width: 14.w,
+                    //             height: 14.w,
+                    //             margin: EdgeInsets.only(right: 10.w),
+                    //             decoration: BoxDecoration(
+                    //               border: Border.all(
+                    //                 color: Colors.white,
+                    //                 width: 1.w,
+                    //               ),
+                    //               borderRadius: BorderRadius.circular(14.r),
+                    //             ),
+                    //             alignment: Alignment.center,
+                    //             child: Container(
+                    //               width: 10.w,
+                    //               height: 10.w,
+                    //               decoration: BoxDecoration(
+                    //                 color: !ctr.isCash.value
+                    //                     ? hexColor('#5EEA41')
+                    //                     : Colors.transparent,
+                    //                 borderRadius: BorderRadius.circular(10.r),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Expanded(
+                    //             child: Text(
+                    //               'Points'.tr,
+                    //               style: TextStyle(
+                    //                 color: hexColor('99ffffff'),
+                    //                 fontSize: 13.sp,
+                    //                 fontFamily: FONT_MEDIUM,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Image.asset(
+                    //             ImageUtils.coin_red,
+                    //             width: 16.w,
+                    //             height: 16.w,
+                    //           ),
+                    //           4.horizontalSpace,
+                    //           InkWell(
+                    //             onTap: () => NavigatorHelper.gotoCouponPage(
+                    //               couponType: 3,
+                    //               showTabbar: false,
+                    //               // 只是为了能有返回值创建的一个空的payOrderModel
+                    //               payOrderModel: PayOrderModel(),
+                    //               storeId: TabBubbleTeaCtr
+                    //                   .find.currentSelectStore.value.id,
+                    //               goodsList: TabBubbleTeaCtr.find.getGoodsListMap(),
+                    //               whenComplete: () =>
+                    //                   UserController.instance().updateInfo(),
+                    //               onSelect: (model) => ctr.selectCoupon(model),
+                    //             ),
+                    //             child: Obx(() => Text(
+                    //                   '${ctr.discount.value}Points',
+                    //                   style: TextStyle(
+                    //                     color: hexColor('#FFB20E'),
+                    //                     fontSize: 12.sp,
+                    //                     fontFamily: FONT_MEDIUM,
+                    //                     fontWeight: FontWeight.w400,
+                    //                   ),
+                    //                 )),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     )),
+                    20.verticalSpace,
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       floatingActionButton: InkWell(
         onTap: () => ctr.payment(),

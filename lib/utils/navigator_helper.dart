@@ -30,6 +30,7 @@ import '../ui/pages/profile/other_profile/other_profile_page.dart';
 import '../ui/pages/profile/task/detail/task_detail_page.dart';
 import '../ui/pages/search/search_page.dart';
 import '../ui/pages/shop/product/product_page.dart';
+import '../ui/pages/login/login_page.dart';
 
 class NavigatorHelper {
   NavigatorHelper._();
@@ -233,5 +234,9 @@ class NavigatorHelper {
         Get.to(() => PlayBalancePage(), arguments: Map()..['page'] = 0);
       }
     }
+  }
+
+  static void gotoLoginPage() {
+    Get.to(() => LoginPage());
   }
 }

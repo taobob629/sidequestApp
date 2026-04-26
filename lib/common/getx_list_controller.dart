@@ -14,6 +14,7 @@ abstract class GetxListController<T> extends BasePageController {
   @mustCallSuper
   void onReady() async{
     super.onReady();
+    dismissLoading();
     var data = await loadData();
     list.clear();
     list.addAll(data);

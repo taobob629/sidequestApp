@@ -68,30 +68,17 @@ class TabBundlesPage extends StatelessWidget {
                                 ),
                               )),
                           6.verticalSpace,
-                          Obx(() => RichText(
-                                text: TextSpan(
-                                  text: controller.minDistances.value >= 1000
-                                      ? "${(controller.minDistances.value / 1000).toStringAsFixed(2)}km"
-                                      : "${controller.minDistances.value.toStringAsFixed(2)}m",
-                                  style: TextStyle(
-                                    color: const Color(0xFFFFB20E),
-                                    fontSize: 12.sp,
-                                    fontFamily: 'DIN',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: " away from you",
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.6),
-                                        fontSize: 12.sp,
-                                        fontFamily: 'DIN',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
+                          RichText(
+                            text: TextSpan(
+                              text: "London, WC2H 0NE",
+                              style: TextStyle(
+                                color: const Color(0xFFFFB20E),
+                                fontSize: 12.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -516,12 +503,7 @@ class TabBundlesPageController extends GetxController {
         if (storesList[i].map != null) {
           List<String> latLog =
               storesList[i].map!.replaceAll(" ", "").split(",");
-          double distances = Geolocator.distanceBetween(
-            LocationService().position.value?.latitude ?? 51.51272691932477,
-            LocationService().position.value?.longitude ?? -0.12896615379992515,
-            double.parse(latLog[0]),
-            double.parse(latLog[1]),
-          );
+          double distances = 0.0;
           if (i == 0) {
             minDistances.value = distances;
           }

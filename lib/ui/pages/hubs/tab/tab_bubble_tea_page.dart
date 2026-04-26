@@ -62,31 +62,17 @@ class TabBubbleTeaPage extends StatelessWidget {
                                       ),
                                     )),
                                 6.verticalSpace,
-                                Obx(() => RichText(
+                                RichText(
                                       text: TextSpan(
-                                        text: ctr.minDistances.value >= 1000
-                                            ? "${(ctr.minDistances.value / 1000).toStringAsFixed(2)}km"
-                                            : "${ctr.minDistances.value.toStringAsFixed(2)}m",
+                                        text: "London, WC2H 0NE",
                                         style: TextStyle(
                                           color: const Color(0xFFFFB20E),
                                           fontSize: 12.sp,
                                           fontFamily: 'DIN',
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        children: [
-                                          TextSpan(
-                                            text: " away from you",
-                                            style: TextStyle(
-                                              color:
-                                                  Colors.white.withOpacity(0.6),
-                                              fontSize: 12.sp,
-                                              fontFamily: 'DIN',
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
                                       ),
-                                    )),
+                                    ),
                               ],
                             ),
                           ),

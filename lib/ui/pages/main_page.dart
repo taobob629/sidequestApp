@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -22,7 +22,7 @@ import '../../common/web_page.dart';
 import '../../config/app_color.dart';
 import '../../config/app_config.dart';
 import '../../controller/user_controller.dart';
-import '../../service/location_service.dart';
+
 import '../../utils/storage_manager.dart';
 import '../../utils/toast_utils.dart';
 import '../../widget/tab_button.dart';
@@ -111,7 +111,6 @@ class MainPage extends StatelessWidget {
                           selectIconName: ImageUtils.tab_stores,
                           normalIconName: ImageUtils.tab_stores_normal,
                           onTap: () {
-                            LocationService().init();
                             controller.controller.jumpToPage(1);
                             controller.updateCurrentIndex(1);
                           },
@@ -122,7 +121,6 @@ class MainPage extends StatelessWidget {
                           selectIconName: ImageUtils.tab_tea,
                           normalIconName: ImageUtils.tab_tea_normal,
                           onTap: () {
-                            LocationService().init();
                             controller.controller.jumpToPage(2);
                             controller.updateCurrentIndex(2);
                           },
@@ -182,7 +180,6 @@ class MainPageController extends FullLifeCycleController
   @override
   void onInit() async {
     super.onInit();
-    LocationService().init();
     currentIndex.value = 3; // 默认打开个人资料页面
     controller = PageController(initialPage: currentIndex.value);
     // controller.addListener(() {
