@@ -87,26 +87,64 @@ class IntegralHomeCtr extends GetxController {
   }
 
   void jumpDetail(id) async {
-    final result = await Get.to(() => IntegralDetailPage(), arguments: id);
-    if (result != null) {
+    showLoading();
+    try {
+      // 关闭加载指示器
+      dismissLoading();
+      // 无动画导航，避免屏幕闪烁
+      final result = await Get.to(() => IntegralDetailPage(), arguments: id, transition: Transition.noTransition);
+      if (result != null) {
+        requestData();
+      }
+    } catch (e) {
+      print('Error navigating to detail page: $e');
+      dismissLoading();
+    } finally {
       requestData();
     }
   }
 
   void toRedemptionPage() async {
-    await Get.to(() => IntegralRedemptionPage());
-    requestData();
+    showLoading();
+    try {
+      // 关闭加载指示器
+      dismissLoading();
+      // 无动画导航，避免屏幕闪烁
+      await Get.to(() => IntegralRedemptionPage(), transition: Transition.noTransition);
+    } catch (e) {
+      print('Error navigating to redemption page: $e');
+      dismissLoading();
+    } finally {
+      requestData();
+    }
   }
 
   void toInterestsPage() async {
-    final result = await Get.to(
-      () => IntegralInterestsPage(),
-      arguments: integralInfoModel.value.pointInfo?.expGrade,
-    );
-    if (result != null) {
-      scrollToContainer();
+    showLoading();
+    try {
+      // 确保积分等级配置数据已缓存
+      if (cachedLevelConfigData == null) {
+        // 如果没有缓存，先加载数据
+        final response = await http.get('/app/point/level/config');
+        cachedLevelConfigData = response.data;
+      }
+      // 关闭加载指示器
+      dismissLoading();
+      // 无动画导航，避免屏幕闪烁
+      final result = await Get.to(
+        () => IntegralInterestsPage(),
+        arguments: integralInfoModel.value.pointInfo?.expGrade,
+        transition: Transition.noTransition,
+      );
+      if (result != null) {
+        scrollToContainer();
+      }
+    } catch (e) {
+      print('Error navigating to interests page: $e');
+      dismissLoading();
+    } finally {
+      requestData();
     }
-    requestData();
   }
 
   void scrollToContainer() {

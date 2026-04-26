@@ -253,22 +253,22 @@ class CouponPageController extends GetxListController<CouponsListModel> {
             "Gaming".tr,
           ),
         )));
-    tabs.add(Obx(() => badges.Badge(
-          showBadge: couponOurModel.value.event > 0,
-          badgeContent: Text(
-            '${couponOurModel.value.event}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 8.sp,
-            ),
-          ),
-          badgeColor: Color(0xffFF4848),
-          position: badges.BadgePosition(end: -13.w, top: -2.h),
-          alignment: Alignment.topRight,
-          child: Text(
-            "Event".tr,
-          ),
-        )));
+    // tabs.add(Obx(() => badges.Badge(
+    //       showBadge: couponOurModel.value.event > 0,
+    //       badgeContent: Text(
+    //         '${couponOurModel.value.event}',
+    //         style: TextStyle(
+    //           color: Colors.white,
+    //           fontSize: 8.sp,
+    //         ),
+    //       ),
+    //       badgeColor: Color(0xffFF4848),
+    //       position: badges.BadgePosition(end: -13.w, top: -2.h),
+    //       alignment: Alignment.topRight,
+    //       child: Text(
+    //         "Event".tr,
+    //       ),
+    //     )));
 
     return tabs;
   }
