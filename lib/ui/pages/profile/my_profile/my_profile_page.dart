@@ -117,24 +117,33 @@ class MyProfilePage extends StatelessWidget {
                               );
                             }
                           },
-                          child: Obx(() => Container(
-                                alignment: Alignment.center,
-                                child: Opacity(
-                                  opacity:
-                                      userController.userProfile.userAvatar == 1
-                                          ? 1
-                                          : 0.3,
-                                  child: ClipOval(
+                          child: Obx(() {
+                            var userProfile = userController.getRxuserProfile().value;
+                            bool isLoggedIn = StorageManager.getToken().isNotEmpty && 
+                              userProfile.memberId != 0 &&
+                              userProfile.memberId != null;
+                            return Container(
+                              alignment: Alignment.center,
+                              child: ClipOval(
+                                child: isLoggedIn ? 
+                                  Opacity(
+                                    opacity: userProfile.userAvatar == 1 ? 1 : 0.3,
                                     child: CachedNetworkImage(
-                                      imageUrl:
-                                          userController.userProfile.avatar,
+                                      imageUrl: userProfile.avatar,
                                       width: 50.w,
                                       height: 50.w,
                                       fit: BoxFit.cover,
                                     ),
+                                  ) : 
+                                  Image.asset(
+                                    ImageUtils.logo_icon,
+                                    width: 50.w,
+                                    height: 50.w,
+                                    fit: BoxFit.cover,
                                   ),
-                                ),
-                              )),
+                              ),
+                            );
+                          }),
                         ),
                         Expanded(
                           child: GestureDetector(

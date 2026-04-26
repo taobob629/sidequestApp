@@ -146,14 +146,10 @@ class SelectAvatarDialog extends StatelessWidget {
 
     if (pickedFile != null) {
       var _image = File(pickedFile.path);
-      Get.to<File?>(() => CropPage(image: _image))!.then((value) async {
-        if (value != null) {
-          showLoading();
-          await Common.uploadAvatar(value, (p0, p1) {});
-          dismissLoading();
-          UserController.find.updateInfo();
-        }
-      });
+      showLoading();
+      await Common.uploadAvatar(_image, (p0, p1) {});
+      dismissLoading();
+      UserController.find.updateInfo();
     } else {
       print('No image selected.');
     }

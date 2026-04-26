@@ -27,11 +27,11 @@ import '../../../../widget/scaffold_widget.dart';
 
 import 'order_detail_ctr.dart';
 
-class OrderDetailPage extends BasePage {
+class OrderDetailPage extends StatelessWidget {
   final ctr = Get.put(OrderDetailCtr());
 
   @override
-  Widget buildBody(BuildContext context) {
+  Widget build(BuildContext context) {
     return ScaffoldWidget(
       appBar: AppBar(
         title: Text('Order details'.tr),
@@ -254,7 +254,7 @@ class OrderDetailPage extends BasePage {
                             ),
                           ),
                           Text(
-                            '£${ctr.model.value.total.toString().minus(ctr.model.value.discount.toString())}',
+                            '£${ctr.model.value.total != null && ctr.model.value.discount != null ? ctr.model.value.total.toString().minus(ctr.model.value.discount.toString()) : '0.00'}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
@@ -359,11 +359,6 @@ class OrderDetailPage extends BasePage {
             ).paddingSymmetric(horizontal: 16.w)),
       ),
     );
-  }
-
-  @override
-  BasePageController pageController() {
-    return ctr;
   }
 
   Widget itemWidget(OrderDetailItem model) => Row(

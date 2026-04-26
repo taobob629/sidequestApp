@@ -12,8 +12,6 @@ class OrderDetailCtr extends BasePageController {
   @override
   void onInit() {
     super.onInit();
-
-    pageState = PageState.initialing;
     requestData();
   }
 
@@ -21,6 +19,5 @@ class OrderDetailCtr extends BasePageController {
     showLoading();
     model.value = await OrderApi.orderDetailNew(Get.arguments);
     dismissLoading();
-    pageState = PageState.sucess;
   }
 }

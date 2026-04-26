@@ -4,6 +4,8 @@ class ImageUtils {
   static const String message_empty_icon = 'assets/images/message_empty_icon.png';
   static const String ic_exchange = 'assets/images/ic_exchange.webp';
   static const String subscriptioned_icon = 'assets/images/subscriptioned_icon.webp';
+  static const String logo_icon = 'assets/images/logo1.png';
+
   static const String profile_chat_icon = 'assets/images/profile_chat_icon.webp';
   static const String add_to_cart_icon = 'assets/images/add_to_cart_icon.webp';
   static const String bundles_cart_icon = 'assets/images/bundles_cart_icon.webp';

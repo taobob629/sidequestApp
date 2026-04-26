@@ -14,6 +14,7 @@ import 'package:sq_hub_app/config/icon_font.dart';
 
 import '../../../../image_utils.dart';
 import '../../../../model/order_list_model.dart';
+import '../../../../utils/toast_utils.dart';
 import '../../../../widget/image_util.dart';
 import '../detail/view.dart';
 import 'controller.dart';
@@ -38,7 +39,16 @@ class OrderListPage extends StatelessWidget {
   }
 
   Widget itemWidget(OrderListModel model) => InkWell(
-        onTap: () => Get.to(() => OrderDetailPage(), arguments: model.id),
+        onTap: () {
+          showLoading();
+          try {
+            Get.to(() => OrderDetailPage(), arguments: model.id, transition: Transition.noTransition);
+          } catch (e) {
+            print('导航错误: $e');
+          } finally {
+            dismissLoading();
+          }
+        },
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w),
           padding: EdgeInsets.symmetric(
