@@ -87,7 +87,6 @@ class AuthApi {
       String code,
       String uid,
       String pin,
-      String invite,
       int sex,
       ) async {
     String version = await PlatformUtils.getAppVersion();
@@ -104,7 +103,6 @@ class AuthApi {
       "verifyCode": code,
       "uid": uid,
       "location": location,
-      "invite": invite,
       "sex": sex,
     };
     final response = await http.post('/web/index/appRegister', data: formData);

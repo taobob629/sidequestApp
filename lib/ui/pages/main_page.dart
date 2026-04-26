@@ -95,16 +95,16 @@ class MainPage extends StatelessWidget {
                           },
                         ),
                         // 隐藏第二个TAB - TabEventsPage
-        // TabButton(
-        //   index: 1,
-        //   currentIndex: controller.currentIndex.value,
-        //   selectIconName: ImageUtils.tab_social,
-        //   normalIconName: ImageUtils.tab_social_normal,
-        //   onTap: () {
-        //     controller.controller.jumpToPage(1);
-        //     controller.updateCurrentIndex(1);
-        //   },
-        // ),
+                        // TabButton(
+                        //   index: 1,
+                        //   currentIndex: controller.currentIndex.value,
+                        //   selectIconName: ImageUtils.tab_social,
+                        //   normalIconName: ImageUtils.tab_social_normal,
+                        //   onTap: () {
+                        //     controller.controller.jumpToPage(1);
+                        //     controller.updateCurrentIndex(1);
+                        //   },
+                        // ),
                         TabButton(
                           index: 1,
                           currentIndex: controller.currentIndex.value,
@@ -119,8 +119,8 @@ class MainPage extends StatelessWidget {
                         TabButton(
                           index: 2,
                           currentIndex: controller.currentIndex.value,
-                          selectIconName: ImageUtils.tab_games,
-                          normalIconName: ImageUtils.tab_games_normal,
+                          selectIconName: ImageUtils.tab_tea,
+                          normalIconName: ImageUtils.tab_tea_normal,
                           onTap: () {
                             LocationService().init();
                             controller.controller.jumpToPage(2);
@@ -222,6 +222,14 @@ class MainPageController extends FullLifeCycleController
       return;
     }
 
+    // 检查是否有token
+    var token = StorageManager.getToken();
+    if (token.isEmpty) {
+      // 没有token，跳转到登录页面
+      Get.offAll(() => LoginPage());
+      return;
+    }
+
     checkAd();
 
     IndexApi.checkVersion().then((value) {
@@ -264,6 +272,9 @@ class MainPageController extends FullLifeCycleController
   void onPaused() {}
 
   @override
+  void onHidden() {}
+
+  @override
   void onClose() {
     controller.dispose();
     _timer.cancel();
@@ -304,9 +315,3 @@ class MainPageController extends FullLifeCycleController
     print('onDidReceiveLocalNotification: $title');
   }
 }
-
-
-
-
-
-

@@ -485,17 +485,6 @@ class MyProfilePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // Expanded(
-                        //   child: Obx(() => _dashboardLabelItem(
-                        //         ImageUtils.icon_connection,
-                        //         "Connections".tr,
-                        //         badgeNum:
-                        //             userController.userProfile.approvalNum,
-                        //         onTap: () => Get.to(
-                        //           () => ConnectionsPage(),
-                        //         )?.then((value) => t.onRefresh()),
-                        //       )),
-                        // ),
                         Expanded(
                           child: _dashboardLabelItem(
                             ImageUtils.icon_consumption,
@@ -503,13 +492,7 @@ class MyProfilePage extends StatelessWidget {
                             onTap: () => Get.to(() => StoreConsumListPage()),
                           ),
                         ),
-                        Expanded(
-                          child: _dashboardLabelItem(
-                            ImageUtils.icon_activities,
-                            "Activities".tr,
-                            onTap: () => Get.to(() => MyEventsPage()),
-                          ),
-                        ),
+
                         Expanded(
                           child: Obx(() => _dashboardLabelItem(
                                 ImageUtils.message_icon,
@@ -520,8 +503,12 @@ class MyProfilePage extends StatelessWidget {
                                     : 0,
                               )),
                         ),
-                        // Placeholder to maintain 4-column layout for consistent spacing
-                        Expanded(child: Container()),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
                       ],
                     ),
                   ],
@@ -827,6 +814,7 @@ class ProfileController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    print('ProfileController onInit called');
     refreshController = RefreshController(initialRefresh: false);
     tabController = TabController(vsync: this, length: 3, initialIndex: 0);
     background.value =
@@ -836,8 +824,41 @@ class ProfileController extends GetxController
     }
 
     userController.getRxuserProfile().listen((info) {
+      print('Profile updated: ${info.nickName}, memberId: ${info.memberId}');
       background.value = info.backGround;
+      // 当用户信息更新时，同时更新user.value
+      user.value = info;
+      print('user.value updated: ${user.value}');
     });
+
+    // 初始化用户数据
+    print('Initializing user data...');
+    print('UserController.userProfile: ${UserController.find.userProfile}');
+    print(
+        'UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
+    print('StorageManager.getToken(): ${StorageManager.getToken()}');
+    user.value = UserController.find.userProfile;
+    print('Initial user.value: ${user.value}');
+    print('Initial user.value.memberId: ${user.value.memberId}');
+
+    // 无论用户数据是否为空，只要有token就尝试更新
+    if (StorageManager.getToken().isNotEmpty) {
+      print('Token exists, calling updateInfo...');
+      userController.updateInfo().then((_) {
+        print('updateInfo completed');
+        print(
+            'After update - UserController.userProfile: ${UserController.find.userProfile}');
+        print(
+            'After update - UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
+        user.value = UserController.find.userProfile;
+        print('After update - user.value: ${user.value}');
+        print('After update - user.value.memberId: ${user.value.memberId}');
+      }).catchError((error) {
+        print('Error in updateInfo: $error');
+      });
+    } else {
+      print('No token found, skipping updateInfo');
+    }
     // getProfileInfo();
 
     // bool? profileSetKey = StorageManager.getBoolByKey('profileSetKey');
@@ -973,9 +994,20 @@ class ProfileController extends GetxController
   }
 
   void onRefresh() async {
+    print('onRefresh called');
+    print(
+        'Before update - UserController.userProfile: ${UserController.find.userProfile}');
+    print(
+        'Before update - UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
     await userController.updateInfo();
-    refreshController.refreshCompleted();
+    print(
+        'After update - UserController.userProfile: ${UserController.find.userProfile}');
+    print(
+        'After update - UserController.userProfile.memberId: ${UserController.find.userProfile.memberId}');
     user.value = UserController.find.userProfile;
+    print('After update - user.value: ${user.value}');
+    print('After update - user.value.memberId: ${user.value.memberId}');
+    refreshController.refreshCompleted();
   }
 
   @override

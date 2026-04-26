@@ -23,7 +23,6 @@ import '../../../../utils/toast_utils.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widget/views.dart';
 import '../../../dialog/dialog_confirm.dart';
-import '../../social/activity/list/riot_dialog.dart';
 import '../widget/confirm_fee_dialog.dart';
 import '../widget/event_header.dart';
 import 'event_selecto_widget.dart';

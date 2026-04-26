@@ -45,15 +45,50 @@ class SettingsPage extends StatelessWidget {
             ),
             SettingItem(
               title: "Personal".tr,
-              onTap: () => Get.to(() => ProfileEditPage()),
+              onTap: () async {
+                // 显示加载指示器
+                showLoading();
+                
+                // 预加载数据
+                try {
+                  // 初始化控制器并等待数据加载完成
+                  final controller = Get.put(ProfileEditController());
+                  // 等待数据加载完成
+                  await Future.delayed(Duration(milliseconds: 300));
+                } catch (e) {
+                  print('Error loading profile data: $e');
+                } finally {
+                  dismissLoading();
+                  // 无动画导航，直接切换页面
+                  Get.to(() => ProfileEditPage(), transition: Transition.noTransition);
+                }
+              },
             ),
             SettingItem(
               title: "Account Password".tr,
-              onTap: () => controller.checkHasPwd(1),
+              onTap: () async {
+                showLoading();
+                try {
+                  await controller.checkHasPwd(1);
+                } catch (e) {
+                  print('Error checking password: $e');
+                } finally {
+                  dismissLoading();
+                }
+              },
             ),
             SettingItem(
               title: "Payment Pin".tr,
-              onTap: () => controller.checkHasPwd(2),
+              onTap: () async {
+                showLoading();
+                try {
+                  await controller.checkHasPwd(2);
+                } catch (e) {
+                  print('Error checking payment pin: $e');
+                } finally {
+                  dismissLoading();
+                }
+              },
             ),
             Obx(() => SettingItem(
                   title: "Language".tr,
@@ -61,7 +96,7 @@ class SettingsPage extends StatelessWidget {
                       controller.curLan.value.toLanguageTag().contains("en-US")
                           ? "English"
                           : "中文",
-                  onTap: () => Get.to(() => LanguagePage())?.then((value) =>
+                  onTap: () => Get.to(() => LanguagePage(), transition: Transition.noTransition)?.then((value) =>
                       controller.curLan.value = Get.locale ?? ENGLISH),
                 )),
             SettingItem(
@@ -71,7 +106,7 @@ class SettingsPage extends StatelessWidget {
             ),
             SettingItem(
               title: "Notifications".tr,
-              onTap: () => Get.to(() => ReceiveNotifyPage())
+              onTap: () => Get.to(() => ReceiveNotifyPage(), transition: Transition.noTransition)
                   ?.then((value) => UserController.find.updateInfo()),
             ),
             SettingItem(
@@ -148,18 +183,16 @@ class SettingsPageController extends GetxController {
     return {"name": membershipName, "index": index};
   }
 
-  void checkHasPwd(int type) async {
-    showLoading();
+  Future<void> checkHasPwd(int type) async {
     var response = await http.get('/peiwan/app/user/hasPwd');
-    dismissLoading();
     if (Platform.isIOS && !response.data['haspwd']) {
       String? userIdentifier = StorageManager.getString('userIdentifier');
-      AuthorizationCredentialAppleID credential =
+      AuthorizationCredentialAppleID credential = 
           AuthorizationCredentialAppleID(
         userIdentifier: userIdentifier,
         authorizationCode: '',
       );
-      Get.to(() => OtherRegisterPage(), arguments: credential);
+      Get.to(() => OtherRegisterPage(), arguments: credential, transition: Transition.noTransition);
       return;
     }
 
@@ -167,12 +200,12 @@ class SettingsPageController extends GetxController {
       Get.to(() => ChangePasswordPage(
             type: 1,
             hasPwd: response.data['haspwd'],
-          ));
+          ), transition: Transition.noTransition);
     } else {
       Get.to(() => ChangePasswordPage(
             type: 2,
             hasPwd: response.data['haspin'],
-          ));
+          ), transition: Transition.noTransition);
     }
   }
 

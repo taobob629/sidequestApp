@@ -25,8 +25,8 @@ class ImageUtils {
   static const String tab_social_normal = 'assets/images/tab_social_normal.png';
   static const String tab_games = 'assets/images/tab_games.webp';
   static const String tab_games_normal = 'assets/images/tab_games_normal.png';
-  static const String tab_tea = 'assets/images/tab_tea.svg';
-  static const String tab_tea_normal = 'assets/images/tab_tea_normal.svg';
+  static const String tab_tea = 'assets/images/tab_tea.png';
+  static const String tab_tea_normal = 'assets/images/tab_tea_normal.png';
   static const String tab_stores = 'assets/images/tab_stores.webp';
   static const String tab_quest = 'assets/images/tab_quest.webp';
   static const String tab_quest_normal = 'assets/images/tab_quest_normal.webp';

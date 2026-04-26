@@ -156,9 +156,7 @@ class IntegralDetailPage extends StatelessWidget {
       ? Html(
           data: des,
           style: {"body": Style()},
-          onLinkTap: (
-            String? url,
-            RenderContext context,
+          onLinkTap: (String? url,
             Map<String, String> attributes,
             dom.Element? element,
           ) async {

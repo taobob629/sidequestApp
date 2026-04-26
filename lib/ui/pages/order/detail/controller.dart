@@ -17,7 +17,6 @@ import '../../../../utils/toast_utils.dart';
 import '../../../../utils/utils.dart';
 import '../../../dialog/dialog_comment.dart';
 import '../../../dialog/dialog_confirm.dart';
-import '../../../im/dialog_reject.dart';
 import '../controller.dart';
 
 class OrderDetailPageController extends BasePageController {
@@ -175,7 +174,7 @@ class OrderDetailPageController extends BasePageController {
 
   ///大神拒绝退款
   Future<void> dsRejectOrder() async {
-    Get.dialog(RejectDialog()).then((value) async {
+    Get.dialog(Container()).then((value) async {
       if (value == null) return;
       showLoading();
       var res = await ImApi.dsRefundOrder(id, '4', playerRejectRefundReason: value).catchError((v) {});

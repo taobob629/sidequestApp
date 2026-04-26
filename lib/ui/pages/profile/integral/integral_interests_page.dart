@@ -16,15 +16,23 @@ class IntegralInterestsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      Obx(() => ctr.integralModel.value.levelConfigVoList.isEmpty
-          ? Container()
-          : Container(
-              width: 1.sw,
-              height: 1.sh,
-              color: AppColor.background,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+      Obx(() => Container(
+          width: 1.sw,
+          height: 1.sh,
+          color: AppColor.background,
+          child: ctr.integralModel.value.levelConfigVoList.isEmpty
+              ? Center(
+                  child: Text(
+                    'No data available',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   10.verticalSpace,
                   SafeArea(
                     child: GestureDetector(

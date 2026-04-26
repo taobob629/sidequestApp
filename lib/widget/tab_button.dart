@@ -74,7 +74,7 @@ class _TabButtonState extends State<TabButton>
         Container(
           width: 56.h,
           height: 56.h,
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: widget.index == 2 ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: 12.w),
           color: Colors.transparent,
           child: badges.Badge(
             showBadge: widget.showBadge ?? false,
@@ -82,6 +82,7 @@ class _TabButtonState extends State<TabButton>
             child: Image.asset(
               widget.normalIconName,
               fit: BoxFit.contain,
+              height: widget.index == 2 ? 56.h : null,
             ),
           ),
         ),

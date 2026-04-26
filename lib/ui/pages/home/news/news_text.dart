@@ -19,7 +19,7 @@ class NewsText extends StatelessWidget {
           ? Html(
               data: content,
               style: {"body": Style()},
-              onLinkTap: (String? url, RenderContext context,
+              onLinkTap: (String? url,
                   Map<String, String> attributes, dom.Element? element) async {
                 if (url != null) {
                   await launchUrl(Uri.parse(url));

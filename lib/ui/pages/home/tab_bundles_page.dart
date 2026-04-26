@@ -110,6 +110,7 @@ class TabBundlesPage extends StatelessWidget {
               child: Stack(
                 children: [
                   Obx(() => ListView.separated(
+                        padding: EdgeInsets.only(bottom: 60.h),
                         itemBuilder: (c, i) => GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           onTap: () => Get.to(() => BundlesDetailPage(),
@@ -155,22 +156,25 @@ class TabBundlesPage extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       4.verticalSpace,
-                                      Html(
-                                        data: controller.list[i].brief ?? '',
-                                        style: {
-                                          "body": Style(
-                                            fontFamily: FONT_LIGHT,
-                                            fontSize: FontSize(12.sp),
-                                            color: Colors.white.withOpacity(0.6),
-                                            margin: Margins.zero,
-                                          ),
-                                          "p": Style(
-                                            fontFamily: FONT_LIGHT,
-                                            fontSize: FontSize(12.sp),
-                                            color: Colors.white.withOpacity(0.6),
-                                            margin: Margins.zero,
-                                          ),
-                                        },
+                                      Container(
+                                        height: 36.h,
+                                        child: Html(
+                                          data: controller.list[i].brief ?? '',
+                                          style: {
+                                            "body": Style(
+                                              fontFamily: FONT_LIGHT,
+                                              fontSize: FontSize(12.sp),
+                                              color: Colors.white.withOpacity(0.6),
+                                              margin: Margins.zero,
+                                            ),
+                                            "p": Style(
+                                              fontFamily: FONT_LIGHT,
+                                              fontSize: FontSize(12.sp),
+                                              color: Colors.white.withOpacity(0.6),
+                                              margin: Margins.zero,
+                                            ),
+                                          },
+                                        ),
                                       ),
                                       4.verticalSpace,
                                       Text(

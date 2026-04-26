@@ -10,6 +10,36 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../config/icon_font.dart';
 import '../hubs/bubble_tea_detail_page.dart';
 
+// 静态变量存储排行榜数据，实现缓存
+class RankDataCache {
+  static List<TopTeaModel> topTeas = [];
+  static List<TopGameModel> topGames = [];
+  static List<TopFoodModel> topFoods = [];
+  static bool isLoaded = false;
+
+  // 预加载排行榜数据
+  static Future<void> preloadData() async {
+    if (isLoaded) return;
+
+    try {
+      // 首次加载，请求接口
+      var results = await Future.wait([
+        HubsApi.getTopTeas(),
+        HubsApi.getTopGames(),
+        HubsApi.getTopFoods(),
+      ]);
+
+      // 缓存数据
+      topTeas = results[0] as List<TopTeaModel>;
+      topGames = results[1] as List<TopGameModel>;
+      topFoods = results[2] as List<TopFoodModel>;
+      isLoaded = true;
+    } catch (e) {
+      print('Error preloading rank data: $e');
+    }
+  }
+}
+
 class TabTopProductsPage extends StatefulWidget {
   const TabTopProductsPage({Key? key}) : super(key: key);
 
@@ -40,15 +70,35 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
 
   Future<void> _loadData() async {
     try {
+      // 检查是否已经加载过数据
+      if (RankDataCache.isLoaded) {
+        // 使用缓存的数据
+        setState(() {
+          _topTeas = RankDataCache.topTeas;
+          _topGames = RankDataCache.topGames;
+          _topFoods = RankDataCache.topFoods;
+          _isLoading = false;
+        });
+        return;
+      }
+
+      // 首次加载，请求接口
       var results = await Future.wait([
         HubsApi.getTopTeas(),
         HubsApi.getTopGames(),
         HubsApi.getTopFoods(),
       ]);
+
+      // 缓存数据
+      RankDataCache.topTeas = results[0] as List<TopTeaModel>;
+      RankDataCache.topGames = results[1] as List<TopGameModel>;
+      RankDataCache.topFoods = results[2] as List<TopFoodModel>;
+      RankDataCache.isLoaded = true;
+
       setState(() {
-        _topTeas = results[0] as List<TopTeaModel>;
-        _topGames = results[1] as List<TopGameModel>;
-        _topFoods = results[2] as List<TopFoodModel>;
+        _topTeas = RankDataCache.topTeas;
+        _topGames = RankDataCache.topGames;
+        _topFoods = RankDataCache.topFoods;
         _isLoading = false;
       });
     } catch (e) {
@@ -141,18 +191,18 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
           Expanded(
             child: _isLoading
                 ? const Center(
-              child: CircularProgressIndicator(
-                color: Color(0xFFFFB20E),
-              ),
-            )
+                    child: CircularProgressIndicator(
+                      color: Color(0xFFFFB20E),
+                    ),
+                  )
                 : TabBarView(
-              controller: _tabController,
-              children: [
-                _buildTopGamesList(),
-                _buildTopTeasList(),
-                _buildTopFoodsList(),
-              ],
-            ),
+                    controller: _tabController,
+                    children: [
+                      _buildTopGamesList(),
+                      _buildTopTeasList(),
+                      _buildTopFoodsList(),
+                    ],
+                  ),
           ),
           20.verticalSpace,
         ],
@@ -192,7 +242,9 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       itemCount: _topGames.length > 5 ? 5 : _topGames.length,
       itemBuilder: (context, index) {
         final game = _topGames[index];
-        return _buildRankingItem(index + 1, game.name ?? 'Unknown', game.desc ?? '', game.trend, type: 'game', id: game.id);
+        return _buildRankingItem(
+            index + 1, game.name ?? 'Unknown', game.desc ?? '', game.trend,
+            type: 'game', id: game.id);
       },
     );
   }
@@ -212,7 +264,9 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       itemCount: _topTeas.length > 5 ? 5 : _topTeas.length,
       itemBuilder: (context, index) {
         final tea = _topTeas[index];
-        return _buildRankingItem(index + 1, tea.name ?? 'Unknown', tea.desc ?? '', tea.trend, type: 'tea', id: tea.id);
+        return _buildRankingItem(
+            index + 1, tea.name ?? 'Unknown', tea.desc ?? '', tea.trend,
+            type: 'tea', id: tea.id);
       },
     );
   }
@@ -232,12 +286,16 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       itemCount: _topFoods.length > 5 ? 5 : _topFoods.length,
       itemBuilder: (context, index) {
         final food = _topFoods[index];
-        return _buildRankingItem(index + 1, food.name ?? 'Unknown', food.desc ?? '', food.trend, type: 'food', id: food.id);
+        return _buildRankingItem(
+            index + 1, food.name ?? 'Unknown', food.desc ?? '', food.trend,
+            type: 'food', id: food.id);
       },
     );
   }
 
-  Widget _buildRankingItem(int rank, String name, String desc, dynamic trendValue, {String? type, dynamic id}) {
+  Widget _buildRankingItem(
+      int rank, String name, String desc, dynamic trendValue,
+      {String? type, dynamic id}) {
     // 转换趋势值为图标
     String? trend;
     if (trendValue == null) {
@@ -258,11 +316,11 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
     } else {
       trend = ''; // 默认不变
     }
-    
+
     return GestureDetector(
       onTap: () {
         // 跳转到详情页
-        if (id != null&&type == 'tea' ) {
+        if (id != null && type == 'tea') {
           Get.to(() => BubbleTeaDetailPage(), arguments: id);
         }
       },
@@ -286,7 +344,8 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
               child: Text(
                 '$rank',
                 style: TextStyle(
-                  color: rank <= 3 ? Colors.black : Colors.white.withOpacity(0.6),
+                  color:
+                      rank <= 3 ? Colors.black : Colors.white.withOpacity(0.6),
                   fontWeight: FontWeight.w900,
                   fontSize: 14.sp,
                 ),
@@ -374,13 +433,24 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
     final now = DateTime.now();
     final month = now.month;
     final year = now.year;
-    
+
     // 月份名称映射
     const monthNames = [
-      '', 'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-      'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+      '',
+      'JANUARY',
+      'FEBRUARY',
+      'MARCH',
+      'APRIL',
+      'MAY',
+      'JUNE',
+      'JULY',
+      'AUGUST',
+      'SEPTEMBER',
+      'OCTOBER',
+      'NOVEMBER',
+      'DECEMBER'
     ];
-    
+
     return '${monthNames[month]} $year';
   }
 }

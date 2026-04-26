@@ -139,8 +139,13 @@ class ImageUtil {
     bool clearMemoryCacheWhenDispose = true,
     bool lowMemory = true,
     Widget? errorWidget,
-  }) =>
-      border == 0
+  }) {
+    // 检查url是否为空
+    if (url.isEmpty) {
+      return errorWidget ?? error(width: width, height: height);
+    }
+    
+    return border == 0
           ? CachedNetworkImage(
               imageUrl: url,
               width: width,
@@ -198,4 +203,5 @@ class ImageUtil {
                     errorWidget ?? error(width: width, height: height),
               ),
             );
+  }
 }

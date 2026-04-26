@@ -1,32 +1,14 @@
 buildscript {
-    ext.kotlin_version = '1.8.10'
-//    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '2.1.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath 'com.android.tools.build:gradle:8.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
         classpath 'com.google.gms:google-services:4.3.15'
-    }
-}
-
-// 全局强制使用SDK 34
-subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty('android')) {
-            project.android {
-                compileSdkVersion 34
-                if (project.android.hasProperty('defaultConfig')) {
-                    project.android.defaultConfig {
-                        targetSdkVersion 34
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -38,6 +20,8 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+
 }
 
 rootProject.buildDir = '../build'
@@ -48,4 +32,54 @@ subprojects {
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
+}
+
+// 设置 JVM target 为 17
+gradle.projectsLoaded {
+    rootProject.subprojects { project ->
+        project.afterEvaluate {
+            if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
+                project.android {
+                    compileOptions {
+                        sourceCompatibility JavaVersion.VERSION_17
+                        targetCompatibility JavaVersion.VERSION_17
+                    }
+                }
+            }
+            // 直接为所有Kotlin编译任务设置jvmTarget
+            project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                kotlinOptions {
+                    jvmTarget = '17'
+                }
+            }
+        }
+    }
+}
+
+// 为smart_auth插件设置正确的jvmTarget
+project(':smart_auth') {
+    afterEvaluate {
+        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = '17'
+            }
+        }
+    }
+}
+
+// 全局强制使用SDK 36
+gradle.projectsLoaded {
+    rootProject.subprojects { project ->
+        if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
+            project.android {
+                compileSdkVersion 36
+                targetSdkVersion 36
+                if (project.android.hasProperty('defaultConfig')) {
+                    project.android.defaultConfig {
+                        targetSdkVersion 36
+                    }
+                }
+            }
+        }
+    }
 }

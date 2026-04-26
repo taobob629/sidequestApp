@@ -221,7 +221,7 @@ class TabOverviewPage extends StatelessWidget {
                     lineHeight: LineHeight(2),
                     fontFamily: FONT_MEDIUM)
               },
-              onLinkTap: (String? url, RenderContext context,
+              onLinkTap: (String? url,
                   Map<String, String> attributes, dom.Element? element) async {
                 if (url != null) {
                   await launch(url);

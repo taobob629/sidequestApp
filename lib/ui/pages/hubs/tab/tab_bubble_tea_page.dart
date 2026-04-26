@@ -166,6 +166,7 @@ class TabBubbleTeaPage extends StatelessWidget {
                           children: [
                             ctr.teaList.isNotEmpty
                                 ? ListView.separated(
+                                    padding: EdgeInsets.only(bottom: 60.h),
                                     itemBuilder: (c, i) => GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => Get.to(
@@ -213,17 +214,20 @@ class TabBubbleTeaPage extends StatelessWidget {
                                                         TextOverflow.ellipsis,
                                                   ),
                                                   4.verticalSpace,
-                                                  Text(
-                                                    ctr.teaList[i].brief ?? '',
-                                                    style: TextStyle(
-                                                      fontFamily: FONT_LIGHT,
-                                                      fontSize: 12.sp,
-                                                      color: Colors.white
-                                                          .withOpacity(0.6),
+                                                  Container(
+                                                    height: 36.h,
+                                                    child: Text(
+                                                      ctr.teaList[i].brief ?? '',
+                                                      style: TextStyle(
+                                                        fontFamily: FONT_LIGHT,
+                                                        fontSize: 12.sp,
+                                                        color: Colors.white
+                                                            .withOpacity(0.6),
+                                                      ),
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
                                                   ),
                                                   4.verticalSpace,
                                                   Text(

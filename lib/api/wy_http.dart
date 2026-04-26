@@ -122,6 +122,24 @@ class ApiInterceptor extends InterceptorsWrapper {
     super.onError(err, handler);
     log(' onError: ${err.message}');
     dismissLoading(status: SmartStatus.loading);
+    
+    // 处理HTTP 401错误
+    if (err.response?.statusCode == 401) {
+      String requestPath = err.requestOptions.path;
+      if (requestPath == '/sideQuest/app/sq/user/memberInfo2') {
+        var email = StorageManager.getAccount();
+        var password = StorageManager.getPassword();
+        if (email.isEmpty || password.isEmpty) {
+          Get.Get.to(() => LoginPage());
+        } else {
+          if (isSigningIn) return;
+          isSigningIn = true;
+          UserController.find.switchLogin();
+        }
+        return;
+      }
+    }
+    
     showToast("Networking Failure");
   }
 }

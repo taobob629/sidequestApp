@@ -15,8 +15,8 @@ import '../../../../model/player_info_mdoel.dart';
 import '../../../../model/post_item_model.dart';
 import '../../../../widget/cs_photo_viewer.dart';
 import '../../../../widget/like_button/like_button.dart';
-import '../../social/post/post_detail_page.dart';
-import '../../social/post/post_list_controller.dart';
+// import '../../social/post/post_detail_page.dart';
+// import '../../social/post/post_list_controller.dart';
 
 class OtherPostsPage extends StatelessWidget {
   OtherPostsPage({Key? key}) : super(key: key);
@@ -44,8 +44,8 @@ class OtherPostsPage extends StatelessWidget {
             itemBuilder: (BuildContext c, int index) {
               return GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: () => Get.to(() => PostDetailPage(),
-                    arguments: t.list[index]),
+                // onTap: () => Get.to(() => PostDetailPage(),
+                //     arguments: t.list[index]),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

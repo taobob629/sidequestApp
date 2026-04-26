@@ -177,9 +177,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
                                     ? Html(
                                         data: '${ctr.model.value.description}',
                                         style: {"body": Style()},
-                                        onLinkTap: (
-                                          String? url,
-                                          RenderContext context,
+                                        onLinkTap: (String? url,
                                           Map<String, String> attributes,
                                           dom.Element? element,
                                         ) async {

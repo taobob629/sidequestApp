@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ume/flutter_ume.dart';
-import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
+// import 'package:flutter_ume/flutter_ume.dart';
+// import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sq_hub_app/utils/platform_utils.dart';
@@ -45,9 +45,9 @@ void main() async {
   ///图片缓存大小
   PaintingBinding.instance.imageCache.maximumSizeBytes = 1000 << 20;
   if (env.contains("dev") || env.contains("test")) {
-    PluginManager.instance // 注册插件
-        .register(DioInspector(dio: http));
-    runApp(UMEWidget(enable: true, child: app));
+    // PluginManager.instance // 注册插件
+        // .register(DioInspector(dio: http));
+    runApp(app); // UMEWidget removed
   } else {
     runApp(app);
   }

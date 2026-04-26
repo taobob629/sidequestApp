@@ -349,16 +349,7 @@ class RegisterPage extends StatelessWidget {
           ],
           tips: "Payment Pin".tr),
     );
-    if (controller.type == 1) {
-      list.add(SizedBox(
-        height: 20,
-      ));
-      list.add(AuthInputView(
-          isRequired: false,
-          tips: "Invite Code (Optional)".tr,
-          editingController: controller.inviteEditingController,
-          keyboardType: TextInputType.text));
-    }
+
     list.add(SizedBox(
       height: 40,
     ));

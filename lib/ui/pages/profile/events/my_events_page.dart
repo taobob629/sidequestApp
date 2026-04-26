@@ -5,7 +5,6 @@ import 'package:sq_hub_app/ui/pages/profile/events/tab_event_page.dart';
 import '../../../../common/base_scaffold.dart';
 import '../../../../common/keep_alive_wrapper.dart';
 import '../../events/events_page.dart';
-import 'activity/activity_view.dart';
 
 class MyEventsPage extends StatefulWidget {
   @override
@@ -23,7 +22,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "My Activities".tr,
-      body: ActivityView(),
+      body: Container(),
       // body: Stack(
       //   children: [
       //     Positioned(

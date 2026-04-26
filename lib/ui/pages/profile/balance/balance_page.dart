@@ -51,6 +51,7 @@ class BalancePage extends StatelessWidget {
         )
       ],
       body: SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 40.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -105,19 +106,6 @@ class BalancePage extends StatelessWidget {
             ),
             10.verticalSpace,
             Obx(() => _buildChargeItems(context)),
-            // ItemTitle(
-            //     title: "Other Top Up Amount".tr,
-            //     subTitle: '',
-            //     actions: Text(
-            //       '${'Min'.tr}:£1',
-            //       style: TextStyle(color: Colors.white54, fontFamily: "DIN", fontSize: 18),
-            //     )),
-            // _buildCustomInput(),
-            // ItemTitle(
-            //   title: "Top Up Account".tr,
-            //   subTitle: "",
-            // ),
-            // _buildAccountSelect(context),
             PWidget.container(
               PWidget.column([
                 PWidget.text('${'Tips'.tr}:', [Color(0xffEEF3FF)]),
@@ -128,28 +116,28 @@ class BalancePage extends StatelessWidget {
               ]),
               {'pd': 16},
             ),
-            Container(
-              height: 100,
-            )
           ],
         ),
       ),
-      floatingActionButton: FloatingButton(
-        label: "CONFIRM".tr,
-        onTap: () {
-          if (controller.productIndex.value == -1) {
-            String amountStr = controller.amountController.text;
-            double amount = 0.0;
-            if (amountStr.isNotEmpty) {
-              amount = double.parse(amountStr);
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 20.h),
+        child: FloatingButton(
+          label: "CONFIRM".tr,
+          onTap: () {
+            if (controller.productIndex.value == -1) {
+              String amountStr = controller.amountController.text;
+              double amount = 0.0;
+              if (amountStr.isNotEmpty) {
+                amount = double.parse(amountStr);
+              }
+              if (amount < 5 || amount > 500) {
+                showToast('Please enter an integer from 5 to 500'.tr);
+                return;
+              }
             }
-            if (amount < 5 || amount > 500) {
-              showToast('Please enter an integer from 5 to 500'.tr);
-              return;
-            }
-          }
-          controller.pay();
-        },
+            controller.pay();
+          },
+        ),
       ),
     );
   }
@@ -202,9 +190,9 @@ class BalancePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       shrinkWrap: true,
       crossAxisCount: 3,
-      mainAxisSpacing: 15,
-      crossAxisSpacing: 15,
-      childAspectRatio: 104 / 100,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 0.85,
       children: itemList,
     );
   }

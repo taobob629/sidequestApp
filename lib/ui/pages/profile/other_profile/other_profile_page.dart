@@ -23,8 +23,8 @@ import '../../../../widget/profile/voice_widget.dart';
 import '../../../../widget/route.dart';
 import '../../main_page.dart';
 import '../../playwith/balance/my_earnings_page.dart';
-import '../../service/add/add_game_page.dart';
-import '../../social/post/view/gift_animation.dart';
+// import '../../service/add/add_game_page.dart';
+// import '../../social/post/view/gift_animation.dart';
 import '../play_order/play_order_page.dart';
 import 'other_posts_page.dart';
 
@@ -624,7 +624,7 @@ class OtherProfileController extends BasePageController {
     showLoading();
     UserApi.attention(player.value.memberId).then((value) async {
       dismissLoading();
-      await showHearts(context, offset, "");
+      // await showHearts(context, offset, "");
       player.value.follow = !player.value.follow;
       if (player.value.follow) {
         player.value.fans += 1;
@@ -645,9 +645,9 @@ class OtherProfileController extends BasePageController {
       List<SkillModel> list = await UserApi.myauthlist();
       Iterable<SkillModel> skillModel =
           list.where((element) => element.id == game.id);
-      jumpPage(AddGamePage(skillModel.first.toJson()), callback: (res) {
-        flog('Get.ard ${Get.arguments}');
-      });
+      // jumpPage(AddGamePage(skillModel.first.toJson()), callback: (res) {
+      //   flog('Get.ard ${Get.arguments}');
+      // });
     } else {
       var uk = await Get.to(() {
         return MulitablePlayOrderPage(

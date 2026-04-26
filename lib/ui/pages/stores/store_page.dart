@@ -35,15 +35,15 @@ class _StorePageState extends State<StorePage> {
         child: Column(
           children: [
             Expanded(
-              flex: 2,
+              flex: 40,
               child: TabCybercafePage(),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 10.h),
             Expanded(
-              flex: 3,
+              flex: 60,
               child: TabTopProductsPage(),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
           ],
         ),
       );

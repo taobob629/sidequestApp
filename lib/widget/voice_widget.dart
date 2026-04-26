@@ -14,8 +14,6 @@ import '../common/styles.dart';
 import '../config/app_color.dart';
 import '../controller/user_controller.dart';
 import '../service/voice_player.dart';
-import '../ui/pages/profile/other_profile/record/controller.dart';
-import '../ui/pages/profile/other_profile/record/view.dart';
 import '../utils/utils.dart';
 
 class PlayState {
@@ -136,7 +134,7 @@ List voiceTypes = ['Record'.tr, 'From File'.tr];
 const int MAX_RECORD_FILE_SIZE = 25;
 
 pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,
-    {bool isServiceRecord = false, int recordType = record_type_default}) {
+    {bool isServiceRecord = false, int recordType = 0}) {
   Get.bottomSheet(
       Container(
         decoration: BoxDecoration(
@@ -161,7 +159,7 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,
                       switch (index) {
                         case 0:
                           Get.back();
-                          var result = await Get.to(() => RecordViewPage(),
+                          var result = await Get.to(() => SizedBox(),
                               arguments: {}
                                 ..['voice'] = voice
                                 ..['type'] = recordType);
@@ -187,7 +185,7 @@ pickVoiceDialog(BuildContext context, var voice, Function(String?) callback,
                                 await uploadFile(fileResult?.files.single.path);
                             return callback(voiceUrl);
                           }
-                          var result = await Get.to(() => RecordViewPage(),
+                          var result = await Get.to(() => SizedBox(),
                               arguments: fileResult?.files.single.path);
                           return callback(result);
                       }

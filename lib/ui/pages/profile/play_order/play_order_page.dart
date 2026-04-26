@@ -107,23 +107,23 @@ class MulitablePlayOrderPage extends StatelessWidget {
                         // }),
                         ///优惠卷
                         GestureDetector(
-                          onTap: () => Get.find<UserController>().checkLogin(
-                              () => NavigatorHelper.gotoCouponPage(
-                                  preOrder:
-                                      controller.getPayOrderModel().toJson(),
-                                  //  payOrderModel: pageController.getPayOrderModel(),
-                                  onSelect: (model) async {
-                                    //  flog('v $model');
-                                    controller.couponId = model.id ?? 0;
-                                    controller.calculateMulit();
-                                    // await controller.calculate(
-                                    //   serviceItem.skillAuthid.toString(),
-                                    //   liveUid,
-                                    //   '${serviceItem['id']}',
-                                    //   model.id,
-                                    //   model.couponCode,
-                                    // );
-                                  })),
+                          // onTap: () => Get.find<UserController>().checkLogin(
+                          //     () => NavigatorHelper.gotoCouponPage(
+                          //         preOrder:
+                          //             controller.getPayOrderModel().toJson(),
+                          //         //  payOrderModel: pageController.getPayOrderModel(),
+                          //         onSelect: (model) async {
+                          //           //  flog('v $model');
+                          //           controller.couponId = model.id ?? 0;
+                          //           controller.calculateMulit();
+                          //           // await controller.calculate(
+                          //           //   serviceItem.skillAuthid.toString(),
+                          //           //   liveUid,
+                          //           //   '${serviceItem['id']}',
+                          //           //   model.id,
+                          //           //   model.couponCode,
+                          //           // );
+                          //         })),
                           child: Container(
                             color: Colors.transparent,
                             child: Row(

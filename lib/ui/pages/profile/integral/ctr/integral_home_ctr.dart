@@ -57,12 +57,17 @@ class IntegralHomeCtr extends GetxController {
     scrollController.dispose();
   }
 
+  // 缓存积分等级配置数据
+  static dynamic cachedLevelConfigData;
+
   void requestData() async {
     final responseList = await Future.wait([
       http.get('/app/point/info'),
       http.get('/app/point/task/list',
           queryParameters: {"taskFrequency": taskFrequency}),
       http.get('/app/point/pointGoods'),
+      // 预加载积分等级配置数据，供IntegralInterestsPage使用
+      http.get('/app/point/level/config'),
     ]);
 
     dismissLoading();
@@ -76,6 +81,8 @@ class IntegralHomeCtr extends GetxController {
     if (list.isNotEmpty) {
       goods.value = list[0];
     }
+    // 缓存积分等级配置数据
+    cachedLevelConfigData = responseList[3].data;
     isLoading.value = false;
   }
 

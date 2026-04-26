@@ -12,6 +12,7 @@ import '../api/auth_api.dart';
 import '../api/pay_api.dart';
 import '../api/profile_api.dart';
 import '../config/app_config.dart';
+import '../ui/pages/stores/tab_top_products_page.dart';
 import '../event_bus/beans/user_info_suc_bean.dart';
 import '../event_bus/event_bus.dart';
 import '../model/db_model.dart';
@@ -200,6 +201,9 @@ class UserController extends GetxController {
       //判断是否有语音
       if (hasDidVoiceCheck) return;
       //  voiceCheck();
+      
+      // 预加载排行榜数据
+      await RankDataCache.preloadData();
     }
   }
 

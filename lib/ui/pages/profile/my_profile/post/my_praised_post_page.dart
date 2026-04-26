@@ -6,8 +6,8 @@ import '../../../../../api/profile_api.dart';
 import '../../../../../common/getx_refresh_controller.dart';
 import '../../../../../controller/user_controller.dart';
 import '../../../../../model/post_item_model.dart';
-import '../../../social/post/post_detail_page.dart';
-import '../../../social/post/view/post_list_item_view.dart';
+// import '../../../social/post/post_detail_page.dart';
+// import '../../../social/post/view/post_list_item_view.dart';
 
 class MyPraisedPostPage extends StatelessWidget {
   const MyPraisedPostPage({Key? key}) : super(key: key);
@@ -28,13 +28,7 @@ class MyPraisedPostPage extends StatelessWidget {
               Obx(() {
                 return SliverList(
                     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                  return PostListItemView(
-                    model: t.list[index],
-                    isSelf: false,
-                    onTap: () {
-                      Get.to(() => PostDetailPage(), arguments: t.list[index]);
-                    },
-                  );
+                  return;
                 }, childCount: t.list.length));
               })
             ],

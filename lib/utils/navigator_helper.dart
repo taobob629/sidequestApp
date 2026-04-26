@@ -29,10 +29,7 @@ import '../ui/pages/profile/integral/integral_detail_page.dart';
 import '../ui/pages/profile/other_profile/other_profile_page.dart';
 import '../ui/pages/profile/task/detail/task_detail_page.dart';
 import '../ui/pages/search/search_page.dart';
-import '../ui/pages/service/skill/list/view.dart';
 import '../ui/pages/shop/product/product_page.dart';
-import '../ui/pages/social/post/post_detail_page.dart';
-import '../ui/pages/social/post/release_post_page.dart';
 
 class NavigatorHelper {
   NavigatorHelper._();
@@ -62,28 +59,28 @@ class NavigatorHelper {
     showLoading();
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
-          Get.to(() => OtherProfilePage(),
-              arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
-        })
+      Get.to(() => OtherProfilePage(),
+          arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
+    })
         .whenComplete(() => dismissLoading())
         .catchError((err) {
-          print(err);
-          dismissLoading();
-        });
+      print(err);
+      dismissLoading();
+    });
   }
 
-  static void toPostDetail(postId) {
-    showLoading();
-    PostApi.getPostDetail(postsId: postId)
-        .then((postItem) {
-          Get.to(() => PostDetailPage(), arguments: postItem);
-        })
-        .whenComplete(() => dismissLoading())
-        .catchError((err) {
-          print(err);
-          dismissLoading();
-        });
-  }
+  // static void toPostDetail(postId) {
+  //   showLoading();
+  //   // PostApi.getPostDetail(postsId: postId)
+  //   //     .then((postItem) {
+  //   //   Get.to(() => PostDetailPage(), arguments: postItem);
+  //   // })
+  //   //     .whenComplete(() => dismissLoading())
+  //   //     .catchError((err) {
+  //   //   print(err);
+  //   //   dismissLoading();
+  //   // });
+  // }
 
   static void gotoSearchPage() {
     Get.to(() => SearchPage());
@@ -101,8 +98,8 @@ class NavigatorHelper {
   static Future<AddressModel?> gotoAddressPage({bool select = false}) async {
     AddressModel? model;
     await Get.to(() => AddressPage(
-          select: select,
-        ))?.then((value) => model = value);
+      select: select,
+    ))?.then((value) => model = value);
     return model;
   }
 
@@ -118,14 +115,14 @@ class NavigatorHelper {
     bool showTabbar = true,
   }) {
     Get.to(() => CouponPage(
-          couponType: couponType,
-          payOrderModel: payOrderModel,
-          preOrder: preOrder,
-          tab: tab,
-          storeId: storeId,
-          goodsList: goodsList,
-          showTabbar: showTabbar,
-        ))?.then((model) {
+      couponType: couponType,
+      payOrderModel: payOrderModel,
+      preOrder: preOrder,
+      tab: tab,
+      storeId: storeId,
+      goodsList: goodsList,
+      showTabbar: showTabbar,
+    ))?.then((model) {
       if (model != null) {
         onSelect?.call(model);
       }
@@ -139,9 +136,9 @@ class NavigatorHelper {
     switch (additionalData["type"]) {
       case "event":
         Get.to(() => EventPage(
-              id: additionalData["id"],
-              type: additionalData['eventType'],
-            ));
+          id: additionalData["id"],
+          type: additionalData['eventType'],
+        ));
         break;
 
       case "news":
@@ -180,9 +177,9 @@ class NavigatorHelper {
       String? url = map["target"];
       String? title = map["title"];
       Get.to(() => WebPage(
-            title: title,
-            url: url,
-          ));
+        title: title,
+        url: url,
+      ));
     } else if (map["type"] == "page") {
       String? page = map["target"];
       int? id = map["id"];
@@ -200,16 +197,16 @@ class NavigatorHelper {
           case "match":
             Get.to(() => EventPage(id: id, type: 2));
             break;
-          case "coin_topup":
-            Get.to(() => PlayBalancePage());
-            break;
-          case "create_post":
-            Get.to(() => ReleasePostPage());
-            break;
+          // case "coin_topup":
+          //   Get.to(() => PlayBalancePage());
+          //   break;
+          // case "create_post":
+          //   Get.to(() => ReleasePostPage());
+          //   break;
           case "task":
             showLoading();
             var response =
-                await http.get('/app/client/task/task?id=${map['id']}');
+            await http.get('/app/client/task/task?id=${map['id']}');
             dismissLoading();
             if (response.data != null) {
               TaskOutModel outModel = TaskOutModel.fromJson(response.data);
@@ -228,14 +225,12 @@ class NavigatorHelper {
       if (page == "balance") {
         double amount = map["amount"] == null ? 0.0 : map["amount"] * 1.0;
         Get.to(() => BalancePage(
-              amount: amount,
-            ));
+          amount: amount,
+        ));
       } else if (page == "booking") {
         Get.to(() => BookingPage());
       } else if (page == "coin") {
         Get.to(() => PlayBalancePage(), arguments: Map()..['page'] = 0);
-      } else if (page == "sidekick_service") {
-        Get.to(() => SkillListPage());
       }
     }
   }

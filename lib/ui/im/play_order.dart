@@ -92,19 +92,19 @@ class PlayOrder extends StatelessWidget {
                         //   if (controller.calculateDm.value.object == 0) textCon.clear();
                         // }),
                         GestureDetector(
-                          onTap: () => Get.find<UserController>().checkLogin(() => NavigatorHelper.gotoCouponPage(
-                              preOrder: Get.find<PlayOrderController>().getPayOrderModel().toJson(),
-                              //  payOrderModel: pageController.getPayOrderModel(),
-                              onSelect: (model) async {
-                                //  flog('v $model');
-                                await controller.calculate(
-                                  skillModel.authId.toString(),
-                                  liveUid,
-                                  '${serviceItem['id']}',
-                                  model.id,
-                                  model.couponModel.couponCode,
-                                );
-                              })),
+                          // onTap: () => Get.find<UserController>().checkLogin(() => NavigatorHelper.gotoCouponPage(
+                          //     preOrder: Get.find<PlayOrderController>().getPayOrderModel().toJson(),
+                          //     //  payOrderModel: pageController.getPayOrderModel(),
+                          //     onSelect: (model) async {
+                          //       //  flog('v $model');
+                          //       await controller.calculate(
+                          //         skillModel.authId.toString(),
+                          //         liveUid,
+                          //         '${serviceItem['id']}',
+                          //         model.id,
+                          //         model.couponModel.couponCode,
+                          //       );
+                          //     })),
                           child: Container(
                             color: Colors.transparent,
                             child: Row(

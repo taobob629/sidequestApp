@@ -6,13 +6,47 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../utils/toast_utils.dart';
 import '../utils/storage_manager.dart';
 
-class WebPage extends StatelessWidget {
+class WebPage extends StatefulWidget {
   final String? title;
   final String? url;
-  late final WebPageController webPageController;
+  
+  WebPage({required this.title, required this.url});
 
-  WebPage({required this.title, required this.url}){
-    webPageController = Get.put(WebPageController(url: url));
+  @override
+  State<WebPage> createState() => _WebPageState();
+}
+
+class _WebPageState extends State<WebPage> {
+  late final WebViewController _controller;
+  bool _isLoading = true;
+  
+  @override
+  void initState() {
+    super.initState();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.white)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (url) {
+            String cookie = '''
+              document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()};samesite=None; secure=true;language=${Get.locale?.languageCode}';
+            ''';
+            _controller.runJavaScript(cookie);
+          },
+          onPageFinished: (url) {
+            setState(() {
+              _isLoading = false;
+            });
+          },
+          onWebResourceError: (error) {
+            setState(() {
+              _isLoading = false;
+            });
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse("${widget.url}?X-Wanyoo-Token=${StorageManager.getToken()}&samesite=None&secure=true&language=${Get.locale?.languageCode}"));
   }
 
   @override
@@ -20,25 +54,11 @@ class WebPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          WebView(
-            initialUrl: "$url?X-Wanyoo-Token=${StorageManager.getToken()}&samesite=None&secure=true&language=${Get.locale?.languageCode}",
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              webPageController.setWebViewController(webViewController);
-            },
-            onPageStarted: (url) {
-              String cookie = '''
-                document.cookie = 'X-Wanyoo-Token=${StorageManager.getToken()};samesite=None; secure=true;language=${Get.locale?.languageCode}';
-              ''';
-              webPageController.webViewController.runJavascript(cookie);
-            },
-            onPageFinished: (url) {
-              dismissLoading();
-            },
-            onWebResourceError: (error) {
-              dismissLoading();
-            },
-          ),
+          WebViewWidget(controller: _controller),
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
           SafeArea(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -65,18 +85,20 @@ class WebPage extends StatelessWidget {
   }
 }
 
-class WebPageController extends GetxController{
-  final String? url;
+class WebPageController extends GetxController {
   late WebViewController webViewController;
-  WebPageController({required this.url});
-
-  void setWebViewController(WebViewController webViewController){
-    this.webViewController = webViewController;
+  
+  WebPageController({required String? url}) {
+    if (url != null) {
+      webViewController = WebViewController();
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-    showLoading();
+  
+  void setWebViewController(WebViewController controller) {
+    webViewController = controller;
+  }
+  
+  void dismissLoading() {
+    // Placeholder for dismiss loading logic
   }
 }

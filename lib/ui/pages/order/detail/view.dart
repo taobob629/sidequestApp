@@ -21,16 +21,11 @@ import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../model/order_detail.dart';
 import '../../../../model/order_detail_new_model.dart';
-import '../../../../model/service_list_model.dart';
-import '../../../../res/dimens.dart';
-import '../../../../utils/utils.dart';
+
 import '../../../../widget/image_util.dart';
 import '../../../../widget/scaffold_widget.dart';
-import '../../../../widget/views.dart';
-import '../controller.dart';
-import 'controller.dart';
+
 import 'order_detail_ctr.dart';
-import 'widgets/acticon_widget.dart';
 
 class OrderDetailPage extends BasePage {
   final ctr = Get.put(OrderDetailCtr());

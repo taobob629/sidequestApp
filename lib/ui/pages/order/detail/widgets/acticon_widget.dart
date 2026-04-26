@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 import '../../../../../common/colorful_button.dart';
 import '../../../../../common/styles.dart';
 import '../../../../../controller/user_controller.dart';
-import '../../../../im/dialog_comment.dart';
 import '../../controller.dart';
 import '../../refound/view.dart';
 import '../controller.dart';
@@ -79,8 +78,8 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      Get.dialog(CommentDialog(controller.id, () => Get.back(), isRehect: true),
-                          barrierColor: Colors.black26);
+                      // Get.dialog(Container(controller.id, () => Get.back(), isRehect: true),
+                      //     barrierColor: Colors.black26);
                     },
                     child: Container(
                         decoration: BoxDecoration(
@@ -153,7 +152,7 @@ class ActionWidget extends GetView<OrderDetailPageController> {
                         arguments: {}
                           ..['order'] = controller.model
                           ..['orderId'] = controller.id);
-                    // Get.dialog(CommentDialog(controller.id, () => Get.back(), isRefund: true),
+                    // Get.dialog(Container(controller.id, () => Get.back(), isRefund: true),
                     //     barrierColor: Colors.black26);
                   },
                 ),

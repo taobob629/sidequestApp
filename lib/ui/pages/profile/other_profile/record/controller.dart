@@ -14,7 +14,6 @@ import '../../../../../service/voice_player.dart';
 import '../../../../../utils/permission_util.dart';
 import '../../../../../utils/toast_utils.dart';
 import '../../../../../utils/utils.dart';
-import '../../../../../widget/profile/voice_record.dart';
 
 const int record_type_service = 1;
 const int record_type_default = 0;
@@ -54,8 +53,6 @@ class RecordController extends BasePageController {
     _recordFileUrl.value = value;
   }
 
-  late VoiceRecord _record;
-
   @override
   void onInit() {
     PermissionUtil.microphone(() {});
@@ -63,20 +60,6 @@ class RecordController extends BasePageController {
     recordFileUrl = params['voice'];
     type = params['type'] ?? 0;
     flog('recordFileUrl $recordFileUrl type:  $type');
-    _record = VoiceRecord(
-      (int sec, String path) {
-        //onComplete(sec, path);
-        flog('录制时长 $sec');
-        if (sec < minSeconds) {
-          showError(
-              'The recording duration shall not be less than 3 seconds'.tr);
-          stopRecord();
-          return;
-        }
-        recordFileUrl = path;
-      },
-      maxSeconds: 60,
-    );
     super.onInit();
   }
 
@@ -113,13 +96,10 @@ class RecordController extends BasePageController {
   startRecord() {
     isRecording = true;
     startTimer();
-    _record.start();
   }
 
   stopRecord() {
     isRecording = false;
-    //countDownNum = 0;
-    _record.stop();
     timerTask?.cancel();
   }
 

@@ -30,8 +30,8 @@ class ChargeItem extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(
-              top: showCoin ? 6.0 : 10.0,
-              bottom: showCoin ? 6.0 : 10.0,
+              top: showCoin ? 4.0 : 6.0,
+              bottom: showCoin ? 4.0 : 6.0,
             ),
             decoration: BoxDecoration(
               color: Colors.white10,
@@ -44,70 +44,63 @@ class ChargeItem extends StatelessWidget {
                     ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   showCoin
                       ? "assets/images/ic_coin_charge${index + 1}.webp"
                       : "assets/images/ic_balance_charge${index + 1}.webp",
-                  width: showCoin ? 50 : 60,
+                  width: showCoin ? 40 : 50,
                 ),
+                SizedBox(height: 4),
                 Visibility(
                     visible: showCoin,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       children: [
-                        Container(
-                          child: PWidget.image(
-                            ImageUtils.ic_balance_money,
-                            [20, 20],
-                          ),
-                        ),
-                        Text(
-                          " ${item.coin}",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        if (item.freeCoin > 0) ...[
-                          Text(
-                            "+",
-                            style: TextStyle(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: PWidget.image(
+                                ImageUtils.ic_balance_money,
+                                [20, 20],
+                              ),
+                            ),
+                            Text(
+                              " ${item.coin}",
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${item.freeCoin}",
-                            style: TextStyle(
-                                color: Colors.yellow,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ]
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (item.freeCoin > 0) ...[
+                              Text(
+                                "+",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${item.freeCoin}",
+                                style: TextStyle(
+                                    color: Colors.yellow,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ]
+                          ],
+                        ),
+                        SizedBox(height: 4),
                       ],
                     )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Visibility(
-                    //     visible: item.money != item.actualMoney,
-                    //     child: Text(
-                    //       "£${item.actualMoney}",
-                    //       style: TextStyle(
-                    //           color: Colors.white54,
-                    //           fontSize: 18,
-                    //           decoration: TextDecoration.lineThrough,
-                    //           decorationThickness: 1,
-                    //           decorationColor: Colors.white54,
-                    //           decorationStyle: TextDecorationStyle.solid),
-                    //     )),
-                    // PWidget.boxw(3),
                     Text(
                       "£${item.money}",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ],
                 )

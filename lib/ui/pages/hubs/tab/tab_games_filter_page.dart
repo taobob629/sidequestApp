@@ -16,134 +16,60 @@ class TabGamesFilterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-        child: Obx(() => Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 74.w,
-                  margin: EdgeInsets.only(
-                    left: 15.w,
-                    right: 10.w,
-                    top: 3.h,
-                  ),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemBuilder: (c, i) => Obx(() => GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => controller.clickLeftTab(
-                              i, controller.leftTabs[i].name),
-                          child: Container(
-                            width: 74.w,
-                            height: i != 2 ? 80.h : 90.h,
-                            decoration: controller.selectLeftTabIndex.value == i
-                                ? ShapeDecoration(
-                                    gradient: const LinearGradient(
-                                      begin: Alignment(0.59, -0.80),
-                                      end: Alignment(-0.59, 0.8),
-                                      colors: [
-                                        Color(0xFF141414),
-                                        Color(0xFF383631),
-                                        Color(0xFF141414)
-                                      ],
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        width: 1.w,
-                                        color: const Color(0xFFA0998A),
+        child: Obx(() => Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: controller.list.isNotEmpty
+                  ? GridView.builder(
+                      itemCount: controller.list.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 0.8,
+                      ),
+                      itemBuilder: (BuildContext context, int index) =>
+                          InkWell(
+                            onTap: () => Get.dialog(DialogSupportStores(
+                                controller.list[index].stores)),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 90.h,
+                                  height: 90.h,
+                                  decoration: BoxDecoration(
+                                    color: hexColor("222222"),
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  child: Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4.r),
+                                      child: ImageUtil.networkImage(
+                                        url: "${controller.list[index].image}",
+                                        width: (90 * 3 / 4).h,
+                                        height: 90.h,
+                                        fit: BoxFit.cover,
                                       ),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                  )
-                                : ShapeDecoration(
-                                    color: const Color(0xFF141414),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.r),
                                     ),
                                   ),
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  controller.leftTabs[i].icon,
-                                  width: 30.w,
-                                  height: 32.h,
                                 ),
-                                6.verticalSpace,
+                                8.verticalSpace,
                                 Text(
-                                  controller.leftTabs[i].name,
+                                  '${controller.list[index].name}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 13.sp,
+                                    fontSize: 11.sp,
                                     fontFamily: 'DIN',
                                     fontWeight: FontWeight.w400,
                                   ),
-                                ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                )
                               ],
                             ),
-                          ),
-                        )),
-                    separatorBuilder: (c, i) => 15.verticalSpace,
-                    itemCount: controller.leftTabs.length,
-                  ),
-                ),
-                Expanded(
-                  child: controller.list.isNotEmpty
-                      ? GridView.builder(
-                          itemCount: controller.list.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.8,
-                          ),
-                          itemBuilder: (BuildContext context, int index) =>
-                              InkWell(
-                                onTap: () => Get.dialog(DialogSupportStores(
-                                    controller.list[index].stores)),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 120.h,
-                                      height: 120.h,
-                                      decoration: BoxDecoration(
-                                        color: hexColor("222222"),
-                                        borderRadius: BorderRadius.circular(8.r),
-                                      ),
-                                      child: Center(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(4.r),
-                                          child: ImageUtil.networkImage(
-                                            url: "${controller.list[index].image}",
-                                            width: (120 * 3 / 4).h,
-                                            height: 120.h,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    10.verticalSpace,
-                                    Text(
-                                      '${controller.list[index].name}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13.sp,
-                                        fontFamily: 'DIN',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                  ],
-                                ),
-                              ))
-                      : Center(
-                          child: EmptyView(),
-                        ),
-                ),
-                15.horizontalSpace,
-              ],
+                          ))
+                  : Center(
+                      child: EmptyView(),
+                    ),
             )),
       );
 }
@@ -151,16 +77,6 @@ class TabGamesFilterPage extends StatelessWidget {
 class TabGamesFilterController extends GetxController {
   static TabGamesFilterController get find => Get.find();
 
-  List<GamesLeftTabBean> leftTabs = [
-    GamesLeftTabBean(name: "PC".tr, icon: ImageUtils.tab_pc_icon),
-    GamesLeftTabBean(name: "Console".tr, icon: ImageUtils.tab_console_icon),
-    GamesLeftTabBean(name: "Racing\nsims".tr, icon: ImageUtils.tab_racing_icon),
-    // GamesLeftTabBean(name: "Favorite".tr, icon: ImageUtils.tab_favorite_icon),
-  ];
-
-  var selectLeftTabIndex = 0.obs;
-
-  List<GameModel> totalList = [];
   var list = <GameItemModel>[].obs;
 
   @override
@@ -171,25 +87,12 @@ class TabGamesFilterController extends GetxController {
   }
 
   void requestData() async {
-    totalList = await IndexApi.getGames();
-    list.assignAll(totalList
-        .firstWhere(
-            (element) => "pc".contains(element.type?.toLowerCase() ?? ''))
-        .list);
-  }
-
-  void clickLeftTab(int i, String clickTabName) {
-    selectLeftTabIndex.value = i;
-    final result = totalList
-        .where((element) => clickTabName
-            .toLowerCase()
-            .contains(element.type?.toLowerCase() ?? ''))
-        .toList();
-
-    if (result.isNotEmpty) {
-      list.assignAll(result.first.list);
-    } else {
-      list.clear();
+    List<GameModel> totalList = await IndexApi.getGames();
+    // 合并所有游戏数据
+    List<GameItemModel> allGames = [];
+    for (var gameModel in totalList) {
+      allGames.addAll(gameModel.list);
     }
+    list.assignAll(allGames);
   }
 }

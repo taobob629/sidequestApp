@@ -35,7 +35,6 @@ class RegisterPageController extends GetxController {
   late TextEditingController lastEditingController;
   late TextEditingController nickEditingController;
   late TextEditingController phoneEditingController;
-  late TextEditingController inviteEditingController;
   late TextEditingController pinEditingController;
 
   late FocusNode emailFocusNode;
@@ -53,7 +52,6 @@ class RegisterPageController extends GetxController {
   String nick = "";
   String phone = "";
   var uid = "".obs;
-  String invite = "";
   var sex = 0.obs;
 
   Timer? _timer;
@@ -78,7 +76,6 @@ class RegisterPageController extends GetxController {
     nickEditingController = TextEditingController();
     phoneEditingController = TextEditingController();
     guardianEditingController = TextEditingController();
-    inviteEditingController = TextEditingController();
     pinEditingController = TextEditingController();
 
     emailFocusNode = FocusNode();
@@ -117,7 +114,6 @@ class RegisterPageController extends GetxController {
     nickEditingController.dispose();
     phoneEditingController.dispose();
     guardianEditingController.dispose();
-    inviteEditingController.dispose();
     pinEditingController.dispose();
 
     emailFocusNode.dispose();
@@ -253,7 +249,6 @@ class RegisterPageController extends GetxController {
     // lastName = lastEditingController.text.trim();
     nick = nickEditingController.text.trim();
     phone = phoneEditingController.text.trim();
-    invite = inviteEditingController.text.trim();
     pin = pinEditingController.text.trim();
 
     if (password.length < 6) {
@@ -307,7 +302,6 @@ class RegisterPageController extends GetxController {
           code,
           uid.value,
           pin,
-          invite,
           sex.value);
       showSuccess(
           "Congratulations and welcome, please sign in with your new account!"

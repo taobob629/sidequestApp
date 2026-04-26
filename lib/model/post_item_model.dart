@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 
-import '../ui/pages/social/post/release_post_controller.dart';
 
 var gidPrefix = 'SiqdequestGid';
 RegExp exp = RegExp(r'SiqdequestGid=([^]*?)=');
@@ -28,7 +27,7 @@ class PostItemModel {
   int memberId = 0;
 
   showContent() {
-    if (type == TYPE_DEFAULT) return content;
+    if (type == 0) return content;
     return content.substring(0, content.lastIndexOf(gidPrefix));
   }
 

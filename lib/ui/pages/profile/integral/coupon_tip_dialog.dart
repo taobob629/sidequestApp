@@ -107,9 +107,7 @@ class CouponTipDialog extends StatelessWidget {
               ? Html(
                   data: info["description"],
                   style: {"body": Style()},
-                  onLinkTap: (
-                    String? url,
-                    RenderContext context,
+                  onLinkTap: (String? url,
                     Map<String, String> attributes,
                     dom.Element? element,
                   ) async {
@@ -539,9 +537,7 @@ class CouponTipDialog extends StatelessWidget {
                 ? Html(
                     data: info["description"],
                     style: {"body": Style()},
-                    onLinkTap: (
-                      String? url,
-                      RenderContext context,
+                    onLinkTap: (String? url,
                       Map<String, String> attributes,
                       dom.Element? element,
                     ) async {
