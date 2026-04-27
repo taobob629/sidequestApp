@@ -4,7 +4,6 @@ import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
@@ -16,7 +15,6 @@ import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
 import '../../../model/bubble_tea_store_model.dart';
 import '../../../model/bundles_model.dart';
-import '../../../service/location_service.dart';
 import '../../../utils/toast_utils.dart';
 import '../../../widget/image_util.dart';
 import 'bundle_confirm_order_page.dart';
@@ -577,20 +575,6 @@ class TabBundlesPageController extends GetxController {
     ));
     if (value != null) {
       currentSelectStore.value = value as BubbleTeaStoreModel;
-      requestData(currentSelectStore.value.id, true);
-
-      if (currentSelectStore.value.map != null) {
-        List<String> latLog =
-            currentSelectStore.value.map!.replaceAll(" ", "").split(",");
-
-        minDistances.value = Geolocator.distanceBetween(
-          LocationService().position.value?.latitude ?? 51.51272691932477,
-          LocationService().position.value?.longitude ?? -0.12896615379992515,
-          double.parse(latLog[0]),
-          double.parse(latLog[1]),
-        );
-      }
-
       clearTea();
       requestData(currentSelectStore.value.id, true);
     }

@@ -62,7 +62,6 @@ dependencies:
   photo_view: ^0.15.0
   flutter_widget_from_html: ^0.15.0
   pinput: ^4.0.0
-  showcaseview: ^2.0.3
   sign_in_with_apple: ^6.0.0
   flutter_web_auth: ^0.5.0
   waterfall_flow: ^3.0.2
@@ -74,7 +73,6 @@ dependencies:
   local_notifications_for_us: 1.0.4
 #  flutter_local_notifications_linux: ^0.5.0
   dotted_border: ^2.1.0
-  geolocator: ^13.0.0
   flutter_ringtone_player: ^4.0.0
   flutter_screenutil: ^5.9.1
   google_sign_in: ^6.2.0
@@ -90,7 +88,6 @@ dependencies:
   equatable: ^2.0.5
   collection: ^1.18.0
   qr_flutter: ^4.1.0
-  csslib: ^1.0.0
   onesignal_flutter: ^5.2.0
   in_app_purchase: ^3.1.0
 

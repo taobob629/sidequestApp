@@ -8,7 +8,6 @@ import 'package:sq_hub_app/widget/show_error_widget.dart';
 
 import '../config/app_config.dart';
 import '../controller/user_controller.dart';
-import '../service/location_service.dart';
 import '../ui/pages/login/login_page.dart';
 import '../utils/platform_utils.dart';
 import '../utils/storage_manager.dart';
@@ -44,8 +43,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.headers['platform'] = Platform.operatingSystem;
     options.headers['language'] = language();
     // options.headers['phoneModel'] =Platform.isIOS? deviceInfo['name']:  '${deviceInfo['manufacturer']}-${deviceInfo['brand']}';
-    options.headers['longitude'] = LocationService().position.value?.longitude ?? 0;
-    options.headers['latitude'] = LocationService().position.value?.latitude ?? 0;
+    // options.headers['longitude'] = LocationService().position.value?.longitude ?? 0;
+    // options.headers['latitude'] = LocationService().position.value?.latitude ?? 0;
     log(jsonEncode(options.headers), name: 'options.headers: ${options.path}');
     handler.next(options);
   }
