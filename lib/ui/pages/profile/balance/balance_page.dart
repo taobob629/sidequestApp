@@ -22,6 +22,7 @@ import '../../../../utils/navigator_helper.dart';
 import '../../../../utils/toast_utils.dart';
 import '../../../../widget/action_button.dart';
 import '../../../../widget/paixs_widget.dart';
+import '../../pay/pay_page.dart';
 import 'charge_item.dart';
 import 'input_formatter.dart';
 import 'item_title.dart';
@@ -431,26 +432,46 @@ class BalancePageController extends GetxListController {
     accountType.value = value;
   }
 
-  void pay() {
+  void pay() async {
     if (Get.isDialogOpen == true) Get.back();
-    PayOrderModel payOrderModel = PayOrderModel();
-    String amountStr = amountController.text;
-    double amount = 0.0;
-    if (amountStr.isNotEmpty) {
-      amount = double.parse(amountStr);
-    }
-    if (amount == 0) {
-      CoinChargeRuleModel model = list[productIndex.value];
-      amount = double.parse(model.money) * 1.0;
-      payOrderModel.chargeid = model.id;
-    }
 
-    payOrderModel.goodsPrice = "$amount";
-    payOrderModel.totalAmount = "$amount";
+    // 显示加载指示器
+    showLoading();
 
-    NavigatorHelper.gotoPayPage(payOrderModel, whenComplete: () {
-      var userController = Get.find<UserController>();
-      userController.updateInfo();
-    });
+    try {
+      PayOrderModel payOrderModel = PayOrderModel();
+      String amountStr = amountController.text;
+      double amount = 0.0;
+      if (amountStr.isNotEmpty) {
+        amount = double.parse(amountStr);
+      }
+      if (amount == 0) {
+        CoinChargeRuleModel model = list[productIndex.value];
+        amount = double.parse(model.money) * 1.0;
+        payOrderModel.chargeid = model.id;
+      }
+
+      payOrderModel.goodsPrice = "$amount";
+      payOrderModel.totalAmount = "$amount";
+
+      // 预加载PayPageController
+      await Future.delayed(Duration(milliseconds: 200));
+
+      // 关闭加载指示器
+      dismissLoading();
+
+      // 无动画导航
+      Get.to(() => PayPage(payOrderModel: payOrderModel),
+              transition: Transition.noTransition)
+          ?.then((value) {
+        if (value != null && value == true) {
+          var userController = Get.find<UserController>();
+          userController.updateInfo();
+        }
+      });
+    } catch (e) {
+      print('Error in pay(): $e');
+      dismissLoading();
+    }
   }
 }

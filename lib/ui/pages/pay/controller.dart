@@ -165,7 +165,6 @@ class PayPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    showLoading();
     this.getCoin();
     initInAppPay();
     List<AddressModel> list = await AddressApi.list();
@@ -288,7 +287,7 @@ class PayPageController extends GetxController {
           dismissLoading();
           if (result == "gotopay") {
             Get.dialog(CheckingDialog(tips: "Checking payment result ...".tr),
-                barrierColor: Colors.black26)
+                    barrierColor: Colors.black26)
                 .whenComplete(() {
               _timer?.cancel();
               Get.find<UserController>().updateInfo();

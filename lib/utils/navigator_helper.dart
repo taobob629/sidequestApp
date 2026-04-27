@@ -39,13 +39,17 @@ class NavigatorHelper {
       {bool offPage = false, Function? whenComplete}) {
     // showInfo('Please recharge via our store till');
     if (offPage) {
-      Get.off(() => PayPage(payOrderModel: payOrderModel))?.then((value) {
+      Get.off(() => PayPage(payOrderModel: payOrderModel), 
+          transition: Transition.fade, 
+          duration: Duration(milliseconds: 200))?.then((value) {
         if (value != null && value == true) {
           whenComplete?.call();
         }
       });
     } else {
-      Get.to(() => PayPage(payOrderModel: payOrderModel))?.then((value) {
+      Get.to(() => PayPage(payOrderModel: payOrderModel), 
+          transition: Transition.fade, 
+          duration: Duration(milliseconds: 200))?.then((value) {
         if (value != null && value == true) {
           whenComplete?.call();
         }
