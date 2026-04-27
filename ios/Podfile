@@ -37,8 +37,8 @@ target 'Runner' do
 # 否则会报错：Swift Compiler Error (Xcode): Cannot find type 'PhoneNumberKit' in scope
   pod 'PhoneNumberKit', '3.8.0'
 
-  # 使用本地 OneSignal 依赖
-  pod 'OneSignalXCFramework', :path => './OneSignal-iOS-SDK'
+  # 使用 CocoaPods 仓库中的 OneSignal 依赖，与 onesignal_flutter 5.5.1 保持一致
+  pod 'OneSignalXCFramework', '5.5.0'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
@@ -97,5 +97,5 @@ end
 
 target 'OneSignalNotificationServiceExtension' do
   use_frameworks!
-  pod 'OneSignalXCFramework', :path => './OneSignal-iOS-SDK'
+  pod 'OneSignalXCFramework', '5.5.0'
 end
