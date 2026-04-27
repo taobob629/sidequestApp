@@ -1,0 +1,1 @@
+D:\SQAPP\sq_hub_app\android\app\build\intermediates\cxx\RelWithDebInfo\1d2q3y12\obj\x86_64

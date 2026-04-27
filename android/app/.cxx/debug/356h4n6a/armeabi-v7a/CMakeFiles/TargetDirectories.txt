@@ -1,0 +1,2 @@
+D:/SQAPP/sq_hub_app/android/app/.cxx/debug/356h4n6a/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/SQAPP/sq_hub_app/android/app/.cxx/debug/356h4n6a/armeabi-v7a/CMakeFiles/rebuild_cache.dir

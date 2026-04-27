@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Sidequest Hub - Store Page with Rankings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: #000000; /* 截图背景是纯黑，调整更匹配 */
+            color: #ffffff;
+            overflow-x: hidden;
+            height: 100vh;
+            overscroll-behavior: contain;
+        }
+
+        /* 适配状态栏 + 底部导航栏 */
+        .status-bar {
+            height: env(safe-area-inset-top);
+            background: #000000;
+        }
+
+        /* 核心容器：预留底部导航栏高度（截图底部有4个图标导航） */
+        .app-container {
+            width: 100%;
+            height: calc(100vh - env(safe-area-inset-top) - 60px); /* 60px 适配底部导航栏高度 */
+            overflow-y: auto;
+            padding-bottom: env(safe-area-inset-bottom);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 手机容器：更紧凑的边距，匹配截图 */
+        .phone-container {
+            width: 100%;
+            max-width: 100%; /* 全屏展示，无最大宽度限制 */
+            margin: 0 auto;
+            background: #000000;
+            min-height: 100%;
+            position: relative;
+            padding: 0 12px; /* 截图边距更窄，调整为12px */
+        }
+
+        /* 门店卡片：按截图比例优化 */
+        .store-card {
+            margin: 8px 0 16px 0; /* 顶部间距更小，匹配截图 */
+            border-radius: 20px; /* 截图圆角更大，更圆润 */
+            overflow: hidden;
+            background: #121212; /* 截图卡片背景更深 */
+            box-shadow: none; /* 移除阴影，匹配截图的扁平风格 */
+            width: 100%;
+        }
+
+        .store-image {
+            width: 100%;
+            aspect-ratio: 4/3; /* 截图图片占比更大，调整为4:3 */
+            object-fit: cover;
+            position: relative;
+        }
+
+        .store-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 适配截图中CX徽章的位置和样式 */
+        .store-badge {
+            position: absolute;
+            top: -8px; /* 徽章部分超出图片，匹配截图 */
+            left: 16px;
+            background: linear-gradient(135deg, #FFB20E 0%, #FF9500 100%);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 16px;
+            color: #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .store-info {
+            padding: 20px 16px; /* 内边距更大，匹配截图 */
+        }
+
+        .store-name {
+            font-size: 22px; /* 截图店名字体更大 */
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            letter-spacing: 0.5px;
+        }
+
+        .store-status {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            background: #10b981; /* 截图中绿色更亮，匹配 */
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .store-hours {
+            color: #9ca3af;
+            font-size: 15px; /* 时间字体更大 */
+        }
+
+        .store-address {
+            color: #9ca3af;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 排行榜区域：按截图比例调整（截图中未显示排行榜，预留紧凑布局） */
+        .ranking-section {
+            margin: 0 0 20px 0;
+            background: #121212; /* 匹配卡片背景色 */
+            border-radius: 20px;
+            padding: 18px 16px;
+            border: none; /* 移除边框，匹配截图扁平风格 */
+            width: 100%;
+        }
+
+        .ranking-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .ranking-title {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFB20E 0%, #FF9500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .ranking-subtitle {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        /* Tab 切换 - 保持3:4:3比例，优化视觉匹配截图 */
+        .ranking-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            background-color: #1e1e1e; /* 更深的背景色 */
+            border-radius: 16px;
+            padding: 4px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .tab-btn {
+            min-width: 0;
+            padding: 11px 6px;
+            border-radius: 12px;
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .tab-btn.games-tab { flex: 3; }
+        .tab-btn.bubble-tea-tab { flex: 4; }
+        .tab-btn.food-tab { flex: 3; }
+
+        .tab-icon {
+            display: inline-block;
+            width: 18px;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #FFB20E 0%, #FF9500 100%);
+            color: #000;
+            box-shadow: 0 2px 6px rgba(255, 178, 14, 0.2);
+        }
+
+        .tab-btn:hover:not(.active) { color: #fff; }
+
+        /* 排行榜列表 */
+        .ranking-list { display: none; }
+        .ranking-list.active { display: block; }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ranking-item:hover {
+            background: rgba(255, 178, 14, 0.08);
+            transform: translateX(3px);
+        }
+
+        .rank-number {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 19px;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .rank-1 { background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #000; }
+        .rank-2 { background: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%); color: #000; }
+        .rank-3 { background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%); color: #fff; }
+        .rank-other { background: #222; color: #9ca3af; }
+
+        .rank-content { flex: 1; }
+
+        .rank-name {
+            font-weight: 600;
+            font-size: 19px;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+
+        .rank-desc {
+            color: #9ca3af;
+            font-size: 15px;
+        }
+
+        .rank-trend {
+            font-size: 22px;
+            margin-left: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .trend-up { color: #10b981; background-color: rgba(16, 185, 129, 0.1); }
+        .trend-down { color: #ef4444; background-color: rgba(239, 68, 68, 0.1); }
+        .trend-same { color: #3b82f6; background-color: rgba(59, 130, 246, 0.1); }
+
+        /* 隐藏滚动条 */
+        ::-webkit-scrollbar { display: none; }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ranking-list.active { animation: fadeIn 0.3s ease; }
+
+        /* 适配截图的屏幕比例（竖屏手机） */
+        @media (aspect-ratio < 9/19.5) {
+            .store-image { aspect-ratio: 3/2; } /* 长屏手机图片占比更大 */
+            .ranking-section { padding: 16px 14px; }
+            .ranking-item { padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar"></div>
+    <div class="app-container">
+        <div class="phone-container">
+            <!-- 门店卡片（核心匹配截图） -->
+            <div class="store-card">
+                <div class="store-image">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop" alt="Store">
+                    <div class="store-badge">CX</div>
+                </div>
+                <div class="store-info">
+                    <div class="store-name">
+                        <span>Sidequest Hub Charing Cross</span>
+                        <span style="font-size: 22px; color: #9ca3af;">›</span>
+                    </div>
+                    <div class="store-status">
+                        <span class="status-badge">In operation</span>
+                        <span class="store-hours">12:00 - 06:00</span>
+                    </div>
+                    <div class="store-address">
+                        <span>📍</span>
+                        <span>77-79 Charing Cross Rd, London WC2H ONE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 排行榜区域（紧凑布局，匹配整体风格） -->
+            <div class="ranking-section">
+                <div class="ranking-header">
+                    <div class="ranking-title">SIDEQUEST RANK</div>
+                    <div class="ranking-subtitle">MARCH 2026 • Top Picks at This Store</div>
+                </div>
+
+                <div class="ranking-tabs">
+                    <button class="tab-btn games-tab active" onclick="switchTab('games')">
+                        <span class="tab-icon">🎮</span> Games
+                    </button>
+                    <button class="tab-btn bubble-tea-tab" onclick="switchTab('bubble-tea')">
+                        <span class="tab-icon">🧋</span> Bubble Tea
+                    </button>
+                    <button class="tab-btn food-tab" onclick="switchTab('food')">
+                        <span class="tab-icon">🍜</span> Food
+                    </button>
+                </div>
+
+                <!-- Games 排行榜 -->
+                <div id="games" class="ranking-list active">
+                    <div class="ranking-item">
+                        <div class="rank-number rank-1">1</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Valorant</div>
+                            <div class="rank-desc">Most played this month</div>
+                        </div>
+                        <div class="rank-trend trend-same">➡️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-2">2</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Counter-Strike 2</div>
+                            <div class="rank-desc">Competitive favorite</div>
+                        </div>
+                        <div class="rank-trend trend-same">➡️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-3">3</div>
+                        <div class="rank-content">
+                            <div class="rank-name">League of Legends</div>
+                            <div class="rank-desc">Team battles</div>
+                        </div>
+                        <div class="rank-trend trend-same">➡️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-other">4</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Dota 2</div>
+                            <div class="rank-desc">Rising popularity</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-other">5</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Overwatch 2</div>
+                            <div class="rank-desc">Hot hero shooter</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                </div>
+
+                <!-- Bubble Tea 排行榜 -->
+                <div id="bubble-tea" class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number rank-1">1</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Oreo Mudflip</div>
+                            <div class="rank-desc">Customer favorite</div>
+                        </div>
+                        <div class="rank-trend trend-same">➡️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-2">2</div>
+                        <div class="rank-content">
+                            <div class="rank-name">YiFang Fruit Tea</div>
+                            <div class="rank-desc">Refreshing choice</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-3">3</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Strawberry Shake</div>
+                            <div class="rank-desc">Sweet & creamy</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-other">4</div>
+                        <div class="rank-content">
+                            <div class="rank-name">YiFang Milk Tea</div>
+                            <div class="rank-desc">Classic flavor</div>
+                        </div>
+                        <div class="rank-trend trend-down">⬇️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-other">5</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Mudflip Milk</div>
+                            <div class="rank-desc">Unique taste</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                </div>
+
+                <!-- Food 排行榜 -->
+                <div id="food" class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="rank-number rank-1">1</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Combo 2</div>
+                            <div class="rank-desc">Chicken Dippers & Fries</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-2">2</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Nonshim Shin Ramyun</div>
+                            <div class="rank-desc">Spicy & delicious</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-3">3</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Combo 3</div>
+                            <div class="rank-desc">Mozzarella Sticks & Fries</div>
+                        </div>
+                        <div class="rank-trend trend-down">⬇️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-other">4</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Samyang Spicy Ramen</div>
+                            <div class="rank-desc">Fire challenge</div>
+                        </div>
+                        <div class="rank-trend trend-up">⬆️</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-number rank-other">5</div>
+                        <div class="rank-content">
+                            <div class="rank-name">Roasted Beef Flavoured Noodles</div>
+                            <div class="rank-desc">Comfort food</div>
+                        </div>
+                        <div class="rank-trend trend-down">⬇️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.ranking-list').forEach(list => list.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // 移动端触摸反馈
+        document.querySelectorAll('.ranking-item').forEach(item => {
+            item.addEventListener('touchstart', () => item.style.transform = 'scale(0.98)');
+            item.addEventListener('touchend', () => setTimeout(() => item.style.transform = '', 100));
+            item.addEventListener('click', () => {
+                item.style.transform = 'scale(0.98)';
+                setTimeout(() => item.style.transform = '', 100);
+            });
+        });
+
+        // 禁止下拉刷新
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.scrollTop === 0 && e.deltaY > 0) e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>
