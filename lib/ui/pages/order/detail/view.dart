@@ -13,7 +13,6 @@ import 'package:sq_hub_app/common/string_ext.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/order/detail/widgets/widgets.dart';
 import 'package:sq_hub_app/utils/decimal_utils.dart';
-import 'package:timelines/timelines.dart';
 
 import '../../../../common/base_controller.dart';
 import '../../../../common/styles.dart';
