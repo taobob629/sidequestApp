@@ -69,6 +69,15 @@ class BubbleConfirmOrderCtr extends GetxController
     totalPrice.value = TabBubbleTeaCtr.find.totalPrice.value;
     discount.value = TabBubbleTeaCtr.find.discount.value;
     tabController = TabController(length: tabs.length, vsync: this, initialIndex: 1);
+    
+    // 在初始化时计算营业时间，避免在build中调用
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        calStoreOpenTime();
+      } catch (e) {
+        print('calStoreOpenTime error: $e');
+      }
+    });
   }
 
   void selectCoupon(CouponsListModel couponModel) async {

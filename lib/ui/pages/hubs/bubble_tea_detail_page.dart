@@ -8,6 +8,7 @@ import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/widget/image_util.dart';
 
 import '../../../config/icon_font.dart';
+import '../../../getx_ctr/bubble_confirm_order_ctr.dart';
 import '../../../getx_ctr/bubble_tea_detail_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../utils/toast_utils.dart';
@@ -23,182 +24,184 @@ class BubbleTeaDetailPage extends StatelessWidget {
         width: 1.sw,
         height: 1.sh,
         padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
-        child: Obx(() => ctr.isLoading.value ? Container() : Stack(
-          children: [
-            Container(
-              width: 1.sw,
-              height: 274.h,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment(0.00, -1.00),
-                  end: Alignment(0, 1),
-                  colors: [Color(0xFF0A0A0A), Color(0xFF2B221C)],
-                ),
-              ),
-              child: Stack(
+        child: Obx(() => ctr.isLoading.value
+            ? Container()
+            : Stack(
                 children: [
-                  Center(
-                    child: ImageUtil.networkImage(
-                      url: "${ctr.model.value.image}",
-                      height: 274.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => Get.back(),
-                    child: Container(
-                      width: 34.w,
-                      height: 34.w,
-                      margin: EdgeInsets.only(left: 16.w),
-                      decoration: ShapeDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: Colors.white,
-                        size: 20.sp,
+                  Container(
+                    width: 1.sw,
+                    height: 274.h,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(0.00, -1.00),
+                        end: Alignment(0, 1),
+                        colors: [Color(0xFF0A0A0A), Color(0xFF2B221C)],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 260.h,
-              bottom: 60.h,
-              left: 0,
-              right: 0,
-              child: Container(
-                width: 1.sw,
-                decoration: ShapeDecoration(
-                  color: hexColor('0A0A0A'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16.r),
-                      topRight: Radius.circular(16.r),
-                    ),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      ctr.model.value.name ?? '',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontFamily: 'DIN',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ).paddingOnly(left: 16.w, top: 20.h),
-                    Visibility(
-                      visible: ctr.model.value.brief != null,
-                      child: Text(
-                        ctr.model.value.brief ?? '',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 13.sp,
-                          fontFamily: 'DIN',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ).paddingOnly(left: 16.w, top: 16.h),
-                    ),
-                    20.verticalSpace,
-                    Row(
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'Price',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ).paddingOnly(left: 16.w),
-                        ),
-                        Text(
-                          '£${ctr.totalMoney.value}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                            fontFamily: FONT_MEDIUM,
-                            fontWeight: FontWeight.w600,
+                        Center(
+                          child: ImageUtil.networkImage(
+                            url: "${ctr.model.value.image}",
+                            height: 274.w,
+                            fit: BoxFit.cover,
                           ),
-                        ).paddingOnly(right: 16.w),
-                      ],
-                    ),
-                    6.verticalSpace,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Quantity',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: FONT_MEDIUM,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ).paddingOnly(left: 16.w),
                         ),
-                        Obx(() => !ctr.showAddToCart.value
-                            ? qualityWidget()
-                            : InkWell(
-                          onTap: () => ctr.addToCart(),
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => Get.back(),
                           child: Container(
-                            width: 100.w,
+                            width: 34.w,
                             height: 34.w,
+                            margin: EdgeInsets.only(left: 16.w),
                             decoration: ShapeDecoration(
-                              color: hexColor('FFB20E'),
+                              color: Colors.white.withOpacity(0.1),
                               shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(8.r),
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
                             ),
                             alignment: Alignment.center,
-                            child: Text(
-                              'Add To Cart',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontFamily: FONT_MEDIUM,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            child: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                              size: 20.sp,
                             ),
                           ),
-                        )),
-                        16.horizontalSpace,
+                        ),
                       ],
                     ),
-                    paramsWidget(),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: addToCartWidget(16.w),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Builder(builder: (context) {
-                ctr.cartContext = context;
-                return 0.verticalSpace;
-              }),
-            ),
-          ],
-        )),
+                  ),
+                  Positioned(
+                    top: 260.h,
+                    bottom: 60.h,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      width: 1.sw,
+                      decoration: ShapeDecoration(
+                        color: hexColor('0A0A0A'),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16.r),
+                            topRight: Radius.circular(16.r),
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ctr.model.value.name ?? '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ).paddingOnly(left: 16.w, top: 20.h),
+                          Visibility(
+                            visible: ctr.model.value.brief != null,
+                            child: Text(
+                              ctr.model.value.brief ?? '',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.6),
+                                fontSize: 13.sp,
+                                fontFamily: 'DIN',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ).paddingOnly(left: 16.w, top: 16.h),
+                          ),
+                          20.verticalSpace,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Price',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ).paddingOnly(left: 16.w),
+                              ),
+                              Text(
+                                '£${ctr.totalMoney.value}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                  fontFamily: FONT_MEDIUM,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ).paddingOnly(right: 16.w),
+                            ],
+                          ),
+                          6.verticalSpace,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Quantity',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ).paddingOnly(left: 16.w),
+                              ),
+                              Obx(() => !ctr.showAddToCart.value
+                                  ? qualityWidget()
+                                  : InkWell(
+                                      onTap: () => ctr.addToCart(),
+                                      child: Container(
+                                        width: 100.w,
+                                        height: 34.w,
+                                        decoration: ShapeDecoration(
+                                          color: hexColor('FFB20E'),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Add To Cart',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13.sp,
+                                            fontFamily: FONT_MEDIUM,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                              16.horizontalSpace,
+                            ],
+                          ),
+                          paramsWidget(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: addToCartWidget(16.w),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Builder(builder: (context) {
+                      ctr.cartContext = context;
+                      return 0.verticalSpace;
+                    }),
+                  ),
+                ],
+              )),
       );
 
   Widget paramsWidget() => Expanded(
@@ -420,43 +423,34 @@ class BubbleTeaDetailPage extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            Obx(() => InkWell(
-                  onTap: () {
-                    if (TabBubbleTeaCtr.find.selectTeaList.isNotEmpty) {
-                      showLoading();
-                      try {
-                        Get.to(() => BubbleConfirmOrderPage(), transition: Transition.noTransition);
-                      } catch (e) {
-                        print('导航错误: $e');
-                      } finally {
-                        dismissLoading();
-                      }
-                    }
-                  },
-                  child: Container(
-                    width: 100.w,
-                    height: 44.w,
-                    decoration: ShapeDecoration(
-                      color: TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
-                          ? hexColor('FFB20E')
-                          : hexColor('CCCCCC'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Order Now',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontFamily: FONT_MEDIUM,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+            InkWell(
+              onTap: () => TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
+                  ? Get.to(() => BubbleConfirmOrderPage())
+                  : null,
+              child: Container(
+                width: 100.w,
+                height: 44.w,
+                decoration: ShapeDecoration(
+                  color: TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
+                      ? hexColor('FFB20E')
+                      : hexColor('CCCCCC'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
-                )),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Order Now',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       );

@@ -131,9 +131,7 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
                     foreground: Paint()
                       ..shader = const LinearGradient(
                         colors: [Color(0xFFFFB20E), Color(0xFFFF9500)],
-                      ).createShader(
-                        Rect.fromLTWH(0, 0, 200.w, 70.h),
-                      ),
+                      ).createShader(Rect.fromLTWH(0, 0, 200.w, 70.h)),
                     letterSpacing: 1,
                   ),
                 ),
@@ -188,12 +186,11 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
             ),
           ),
           16.verticalSpace,
-          Expanded(
+          Container(
+            height: 220.h,
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFFFFB20E),
-                    ),
+                    child: CircularProgressIndicator(color: Color(0xFFFFB20E)),
                   )
                 : TabBarView(
                     controller: _tabController,
@@ -243,8 +240,13 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       itemBuilder: (context, index) {
         final game = _topGames[index];
         return _buildRankingItem(
-            index + 1, game.name ?? 'Unknown', game.desc ?? '', game.trend,
-            type: 'game', id: game.id);
+          index + 1,
+          game.name ?? 'Unknown',
+          game.desc ?? '',
+          game.trend,
+          type: 'game',
+          id: game.id,
+        );
       },
     );
   }
@@ -265,8 +267,13 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       itemBuilder: (context, index) {
         final tea = _topTeas[index];
         return _buildRankingItem(
-            index + 1, tea.name ?? 'Unknown', tea.desc ?? '', tea.trend,
-            type: 'tea', id: tea.id);
+          index + 1,
+          tea.name ?? 'Unknown',
+          tea.desc ?? '',
+          tea.trend,
+          type: 'tea',
+          id: tea.id,
+        );
       },
     );
   }
@@ -287,15 +294,25 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       itemBuilder: (context, index) {
         final food = _topFoods[index];
         return _buildRankingItem(
-            index + 1, food.name ?? 'Unknown', food.desc ?? '', food.trend,
-            type: 'food', id: food.id);
+          index + 1,
+          food.name ?? 'Unknown',
+          food.desc ?? '',
+          food.trend,
+          type: 'food',
+          id: food.id,
+        );
       },
     );
   }
 
   Widget _buildRankingItem(
-      int rank, String name, String desc, dynamic trendValue,
-      {String? type, dynamic id}) {
+    int rank,
+    String name,
+    String desc,
+    dynamic trendValue, {
+    String? type,
+    dynamic id,
+  }) {
     // 转换趋势值为图标
     String? trend;
     if (trendValue == null) {
@@ -344,8 +361,9 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
               child: Text(
                 '$rank',
                 style: TextStyle(
-                  color:
-                      rank <= 3 ? Colors.black : Colors.white.withOpacity(0.6),
+                  color: rank <= 3
+                      ? Colors.black
+                      : Colors.white.withOpacity(0.6),
                   fontWeight: FontWeight.w900,
                   fontSize: 14.sp,
                 ),
@@ -387,10 +405,7 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
               ),
               child: Text(
                 trend,
-                style: TextStyle(
-                  color: _getTrendColor(trend),
-                  fontSize: 18.sp,
-                ),
+                style: TextStyle(color: _getTrendColor(trend), fontSize: 18.sp),
               ),
             ),
           ],
@@ -448,7 +463,7 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       'SEPTEMBER',
       'OCTOBER',
       'NOVEMBER',
-      'DECEMBER'
+      'DECEMBER',
     ];
 
     return '${monthNames[month]} $year';

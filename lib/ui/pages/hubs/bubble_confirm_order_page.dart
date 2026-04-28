@@ -20,7 +20,6 @@ class BubbleConfirmOrderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ctr.calStoreOpenTime();
     return BaseScaffold(
       title: 'Confirmation'.tr,
       leading: InkWell(

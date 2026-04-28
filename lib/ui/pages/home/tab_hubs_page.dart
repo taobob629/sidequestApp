@@ -31,7 +31,8 @@ class TabHubsPage extends StatelessWidget {
                     behavior: HitTestBehavior.translucent,
                     onTap: () => controller.clickTopTab(i),
                     child: Container(
-                      width: 86.w,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                       decoration: controller.selectTopTabIndex.value == i
                           ? BoxDecoration(
                               borderRadius: BorderRadius.circular(8.r),
@@ -73,7 +74,11 @@ class TabHubsPage extends StatelessWidget {
 class TabHubsPageController extends GetxController {
   static TabHubsPageController get find => Get.find();
 
-  List<String> topTabs = ["Bubble tea".tr, "Bundles".tr, "Games".tr, ];
+  List<String> topTabs = [
+    "Bubble tea".tr,
+    "Bundles".tr,
+    "Games".tr,
+  ];
 
   var selectTopTabIndex = 0.obs;
 
