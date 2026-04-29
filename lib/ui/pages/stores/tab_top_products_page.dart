@@ -326,7 +326,7 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
           trend = '⬇️'; // 下降
           break;
         default:
-          trend = ''; // 不变
+          trend = '➡️'; // 不变
       }
     } else if (trendValue is String) {
       trend = trendValue; // 已经是字符串，直接使用
@@ -439,6 +439,8 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
         return const Color(0xFFef4444);
       case '⬇️':
         return const Color(0xFF10b981);
+      case '➡️':
+        return const Color(0xff6ab910);
       default:
         return const Color(0xFF3b82f6);
     }
