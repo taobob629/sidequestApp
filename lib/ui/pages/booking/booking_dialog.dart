@@ -524,6 +524,7 @@ class BookingDialog extends StatelessWidget {
   void gotoBooking() async {
     Get.back();
     showLoading();
+    String bookedDate = formatDate(time.value, [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]);
     var response = await http.post(
       '/app/store/cybercafe/booking/reserve',
       data: {
@@ -535,6 +536,7 @@ class BookingDialog extends StatelessWidget {
         "storeName": (area.value.model as AreaVoList).storeName,
         "areaName": area.value.name,
         "phone": telephoneCtr.text,
+        "bookedDate": bookedDate,
       },
     );
     dismissLoading();
