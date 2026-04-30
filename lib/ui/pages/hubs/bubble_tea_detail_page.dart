@@ -425,7 +425,8 @@ class BubbleTeaDetailPage extends StatelessWidget {
             // ),
             InkWell(
               onTap: () => TabBubbleTeaCtr.find.selectTeaList.isNotEmpty
-                  ? Get.to(() => BubbleConfirmOrderPage())
+                  ? Get.to(() => BubbleConfirmOrderPage(),
+                      transition: Transition.noTransition)
                   : null,
               child: Container(
                 width: 100.w,

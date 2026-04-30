@@ -24,77 +24,77 @@ class TabBundlesPage extends StatelessWidget {
   final controller = TabBundlesPageController.find;
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: Column(
-          children: [
-            10.verticalSpace,
-            InkWell(
-              onTap: () => controller.selectStore(),
-              child: Container(
-                padding: EdgeInsets.all(8.r),
-                margin: EdgeInsets.symmetric(horizontal: 16.w),
-                decoration: BoxDecoration(
-                  color: AppColor.yellow.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Row(
-                  children: [
-                    16.horizontalSpace,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(() => RichText(
-                                text: TextSpan(
-                                  text:
-                                      '${controller.currentSelectStore.value.name}  ',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.sp,
-                                    fontFamily: 'DIN',
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  children: [
-                                    WidgetSpan(
-                                      child: Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        color: Colors.white,
-                                        size: 14.sp,
-                                      ),
-                                    ),
-                                  ],
+  Widget build(BuildContext context) => Column(
+        children: [
+          10.verticalSpace,
+          InkWell(
+            onTap: () => controller.selectStore(),
+            child: Container(
+              padding: EdgeInsets.all(8.r),
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              decoration: BoxDecoration(
+                color: AppColor.yellow.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Row(
+                children: [
+                  16.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Obx(() => RichText(
+                              text: TextSpan(
+                                text:
+                                    '${controller.currentSelectStore.value.name}  ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.sp,
+                                  fontFamily: 'DIN',
+                                  fontWeight: FontWeight.w600,
                                 ),
-                              )),
-                          6.verticalSpace,
-                          RichText(
-                            text: TextSpan(
-                              text: "London, WC2H 0NE",
-                              style: TextStyle(
-                                color: const Color(0xFFFFB20E),
-                                fontSize: 12.sp,
-                                fontFamily: 'DIN',
-                                fontWeight: FontWeight.w400,
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: Colors.white,
+                                      size: 14.sp,
+                                    ),
+                                  ),
+                                ],
                               ),
+                            )),
+                        6.verticalSpace,
+                        RichText(
+                          text: TextSpan(
+                            text: "London, WC2H 0NE",
+                            style: TextStyle(
+                              color: const Color(0xFFFFB20E),
+                              fontSize: 12.sp,
+                              fontFamily: 'DIN',
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Image.asset(
-                      ImageUtils.bubble_tea_store_icon,
-                      width: 52.w,
-                      height: 38.h,
-                    ),
-                    16.horizontalSpace,
-                  ],
-                ),
+                  ),
+                  Image.asset(
+                    ImageUtils.bubble_tea_store_icon,
+                    width: 52.w,
+                    height: 38.h,
+                  ),
+                  16.horizontalSpace,
+                ],
               ),
             ),
-            20.verticalSpace,
-            Expanded(
-              child: Stack(
-                children: [
-                  Obx(() => ListView.separated(
+          ),
+          20.verticalSpace,
+          Expanded(
+            child: Stack(
+              children: [
+                Obx(() => controller.list.isNotEmpty
+                    ? ListView.separated(
                         padding: EdgeInsets.only(bottom: 60.h),
                         itemBuilder: (c, i) => GestureDetector(
                           behavior: HitTestBehavior.translucent,
@@ -149,13 +149,15 @@ class TabBundlesPage extends StatelessWidget {
                                             "body": Style(
                                               fontFamily: FONT_LIGHT,
                                               fontSize: FontSize(12.sp),
-                                              color: Colors.white.withOpacity(0.6),
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
                                               margin: Margins.zero,
                                             ),
                                             "p": Style(
                                               fontFamily: FONT_LIGHT,
                                               fontSize: FontSize(12.sp),
-                                              color: Colors.white.withOpacity(0.6),
+                                              color:
+                                                  Colors.white.withOpacity(0.6),
                                               margin: Margins.zero,
                                             ),
                                           },
@@ -180,26 +182,26 @@ class TabBundlesPage extends StatelessWidget {
                         ),
                         separatorBuilder: (c, i) => 10.verticalSpace,
                         itemCount: controller.list.length,
-                      )),
-                  Obx(() => Visibility(
-                        visible: controller.selectList.isNotEmpty &&
-                            controller.isShowDrinkNow.value,
-                        child: Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: drinkNowWidget(16.w),
-                        ),
-                      )),
-                ],
-              ),
+                      )
+                    : const Center(child: Text('No data'))),
+                Obx(() => Visibility(
+                      visible: controller.selectList.isNotEmpty &&
+                          controller.isShowDrinkNow.value,
+                      child: Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: drinkNowWidget(16.w),
+                      ),
+                    )),
+              ],
             ),
-            Builder(builder: (context) {
-              controller.cartContext = context;
-              return 0.verticalSpace;
-            }),
-          ],
-        ),
+          ),
+          Builder(builder: (context) {
+            controller.cartContext = context;
+            return 0.verticalSpace;
+          }),
+        ],
       );
 
   Widget cartWidget() => Container(
@@ -266,6 +268,9 @@ class TabBundlesPage extends StatelessWidget {
   Widget commonWidget(bool shrinkWrap) => Obx(() => ListView.separated(
         padding: EdgeInsets.zero,
         shrinkWrap: shrinkWrap,
+        physics: shrinkWrap
+            ? const NeverScrollableScrollPhysics()
+            : const AlwaysScrollableScrollPhysics(),
         itemBuilder: (c, i) => Container(
           height: 70.h,
           child: Row(

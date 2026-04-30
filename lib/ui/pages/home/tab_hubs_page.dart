@@ -63,9 +63,9 @@ class TabHubsPage extends StatelessWidget {
               itemCount: controller.topTabs.length,
             ),
           ),
-          if (controller.selectTopTabIndex.value == 0) TabBubbleTeaPage(),
-          if (controller.selectTopTabIndex.value == 1) TabBundlesPage(),
-          if (controller.selectTopTabIndex.value == 2) TabGamesFilterPage(),
+          if (controller.selectTopTabIndex.value == 0) Expanded(child: TabBubbleTeaPage()),
+          if (controller.selectTopTabIndex.value == 1) Expanded(child: TabBundlesPage()),
+          if (controller.selectTopTabIndex.value == 2) Expanded(child: TabGamesFilterPage()),
           // if (controller.selectTopTabIndex.value == 3) TabCybercafePage(),
         ],
       ));

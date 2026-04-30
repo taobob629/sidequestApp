@@ -696,11 +696,19 @@ class _BottomTouchAnimationState extends State<BottomTouchAnimation> {
       curve: Curves.easeOutCubic,
       child: widget.child,
       builder: (_, v, vv) {
-        double? y1 = ((v - 1) * 10 * (widget.index + 1)) * widget.index;
+        final bool extentAfter = (_controller?.position.extentAfter ?? 1.0) < 1.0;
+        double y1 = ((v - 1) * 10 * (widget.index + 1)) * widget.index;
         var btmIndex = (widget.length - widget.index);
-        var y2 = (-(v - 1) * 10 * (btmIndex + 1)) * btmIndex;
+        double y2 = (-(v - 1) * 10 * (btmIndex + 1)) * btmIndex;
+        
+        double offsetY = extentAfter ? y2 : y1;
+        
+        if (offsetY.isNaN || offsetY.isInfinite) {
+          offsetY = 0;
+        }
+        
         return Transform.translate(
-          offset: Offset(0, [y1, y2][extentAfter ? (1) : (0)]),
+          offset: Offset(0, offsetY),
           child: vv,
         );
       },

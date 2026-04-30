@@ -73,12 +73,14 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       // 检查是否已经加载过数据
       if (RankDataCache.isLoaded) {
         // 使用缓存的数据
-        setState(() {
-          _topTeas = RankDataCache.topTeas;
-          _topGames = RankDataCache.topGames;
-          _topFoods = RankDataCache.topFoods;
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _topTeas = RankDataCache.topTeas;
+            _topGames = RankDataCache.topGames;
+            _topFoods = RankDataCache.topFoods;
+            _isLoading = false;
+          });
+        }
         return;
       }
 
@@ -95,16 +97,20 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       RankDataCache.topFoods = results[2] as List<TopFoodModel>;
       RankDataCache.isLoaded = true;
 
-      setState(() {
-        _topTeas = RankDataCache.topTeas;
-        _topGames = RankDataCache.topGames;
-        _topFoods = RankDataCache.topFoods;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _topTeas = RankDataCache.topTeas;
+          _topGames = RankDataCache.topGames;
+          _topFoods = RankDataCache.topFoods;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -208,18 +214,15 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
   }
 
   Widget _buildTab(String icon, String label, int flex) {
-    return Expanded(
-      flex: flex,
-      child: Tab(
-        height: 44.h,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(icon, style: TextStyle(fontSize: 18.sp)),
-            3.horizontalSpace,
-            Text(label),
-          ],
-        ),
+    return Tab(
+      height: 44.h,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(icon, style: TextStyle(fontSize: 18.sp)),
+          3.horizontalSpace,
+          Text(label),
+        ],
       ),
     );
   }
@@ -361,9 +364,8 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
               child: Text(
                 '$rank',
                 style: TextStyle(
-                  color: rank <= 3
-                      ? Colors.black
-                      : Colors.white.withOpacity(0.6),
+                  color:
+                      rank <= 3 ? Colors.black : Colors.white.withOpacity(0.6),
                   fontWeight: FontWeight.w900,
                   fontSize: 14.sp,
                 ),

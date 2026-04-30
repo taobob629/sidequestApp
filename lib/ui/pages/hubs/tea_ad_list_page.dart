@@ -247,7 +247,8 @@ class TeaADListPage extends StatelessWidget {
             // ),
             InkWell(
               onTap: () => ctr.selectTeaList.isNotEmpty
-                  ? Get.to(() => BubbleConfirmOrderPage())
+                  ? Get.to(() => BubbleConfirmOrderPage(),
+                      transition: Transition.noTransition)
                   : null,
               child: Container(
                 width: 100.w,

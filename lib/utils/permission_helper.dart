@@ -55,7 +55,10 @@ class PermissionHelper {
   static Future<bool> requestPhotosPermission(BuildContext context) async {
     PermissionStatus status;
     if (Platform.isAndroid) {
-      status = await Permission.storage.request();
+      if (await Permission.photos.isGranted) {
+        return true;
+      }
+      status = await Permission.photos.request();
     } else {
       status = await Permission.photos.request();
     }

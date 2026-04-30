@@ -15,63 +15,60 @@ class TabGamesFilterPage extends StatelessWidget {
   final controller = TabGamesFilterController.find;
 
   @override
-  Widget build(BuildContext context) => Expanded(
-        child: Obx(() => Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: controller.list.isNotEmpty
-                  ? GridView.builder(
-                      itemCount: controller.list.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 0.8,
+  Widget build(BuildContext context) => Obx(() => Container(
+        width: 1.sw,
+        child: controller.list.isNotEmpty
+            ? GridView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                itemCount: controller.list.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 6 / 9,
+                ),
+                itemBuilder: (BuildContext context, int index) => InkWell(
+                  onTap: () => Get.dialog(
+                      DialogSupportStores(controller.list[index].stores,controller.list[index].platforms,
+                          image: controller.list[index].image)),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: (90 * 6 / 9).h,
+                        height: 90.h,
+                        decoration: BoxDecoration(
+                          color: hexColor("222222"),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4.r),
+                          child: ImageUtil.networkImage(
+                            url: "${controller.list[index].image}",
+                            width: (90 * 6 / 9).h,
+                            height: 90.h,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      itemBuilder: (BuildContext context, int index) =>
-                          InkWell(
-                            onTap: () => Get.dialog(DialogSupportStores(
-                                controller.list[index].stores)),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 90.h,
-                                  height: 90.h,
-                                  decoration: BoxDecoration(
-                                    color: hexColor("222222"),
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  child: Center(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4.r),
-                                      child: ImageUtil.networkImage(
-                                        url: "${controller.list[index].image}",
-                                        width: (90 * 3 / 4).h,
-                                        height: 90.h,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                8.verticalSpace,
-                                Text(
-                                  '${controller.list[index].name}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 11.sp,
-                                    fontFamily: 'DIN',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                              ],
-                            ),
-                          ))
-                  : Center(
-                      child: EmptyView(),
-                    ),
-            )),
-      );
+                      8.verticalSpace,
+                      Text(
+                        '${controller.list[index].name}',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11.sp,
+                          fontFamily: 'DIN',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
+                ),
+              )
+            : Center(
+                child: EmptyView(),
+              ),
+      ));
 }
 
 class TabGamesFilterController extends GetxController {

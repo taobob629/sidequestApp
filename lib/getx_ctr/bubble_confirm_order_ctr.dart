@@ -24,6 +24,7 @@ class BubbleConfirmOrderCtr extends GetxController
   var discount = "0.0".obs;
   var totalPrice = "0".obs;
   var isCash = true.obs;
+  var isLoading = true.obs;
   CouponsListModel? selectCouponModel;
 
   late List<Widget> tabs = [
@@ -70,7 +71,8 @@ class BubbleConfirmOrderCtr extends GetxController
     discount.value = TabBubbleTeaCtr.find.discount.value;
     tabController = TabController(length: tabs.length, vsync: this, initialIndex: 1);
     
-    // 在初始化时计算营业时间，避免在build中调用
+    isLoading.value = false;
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       try {
         calStoreOpenTime();

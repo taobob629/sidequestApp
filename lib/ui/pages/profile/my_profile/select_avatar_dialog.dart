@@ -136,22 +136,42 @@ class SelectAvatarDialog extends StatelessWidget {
       );
 
   void selectUpdateAvatar() async {
+    print('selectUpdateAvatar called');
     dismissLoading();
-    var status = await PermissionHelper.requestPhotosPermission(Get.context!);
-    if (status == false) {
+    
+    if (Get.context == null) {
+      print('Get.context is null');
+      showToast('Context is null');
       return;
     }
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    
+    print('Requesting photos permission...');
+    var status = await PermissionHelper.requestPhotosPermission(Get.context!);
+    print('Permission status: $status');
+    
+    if (status == false) {
+      showToast('Permission denied');
+      return;
+    }
+    
+    print('Opening image picker...');
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      var _image = File(pickedFile.path);
-      showLoading();
-      await Common.uploadAvatar(_image, (p0, p1) {});
-      dismissLoading();
-      UserController.find.updateInfo();
-    } else {
-      print('No image selected.');
+      if (pickedFile != null) {
+        print('Image selected: ${pickedFile.path}');
+        var _image = File(pickedFile.path);
+        showLoading();
+        await Common.uploadAvatar(_image, (p0, p1) {});
+        dismissLoading();
+        UserController.find.updateInfo();
+      } else {
+        print('No image selected.');
+      }
+    } catch (e) {
+      print('Image picker error: $e');
+      showToast('Failed to open gallery: $e');
     }
   }
 }
