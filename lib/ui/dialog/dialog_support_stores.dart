@@ -10,10 +10,10 @@ import '../../../../widget/image_util.dart';
 class DialogSupportStores extends StatelessWidget {
   List<String> stores;
   List<String> platforms;
-
   String? image;
+  String? name;
 
-  DialogSupportStores(this.stores, this.platforms,{this.image});
+  DialogSupportStores(this.stores, this.platforms, {this.image, this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +54,17 @@ class DialogSupportStores extends StatelessWidget {
                     ImageUtils.default_logo,
                     scale: 3.5,
                   ),
+            10.verticalSpace,
+            name != null
+                ? Text(
+                    name!,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontFamily: FONT_MEDIUM,
+                      color: Colors.white,
+                    ),
+                  )
+                : Container(),
             20.verticalSpace,
             Container(
               margin: EdgeInsets.symmetric(

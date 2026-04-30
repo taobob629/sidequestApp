@@ -28,7 +28,8 @@ class TabGamesFilterPage extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) => InkWell(
                   onTap: () => Get.dialog(
                       DialogSupportStores(controller.list[index].stores,controller.list[index].platforms,
-                          image: controller.list[index].image)),
+                          image: controller.list[index].image,
+                          name: controller.list[index].name)),
                   child: Column(
                     children: [
                       Container(
