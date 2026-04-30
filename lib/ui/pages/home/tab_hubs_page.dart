@@ -6,6 +6,7 @@ import 'package:sq_hub_app/ui/pages/home/tab_bundles_page.dart';
 
 import '../../../config/app_color.dart';
 import '../../../config/icon_font.dart';
+import '../../../getx_ctr/bubble_tea_detail_ctr.dart';
 import '../../../getx_ctr/tab_bubble_tea_ctr.dart';
 import '../../../model/beans/games_left_tab_bean.dart';
 import '../hubs/tab/tab_bubble_tea_page.dart';
@@ -63,9 +64,12 @@ class TabHubsPage extends StatelessWidget {
               itemCount: controller.topTabs.length,
             ),
           ),
-          if (controller.selectTopTabIndex.value == 0) Expanded(child: TabBubbleTeaPage()),
-          if (controller.selectTopTabIndex.value == 1) Expanded(child: TabBundlesPage()),
-          if (controller.selectTopTabIndex.value == 2) Expanded(child: TabGamesFilterPage()),
+          if (controller.selectTopTabIndex.value == 0)
+            Expanded(child: TabBubbleTeaPage()),
+          if (controller.selectTopTabIndex.value == 1)
+            Expanded(child: TabBundlesPage()),
+          if (controller.selectTopTabIndex.value == 2)
+            Expanded(child: TabGamesFilterPage()),
           // if (controller.selectTopTabIndex.value == 3) TabCybercafePage(),
         ],
       ));
@@ -89,6 +93,7 @@ class TabHubsPageController extends GetxController {
     Get.put(TabGamesFilterController());
     Get.put(TabBubbleTeaCtr());
     Get.put(TabBundlesPageController());
+    Get.put(BubbleTeaDetailCtr());
     // Get.put(CybercafeController());
   }
 

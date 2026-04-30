@@ -17,10 +17,14 @@ import '../../../widget/tag/tag_bean.dart';
 import 'bubble_confirm_order_page.dart';
 
 class BubbleTeaDetailPage extends StatelessWidget {
-  final ctr = Get.put(BubbleTeaDetailCtr());
+  final ctr = Get.find<BubbleTeaDetailCtr>();
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) {
+    if (Get.arguments != null) {
+      ctr.requestData();
+    }
+    return Container(
         width: 1.sw,
         height: 1.sh,
         padding: EdgeInsets.only(top: ScreenUtil().statusBarHeight),
@@ -201,8 +205,8 @@ class BubbleTeaDetailPage extends StatelessWidget {
                     }),
                   ),
                 ],
-              )),
-      );
+              )));
+  }
 
   Widget paramsWidget() => Expanded(
         child: SingleChildScrollView(

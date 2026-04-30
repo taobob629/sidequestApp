@@ -81,7 +81,7 @@ class IndexApi {
   }
 
   static Future<List<GameModel>> getGames() async {
-    var response = await http.get('/sideQuest/app/hubs/games',
+    var response = await http.get('/sideQuest/app/hubs/filiterGames',
         queryParameters: ({'pageNum': 0, 'pageSize': 100}));
     List<GameModel> list = response.data
         .map<GameModel>((item) => GameModel.fromJson(item))

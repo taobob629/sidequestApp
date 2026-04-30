@@ -38,11 +38,20 @@ class BubbleTeaDetailCtr extends GetxController {
   @override
   void onInit() {
     super.onInit();
+  }
 
+  @override
+  void onReady() {
+    super.onReady();
     requestData();
   }
 
   void requestData() async {
+    if (Get.arguments == null) {
+      isLoading.value = false;
+      return;
+    }
+    isLoading.value = true;
     showLoading();
     model.value = await HubsApi.goodDetail(Get.arguments);
     dismissLoading();
