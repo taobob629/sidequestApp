@@ -19,6 +19,24 @@ class PermissionHelper {
     return false;
   }
 
+  static Future<bool> _checkPhotosPermission() async {
+    if (Platform.isAndroid) {
+      try {
+        PermissionStatus photosStatus = await Permission.photos.status;
+        PermissionStatus storageStatus = await Permission.storage.status;
+        PermissionStatus mediaImagesStatus = await Permission.photos.status;
+        
+        if (photosStatus.isGranted || storageStatus.isGranted || mediaImagesStatus.isGranted) {
+          return true;
+        }
+      } catch (e) {
+        print('Error checking photos permission: $e');
+      }
+    }
+    PermissionStatus status = await Permission.photos.status;
+    return status.isGranted;
+  }
+
   static Future<bool> requestCameraPermission(BuildContext context) async {
     var status = await Permission.camera.request();
     if (isDenied(status)) {
@@ -53,16 +71,35 @@ class PermissionHelper {
   }
 
   static Future<bool> requestPhotosPermission(BuildContext context) async {
-    PermissionStatus status;
+    if (await _checkPhotosPermission()) {
+      return true;
+    }
+
+    PermissionStatus status = PermissionStatus.denied;
     if (Platform.isAndroid) {
-      if (await Permission.photos.isGranted) {
-        return true;
+      try {
+        status = await Permission.photos.request();
+        if (status.isGranted) {
+          return true;
+        }
+        status = await Permission.storage.request();
+        if (status.isGranted) {
+          return true;
+        }
+      } catch (e) {
+        print('Error requesting photos permission: $e');
+        var ret = await ConfirmDialog.show(context, "Permission required",
+            "Please grant photos permission in Settings to select images from album.");
+        if (ret == true) {
+          await openAppSettings();
+        }
+        return false;
       }
-      status = await Permission.photos.request();
     } else {
       status = await Permission.photos.request();
     }
-    if (isDenied(status)) {
+
+    if (status.isPermanentlyDenied) {
       var ret = await ConfirmDialog.show(context, "Permission required",
           "Your photos is not available, please click the button below to change current setting.");
       if (ret == true) {
@@ -70,8 +107,21 @@ class PermissionHelper {
       }
       return false;
     } else if (status.isDenied) {
+      var ret = await ConfirmDialog.show(context, "Permission required",
+          "Please grant photos permission in Settings to select images from album.");
+      if (ret == true) {
+        await openAppSettings();
+      }
       return false;
     }
     return true;
+  }
+
+  static Future<bool> checkAndRequestPhotosPermission(BuildContext context) async {
+    PermissionStatus status = await Permission.photos.status;
+    if (status.isGranted) {
+      return true;
+    }
+    return requestPhotosPermission(context);
   }
 }
