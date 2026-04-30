@@ -12,6 +12,7 @@ import '../../../../../utils/permission_helper.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../utils/toast_utils.dart';
+import '../../../dialog/dialog_confirm.dart';
 import '../crop_page.dart';
 
 class SelectAvatarDialog extends StatelessWidget {
@@ -136,41 +137,44 @@ class SelectAvatarDialog extends StatelessWidget {
       );
 
   void selectUpdateAvatar() async {
-    print('selectUpdateAvatar called');
     dismissLoading();
     
     if (Get.context == null) {
-      print('Get.context is null');
       showToast('Context is null');
       return;
     }
     
-    print('Requesting photos permission...');
+    bool? confirm = await ConfirmDialog.show(
+      Get.context!,
+      "Photo Permission".tr,
+      "To select a profile picture, we need access to your photos. Would you like to grant permission?"
+          .tr,
+    );
+    
+    if (confirm != true) {
+      showToast('Permission denied by user');
+      return;
+    }
+    
     var status = await PermissionHelper.requestPhotosPermission(Get.context!);
-    print('Permission status: $status');
     
     if (status == false) {
       showToast('Permission denied');
       return;
     }
     
-    print('Opening image picker...');
     try {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
-        print('Image selected: ${pickedFile.path}');
         var _image = File(pickedFile.path);
         showLoading();
         await Common.uploadAvatar(_image, (p0, p1) {});
         dismissLoading();
         UserController.find.updateInfo();
-      } else {
-        print('No image selected.');
       }
     } catch (e) {
-      print('Image picker error: $e');
       showToast('Failed to open gallery: $e');
     }
   }
