@@ -64,7 +64,10 @@ class MyProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () => Get.to(() => SettingsPage())
+                            onTap: () => Get.to(
+                              () => SettingsPage(),
+                              transition: Transition.noTransition,
+                            )
                                 ?.then((value) => t.onRefresh()),
                             child: Container(
                               width: 30.w,
@@ -80,7 +83,10 @@ class MyProfilePage extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => Get.to(() => MyQrCodePage()),
+                            onTap: () => Get.to(
+                              () => MyQrCodePage(),
+                              transition: Transition.noTransition,
+                            ),
                             child: Container(
                               height: 30.w,
                               margin: EdgeInsets.only(
@@ -189,9 +195,12 @@ class MyProfilePage extends StatelessWidget {
                                       6.horizontalSpace,
                                       Obx(() => Visibility(
                                             visible: t.user.value.vipLevel >= 5,
-                                            child: GestureDetector(
-                                              onTap: () =>
-                                                  Get.to(() => VipPage()),
+                                          child: GestureDetector(
+                                              onTap: () => Get.to(
+                                                () => VipPage(),
+                                                transition:
+                                                    Transition.noTransition,
+                                              ),
                                               child: Image.asset(
                                                 "assets/images/huizhang_${UserController.find.userProfile.vipLevel == 0 ? 5 : UserController.find.userProfile.vipLevel}.webp",
                                                 height: 20.w,
@@ -477,8 +486,10 @@ class MyProfilePage extends StatelessWidget {
                             "Top Up".tr,
                             onTap: () {
                               userController.checkLogin(
-                                () => Get.to(() => BalancePage())
-                                    ?.whenComplete(() => t.onRefresh()),
+                                () => Get.to(
+                                  () => BalancePage(),
+                                  transition: Transition.noTransition,
+                                )?.whenComplete(() => t.onRefresh()),
                               );
                             },
                           ),
@@ -499,6 +510,7 @@ class MyProfilePage extends StatelessWidget {
                             "Orders".tr,
                             onTap: () => Get.to(
                               () => OrderListPage(),
+                              transition: Transition.noTransition,
                             ),
                           ),
                         ),
@@ -509,6 +521,7 @@ class MyProfilePage extends StatelessWidget {
                             onTap: () {
                               Get.to(
                                 () => BookingPage(),
+                                transition: Transition.noTransition,
                               );
                             },
                           ),
@@ -523,7 +536,10 @@ class MyProfilePage extends StatelessWidget {
                           child: _dashboardLabelItem(
                             ImageUtils.icon_consumption,
                             "Your Games".tr,
-                            onTap: () => Get.to(() => StoreConsumListPage()),
+                            onTap: () => Get.to(
+                              () => StoreConsumListPage(),
+                              transition: Transition.noTransition,
+                            ),
                           ),
                         ),
 
@@ -531,7 +547,10 @@ class MyProfilePage extends StatelessWidget {
                           child: Obx(() => _dashboardLabelItem(
                                 ImageUtils.message_icon,
                                 "Notifications".tr,
-                                onTap: () => Get.to(() => NotificationPage()),
+                                onTap: () => Get.to(
+                                  () => NotificationPage(),
+                                  transition: Transition.noTransition,
+                                ),
                                 badgeNum: userController.showProfileBadge.value
                                     ? 9999
                                     : 0,
@@ -665,8 +684,10 @@ class MyProfilePage extends StatelessWidget {
                 Obx(() => Visibility(
                       visible: userController.userProfile.lv != -1,
                       child: InkWell(
-                        onTap: () => Get.to(() => IntegralHomePage())
-                            ?.whenComplete(() => t.onRefresh()),
+                        onTap: () => Get.to(
+                          () => IntegralHomePage(),
+                          transition: Transition.noTransition,
+                        )?.whenComplete(() => t.onRefresh()),
                         child: Stack(
                           children: [
                             SvgPicture.asset(
@@ -702,8 +723,10 @@ class MyProfilePage extends StatelessWidget {
                       "Credits".tr,
                       'UK offline store top-up'.tr,
                       onTap: () {
-                        Get.to(() => BalancePage())
-                            ?.whenComplete(() => t.onRefresh());
+                        Get.to(
+                          () => BalancePage(),
+                          transition: Transition.noTransition,
+                        )?.whenComplete(() => t.onRefresh());
                       },
                     )),
                 Obx(() => achievementItem(
@@ -721,8 +744,10 @@ class MyProfilePage extends StatelessWidget {
                     ImageUtils.ic_coupons_points,
                     "Points".tr,
                     'Your Coupons'.tr,
-                    onTap: () => Get.to(() => IntegralHomePage())
-                        ?.whenComplete(() => t.onRefresh()))),
+                    onTap: () => Get.to(
+                      () => IntegralHomePage(),
+                      transition: Transition.noTransition,
+                    )?.whenComplete(() => t.onRefresh()))),
               ],
             ),
           ],
@@ -932,7 +957,10 @@ class ProfileController extends GetxController
             barrierDismissible: true, barrierColor: Colors.black26)
         .then((value) {
       if (value == "9637") {
-        Get.to(() => DeveloperPage());
+        Get.to(
+          () => DeveloperPage(),
+          transition: Transition.noTransition,
+        );
       } else {
         Get.back();
       }
@@ -962,7 +990,11 @@ class ProfileController extends GetxController
   }
 
   void jumpVipPage(int index) async {
-    await Get.to(() => VipPage(), arguments: index);
+    await Get.to(
+      () => VipPage(),
+      arguments: index,
+      transition: Transition.noTransition,
+    );
     onRefresh();
   }
 
@@ -999,10 +1031,14 @@ class ProfileController extends GetxController
     if (response.data != null) {
       TaskOutModel outModel = TaskOutModel.fromJson(response.data);
       if (outModel.tasks.isNotEmpty) {
-        Get.to(() => TaskDetailPage(), arguments: {
-          'model': outModel.tasks.first,
-          'skipFlag': true,
-        });
+        Get.to(
+          () => TaskDetailPage(),
+          arguments: {
+            'model': outModel.tasks.first,
+            'skipFlag': true,
+          },
+          transition: Transition.noTransition,
+        );
       }
     }
   }

@@ -14,9 +14,13 @@ class RecommendItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Get.to(()=>ProductPage(productId: productItemModel.id),preventDuplicates: false);
-        },
+      onTap: () {
+        Get.to(
+          () => ProductPage(productId: productItemModel.id),
+          preventDuplicates: false,
+          transition: Transition.noTransition,
+        );
+      },
       child: Container(
         width: 100,
         height: 100,

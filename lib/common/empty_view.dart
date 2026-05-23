@@ -5,16 +5,17 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sq_hub_app/image_utils.dart';
 
 class EmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Image.asset(
-        ImageUtils.empty,
-        width: 115.w,
-        height: 115.w,
+      child: Text(
+        'No data',
+        style: TextStyle(
+          color: const Color(0xFFB2B9C9),
+          fontSize: 14.sp,
+        ),
       ),
     );
   }

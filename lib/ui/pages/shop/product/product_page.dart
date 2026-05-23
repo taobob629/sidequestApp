@@ -12,7 +12,6 @@ import '../../../../config/app_color.dart';
 import '../../../../controller/cart_controller.dart';
 import '../../../../model/product_detail_model.dart';
 import '../../../../model/product_item_model.dart';
-import '../../../../utils/toast_utils.dart';
 import 'add_button.dart';
 import 'comb_item.dart';
 import 'spec_item.dart';
@@ -66,22 +65,41 @@ class ProductPage extends StatelessWidget {
                         right: 0,
                         bottom: 1,
                         top: 0,
-                        child: Obx(()=>controller.productDetailModel.value.imageList.length == 0 ? Container(): Swiper(
-                          autoplay: false,
-                          itemBuilder: (BuildContext context, int index) {
-                            String url = controller.productDetailModel.value.imageList[index];
-                            return CachedNetworkImage(
-                              imageUrl: url,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                          itemCount: controller.productDetailModel.value.imageList.length,
-                          pagination: SwiperPagination(
-                            alignment: Alignment.bottomCenter,
-                            margin: const EdgeInsets.only(bottom: 50)
+                        child: Container(
+                          color: AppColor.background,
+                          child: Obx(
+                            () => controller.productDetailModel.value.imageList
+                                    .isEmpty
+                                ? Container(color: AppColor.background)
+                                : Swiper(
+                                    autoplay: false,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      String url = controller.productDetailModel
+                                          .value.imageList[index];
+                                      return CachedNetworkImage(
+                                        imageUrl: url,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          color: AppColor.background,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          color: AppColor.background,
+                                        ),
+                                      );
+                                    },
+                                    itemCount: controller.productDetailModel
+                                        .value.imageList.length,
+                                    pagination: SwiperPagination(
+                                        alignment: Alignment.bottomCenter,
+                                        margin:
+                                            const EdgeInsets.only(bottom: 50)),
+                                    onTap: (index) {},
+                                  ),
                           ),
-                          onTap: (index) {},
-                        )),
+                        ),
                       ),
                       Positioned(
                         left: 0,
@@ -336,6 +354,8 @@ class ProductPageController extends GetxController {
 
   int id;
 
+  bool _hasLoaded = false;
+
   ProductPageController({required this.id});
 
   @override
@@ -347,7 +367,6 @@ class ProductPageController extends GetxController {
   @override
   void onClose() {
     scrollController.dispose();
-    dismissLoading();
     super.onClose();
   }
 
@@ -370,15 +389,15 @@ class ProductPageController extends GetxController {
 
   void initData(double headerHeight) async {
     this.headerHeight.value = headerHeight;
-    showLoading();
+    if (_hasLoaded) return;
+    _hasLoaded = true;
     this.productDetailModel.value = await ShopApi.getProductDetail(id);
-    if(this.productDetailModel.value.imageList.isNotEmpty){
+    if (this.productDetailModel.value.imageList.isNotEmpty) {
       this.productDetailModel.value.imageList.forEach((element) {
         DefaultCacheManager().downloadFile(element);
       });
     }
     this.recommends.addAll(await ShopApi.recommend(id));
-    dismissLoading();
   }
 
   void changeSpecIndex(int index) {

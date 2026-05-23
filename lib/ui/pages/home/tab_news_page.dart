@@ -29,9 +29,12 @@ class TabNewsPage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (c, i) => GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () => Get.to(() => NewsPage(
-                            id: controller.headLineList[i].id,
-                          )),
+                      onTap: () => Get.to(
+                        () => NewsPage(
+                          id: controller.headLineList[i].id,
+                        ),
+                        transition: Transition.noTransition,
+                      ),
                       child: Container(
                         width: 253.w,
                         height: 200.h,
@@ -119,9 +122,12 @@ class TabNewsPage extends StatelessWidget {
                     child: ListView.separated(
                       itemBuilder: (c, i) => GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () => Get.to(() => NewsPage(
-                              id: controller.list[i].id,
-                            )),
+                        onTap: () => Get.to(
+                          () => NewsPage(
+                            id: controller.list[i].id,
+                          ),
+                          transition: Transition.noTransition,
+                        ),
                         child: SizedBox(
                           height: 112.h,
                           child: Row(

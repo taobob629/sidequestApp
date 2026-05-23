@@ -27,14 +27,13 @@ class QrLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "Authorization".tr,
-      body: ListView(
-        // mainAxisSize: MainAxisSize.max,
+      body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            padding: EdgeInsets.only(top: 6.h, bottom: 8.h),
             child: SizedBox(
-              width: 120.w,
-              height: 120.w,
+              width: 92.w,
+              height: 92.w,
               child: Stack(
                 children: [
                   Positioned(
@@ -42,21 +41,21 @@ class QrLoginPage extends StatelessWidget {
                       right: 0,
                       child: Icon(
                         IconFonts.pc,
-                        size: 120.w,
+                        size: 92.w,
                         color: Colors.white38,
                       )),
                   Positioned(
                       left: 0,
                       right: 0,
-                      top: 30.w,
-                      bottom: 60.w,
+                      top: 23.w,
+                      bottom: 46.w,
                       child: CircleAvatar(
                         child: ClipOval(
                           child: Image.asset(
                             ImageUtils.default_logo,
                             fit: BoxFit.cover,
-                            width: 30.w,
-                            height: 30.w,
+                            width: 24.w,
+                            height: 24.w,
                           ),
                         ),
                       ))
@@ -65,81 +64,26 @@ class QrLoginPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+            padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 4.h),
             child: Text(
               "You are signing in to a PC client with account below, do you want to continue?"
                   .tr,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              style: TextStyle(color: Colors.grey, fontSize: 15.sp, height: 1.35),
             ),
           ),
           QrLoginFromWidget()
-          // Container(
-          //   margin: const EdgeInsets.symmetric(horizontal: 60),
-          //   padding: const EdgeInsets.only(top: 30,bottom: 50),
-          //   decoration: BoxDecoration(
-          //     color: Colors.white12,
-          //     borderRadius: BorderRadius.circular(12)
-          //   ),
-          //   child: Column(
-          //     children: [
-          //       CircleAvatar(
-          //         backgroundColor: Colors.white,
-          //         radius: 40,
-          //         child: Padding(
-          //           padding: const EdgeInsets.all(2.0),
-          //           child: CachedNetworkImage(
-          //             imageUrl: userController.userProfile.avatar,
-          //             fit: BoxFit.cover,
-          //             imageBuilder: (context,provider){
-          //               return Container(
-          //                 width: 76,
-          //                 height: 76,
-          //                 clipBehavior: Clip.antiAlias,
-          //                 decoration: BoxDecoration(
-          //                   borderRadius: BorderRadius.circular(40),
-          //                   image:DecorationImage(
-          //                     image: provider,
-          //                     fit: BoxFit.cover,
-          //                   )
-          //                 ),
-          //               );
-          //             },
-          //           )
-          //         )
-          //       ),
-          //       SizedBox(height: 10,),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           Text(
-          //             "${userController.userProfile.nickName}",
-          //             style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w400),
-          //           ),
-          //           _buildLevelIcon()
-          //         ],
-          //       ),
-          //       SizedBox(
-          //         height: 30,
-          //       ),
-          //       Text(
-          //         "${userController.userProfile.email}",
-          //         style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-          //       )
-          //     ],
-          //   ),
-          // )
         ],
       ),
-      floatingActionButton: Row(
-        children: [
-          Expanded(
-              child: FloatingButton(
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 10.h),
+          child: FloatingButton(
             label: "Login".tr,
             onTap: () => controller.login(),
-          )),
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -184,9 +128,11 @@ class QrLoginPageController extends GetxController {
     showLoading();
     var res = await AuthApi.qrCodeLogin(code);
     dismissLoading();
-    if (res.code == 0) {
+    if (res.code == 0 || res.code == 200) {
       showSuccess("Success".tr, duration: const Duration(seconds: 3))
           .then((value) => Get.back());
+    } else {
+      showError("Server Failure".tr);
     }
   }
 

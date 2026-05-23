@@ -119,15 +119,18 @@ class NavigatorHelper {
     Function? whenComplete,
     bool showTabbar = true,
   }) {
-    Get.to(() => CouponPage(
-      couponType: couponType,
-      payOrderModel: payOrderModel,
-      preOrder: preOrder,
-      tab: tab,
-      storeId: storeId,
-      goodsList: goodsList,
-      showTabbar: showTabbar,
-    ))?.then((model) {
+    Get.to(
+      () => CouponPage(
+        couponType: couponType,
+        payOrderModel: payOrderModel,
+        preOrder: preOrder,
+        tab: tab,
+        storeId: storeId,
+        goodsList: goodsList,
+        showTabbar: showTabbar,
+      ),
+      transition: Transition.noTransition,
+    )?.then((model) {
       if (model != null) {
         onSelect?.call(model);
       }
@@ -147,7 +150,10 @@ class NavigatorHelper {
         break;
 
       case "news":
-        Get.to(() => NewsPage(id: additionalData["id"]));
+        Get.to(
+          () => NewsPage(id: additionalData["id"]),
+          transition: Transition.noTransition,
+        );
         break;
 
       case "goods":
@@ -191,10 +197,16 @@ class NavigatorHelper {
       if (id != null) {
         switch (page) {
           case "news":
-            Get.to(() => NewsPage(id: id));
+            Get.to(
+              () => NewsPage(id: id),
+              transition: Transition.noTransition,
+            );
             break;
           case "neproductws":
-            Get.to(() => ProductPage(productId: id));
+            Get.to(
+              () => ProductPage(productId: id),
+              transition: Transition.noTransition,
+            );
             break;
           case "activity":
             Get.to(() => EventPage(id: id, type: 1));

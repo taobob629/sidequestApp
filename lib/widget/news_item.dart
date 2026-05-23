@@ -13,9 +13,12 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => NewsPage(
-            id: model.id,
-          )),
+      onTap: () => Get.to(
+        () => NewsPage(
+          id: model.id,
+        ),
+        transition: Transition.noTransition,
+      ),
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(left: 15, right: 15, bottom: 15),

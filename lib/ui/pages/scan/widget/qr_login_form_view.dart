@@ -16,8 +16,8 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: EdgeInsets.all(15.r),
-        padding: EdgeInsets.all(14.r),
+        margin: EdgeInsets.fromLTRB(15.r, 8.r, 15.r, 8.r),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.white),
             borderRadius: BorderRadius.all(Radius.circular(15.r)),
@@ -41,12 +41,12 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
                         borderRadius: BorderRadius.circular(24.r),
                         child: ExtendedImage.network(
                           userController.userProfile.avatar,
-                          width: 48,
-                          height: 48,
+                          width: 44.w,
+                          height: 44.w,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      16.horizontalSpace,
+                      12.horizontalSpace,
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,15 +68,15 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
                         ],
                       ),
                       const Spacer(),
-                      Image.asset(ImageUtils.logo_mirror, width: 26.w),
+                      Image.asset(ImageUtils.logo_mirror, width: 24.w),
                     ],
                   ),
-                  16.verticalSpace,
+                  10.verticalSpace,
                   Divider(
                     height: 1.h,
                     color: Colors.white,
                   ),
-                  10.verticalSpace,
+                  6.verticalSpace,
                   rowItem('Device', controller.qrLoginInfoModel?.device),
                   rowItem(
                     'Price',
@@ -102,7 +102,7 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
 
   rowItem(String label, var content, {bool deleteLine = false}) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10.r),
+      padding: EdgeInsets.symmetric(vertical: 7.r),
       child: Row(
         children: [
           Text(

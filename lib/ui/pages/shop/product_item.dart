@@ -17,7 +17,10 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>Get.to(()=>ProductPage(productId: product.id,)),
+      onTap: () => Get.to(
+        () => ProductPage(productId: product.id),
+        transition: Transition.noTransition,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

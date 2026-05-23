@@ -13,7 +13,11 @@ class CombItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=> Get.to(()=>ProductPage(productId: productItemModel.id),preventDuplicates: false),
+      onTap: () => Get.to(
+        () => ProductPage(productId: productItemModel.id),
+        preventDuplicates: false,
+        transition: Transition.noTransition,
+      ),
       child: Container(
         height: 95,
         margin: const EdgeInsets.symmetric(horizontal: 15),

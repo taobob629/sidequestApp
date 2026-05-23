@@ -11,6 +11,7 @@ class BaseScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final Widget body;
   final Widget? floatingActionButton;
+  final Widget? bottomNavigationBar;
   final Widget? leading;
   final bool resizeToAvoidBottomInset;
 
@@ -22,6 +23,7 @@ class BaseScaffold extends StatelessWidget {
     this.actions,
     this.leading,
     this.floatingActionButton,
+    this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = true,
   });
 
@@ -42,6 +44,7 @@ class BaseScaffold extends StatelessWidget {
       body: body,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: floatingActionButton,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }

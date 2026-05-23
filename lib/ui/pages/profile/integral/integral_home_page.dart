@@ -1024,10 +1024,12 @@ class IntegralHomePage extends StatelessWidget {
   Widget lessTaskCenterWidget() => Column(
         children: [
           if (t.integralTaskList.isEmpty)
-            Image.asset(
-              ImageUtils.empty,
-              width: 43.w,
-              height: 43.w,
+            Text(
+              'No data',
+              style: TextStyle(
+                color: hexColor('#B2B9C9'),
+                fontSize: 14.sp,
+              ),
             ).marginOnly(bottom: 15.h),
           if (t.integralTaskList.isNotEmpty)
             commonTaskCenterWidget(t.integralTaskList[0]),

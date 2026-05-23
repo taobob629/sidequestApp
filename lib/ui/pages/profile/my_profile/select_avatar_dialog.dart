@@ -139,30 +139,6 @@ class SelectAvatarDialog extends StatelessWidget {
   void selectUpdateAvatar() async {
     dismissLoading();
     
-    if (Get.context == null) {
-      showToast('Context is null');
-      return;
-    }
-    
-    bool? confirm = await ConfirmDialog.show(
-      Get.context!,
-      "Photo Permission".tr,
-      "To select a profile picture, we need access to your photos. Would you like to grant permission?"
-          .tr,
-    );
-    
-    if (confirm != true) {
-      showToast('Permission denied by user');
-      return;
-    }
-    
-    var status = await PermissionHelper.requestPhotosPermission(Get.context!);
-    
-    if (status == false) {
-      showToast('Permission denied');
-      return;
-    }
-    
     try {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
