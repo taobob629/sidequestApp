@@ -29,11 +29,33 @@ class BaseScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canPop = Navigator.of(context).canPop();
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: appBarBackgroundColor,
-        leading: leading,
+        foregroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+          size: 30,
+        ),
+        leadingWidth: 64.w,
+        leading: leading ??
+            (canPop
+                ? IconButton(
+                    tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+                    constraints: BoxConstraints(
+                      minWidth: 56.w,
+                      minHeight: 56.w,
+                    ),
+                    iconSize: 30.w,
+                    splashRadius: 28.w,
+                    color: Colors.white,
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    onPressed: () => Navigator.maybePop(context),
+                  )
+                : null),
         elevation: 0,
         title: PageTitle(
           title: title,
