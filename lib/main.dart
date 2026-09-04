@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_ume/flutter_ume.dart';
-// import 'package:flutter_ume_kit_dio/flutter_ume_kit_dio.dart';
+import 'package:flutter_ume_plus/flutter_ume_plus.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sq_hub_app/utils/dev_network_inspector.dart';
 import 'package:sq_hub_app/utils/platform_utils.dart';
 import 'package:sq_hub_app/utils/storage_manager.dart';
 import 'package:sq_hub_app/utils/utils.dart';
@@ -47,7 +47,8 @@ void main() async {
   if (env.contains("dev") || env.contains("test")) {
     // PluginManager.instance // 注册插件
         // .register(DioInspector(dio: http));
-    runApp(app); // UMEWidget removed
+    PluginManager.instance.register(DevNetworkInspector(dio: http));
+    runApp(UMEWidget(child: app, enable: true));
   } else {
     runApp(app);
   }

@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/
 # Articles/CoreFoundationKeys.html
-version: 2.2.00+2035
+version: 2.2.00+2036
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -76,6 +76,7 @@ dependencies:
   flutter_screenutil: ^5.9.1
   google_sign_in: ^6.2.0
   lottie: ^3.1.0
+  flutter_ume_plus: ^4.1.0
 
   just_audio: ^0.9.40
   flutter_app_badger:
