@@ -46,7 +46,7 @@ void main() async {
   PaintingBinding.instance.imageCache.maximumSizeBytes = 1000 << 20;
   if (env.contains("dev") || env.contains("test")) {
     // PluginManager.instance // 注册插件
-        // .register(DioInspector(dio: http));
+    // .register(DioInspector(dio: http));
     PluginManager.instance.register(DevNetworkInspector(dio: http));
     runApp(UMEWidget(child: app, enable: true));
   } else {

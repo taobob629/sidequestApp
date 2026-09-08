@@ -112,8 +112,8 @@ class _DevNetworkInterceptor extends InterceptorsWrapper {
             ? 0
             : DateTime.now().difference(pending.startedAt).inMilliseconds,
         requestData: pending?.data ?? _stringify(err.requestOptions.data),
-        queryParameters:
-            pending?.queryParameters ?? _stringify(err.requestOptions.queryParameters),
+        queryParameters: pending?.queryParameters ??
+            _stringify(err.requestOptions.queryParameters),
         responseData: _stringify(err.response?.data),
         error: err.message,
         createdAt: DateTime.now(),
@@ -173,8 +173,8 @@ class _NetworkInspectorPage extends StatelessWidget {
             Expanded(
               child: StreamBuilder<List<_NetworkRecord>>(
                 stream: DevNetworkInspector._recordsController.stream,
-                initialData:
-                    List<_NetworkRecord>.unmodifiable(DevNetworkInspector._records),
+                initialData: List<_NetworkRecord>.unmodifiable(
+                    DevNetworkInspector._records),
                 builder: (context, snapshot) {
                   final List<_NetworkRecord> records =
                       snapshot.data ?? const <_NetworkRecord>[];
@@ -212,47 +212,64 @@ class _NetworkRecordTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color statusColor = record.isError
-        ? const Color(0xFFFF5A5A)
-        : const Color(0xFF4CD964);
+    final Color statusColor =
+        record.isError ? const Color(0xFFFF5A5A) : const Color(0xFF4CD964);
     return ExpansionTile(
       collapsedIconColor: Colors.white70,
       iconColor: Colors.white,
-      tilePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      title: Row(
+      tilePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 54,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              color: const Color(0xFF252832),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(
-              record.method,
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-            ),
+          Row(
+            children: [
+              Container(
+                width: 54,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF252832),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  record.method,
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${record.statusLabel}  ${record.durationMs}ms',
+                style: TextStyle(color: statusColor, fontSize: 13),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                record.timeLabel,
+                style: const TextStyle(color: Colors.white54, fontSize: 13),
+              ),
+            ],
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              record.uri,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white, fontSize: 13),
+          const SizedBox(height: 8),
+          Text(
+            record.hostLabel,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white54, fontSize: 12),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            record.pathLabel,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              height: 1.25,
             ),
           ),
         ],
       ),
-      subtitle: Padding(
-        padding: const EdgeInsets.only(top: 6),
-        child: Text(
-          '${record.statusLabel}  ${record.durationMs}ms  ${record.timeLabel}',
-          style: TextStyle(color: statusColor, fontSize: 12),
-        ),
-      ),
       children: [
+        _DetailBlock(label: 'URL', value: record.uri),
         _DetailBlock(label: 'Query', value: record.queryParameters),
         _DetailBlock(label: 'Request', value: record.requestData),
         _DetailBlock(label: 'Response', value: record.responseData),
@@ -344,6 +361,20 @@ class _NetworkRecord {
       error.isNotEmpty || (statusCode != null && statusCode! >= 400);
 
   String get statusLabel => statusCode == null ? 'ERR' : '$statusCode';
+
+  String get hostLabel {
+    final Uri? parsed = Uri.tryParse(uri);
+    if (parsed == null || parsed.host.isEmpty) return uri;
+    final String port = parsed.hasPort ? ':${parsed.port}' : '';
+    return '${parsed.scheme}://${parsed.host}$port';
+  }
+
+  String get pathLabel {
+    final Uri? parsed = Uri.tryParse(uri);
+    if (parsed == null || parsed.path.isEmpty) return uri;
+    final String query = parsed.hasQuery ? '?${parsed.query}' : '';
+    return '${parsed.path}$query';
+  }
 
   String get timeLabel {
     String two(int value) => value.toString().padLeft(2, '0');

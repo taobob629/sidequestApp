@@ -7,7 +7,6 @@ import 'package:sq_hub_app/widget/image_util.dart';
 import '../../../../config/app_color.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../image_utils.dart';
-import '../../../../model/integral_model.dart';
 import '../../../../widget/progress_bar/animation_progress_bar.dart';
 import 'ctr/integral_interests_ctr.dart';
 
@@ -295,55 +294,7 @@ class IntegralInterestsPage extends StatelessWidget {
                             separatorBuilder: (c, i) => 10.verticalSpace,
                             itemCount: ctr.contentList.length,
                           ),
-                          Container(
-                            width: 1.sw,
-                            padding: EdgeInsets.only(
-                              left: 15.w,
-                              right: 15.w,
-                              top: 25.h,
-                            ),
-                            child: Column(
-                              children: [
-                                Visibility(
-                                  visible: ctr.levelCoupons.isNotEmpty,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      bottom: 15.h,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 4.w,
-                                          height: 14.h,
-                                          color: hexColor("FFB20E"),
-                                          margin: EdgeInsets.only(right: 8.w),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            'Coupons'.tr,
-                                            style: TextStyle(
-                                              fontSize: 20.sp,
-                                              fontFamily: FONT_MEDIUM,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 30.h),
-                                  itemBuilder: (c, i) =>
-                                      couponItemWidget(ctr.levelCoupons[i]),
-                                  separatorBuilder: (c, i) => 10.verticalSpace,
-                                  itemCount: ctr.levelCoupons.length,
-                                ),
-                              ],
-                            ),
-                          ),
+                          30.verticalSpace,
                         ],
                       ),
                     ),
@@ -351,125 +302,4 @@ class IntegralInterestsPage extends StatelessWidget {
                 ],
               ),
             ));
-
-  Widget couponItemWidget(CouponsModel model) => Container(
-        width: 1.sw,
-        decoration: ShapeDecoration(
-          gradient: LinearGradient(
-            begin: Alignment(-1.00, -0.04),
-            end: Alignment(1, 0.04),
-            colors: [Color(0xFF302D26), Color(0xFF2D2D34)],
-          ),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color: Color(0xFF524B41)),
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-        ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 10.w,
-          vertical: 15.h,
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 42.w,
-              height: 42.w,
-              decoration: ShapeDecoration(
-                color: Color(0x19F097FF),
-                shape: OvalBorder(),
-              ),
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24.r),
-                  child: Image.asset(
-                    ImageUtils.integral_coupon_icon,
-                    width: 20.w,
-                  ),
-                ),
-              ),
-            ),
-            10.horizontalSpace,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${model.name}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
-                    ),
-                  ),
-                  Visibility(
-                    visible: model.description != null,
-                    child: 8.verticalSpace,
-                  ),
-                  Visibility(
-                    visible: model.description != null,
-                    child: Text(
-                      '${model.description}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10.sp,
-                        fontFamily: FONT_LIGHT,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  8.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'X${model.num}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
-                          fontFamily: FONT_LIGHT,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => ctr.redeemCoupon(model),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: ShapeDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment(1.00, 0.00),
-                              end: Alignment(-1, 0),
-                              colors: model.state == 0
-                                  ? [Color(0xFFFFB20E), Color(0xFFFF760E)]
-                                  : [Colors.grey, Colors.grey],
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.r),
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Claim',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
-                              fontFamily: 'DIN',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
 }

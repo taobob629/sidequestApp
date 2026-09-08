@@ -12,7 +12,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
 import 'package:sq_hub_app/ui/pages/stores/store_page.dart';
-import 'package:sq_hub_app/ui/pages/stores/tab_cybercafe_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
@@ -180,7 +179,7 @@ class MainPageController extends FullLifeCycleController
   @override
   void onInit() async {
     super.onInit();
-    currentIndex.value = 3; // 默认打开个人资料页面
+    currentIndex.value = 0;
     controller = PageController(initialPage: currentIndex.value);
     // controller.addListener(() {
     //   var curpage = controller.page;
@@ -216,14 +215,6 @@ class MainPageController extends FullLifeCycleController
     var firstUse = StorageManager.getFirstUse();
     if (firstUse) {
       Get.offAll(() => SplashPage());
-      return;
-    }
-
-    // 检查是否有token
-    var token = StorageManager.getToken();
-    if (token.isEmpty) {
-      // 没有token，跳转到登录页面
-      Get.offAll(() => LoginPage());
       return;
     }
 

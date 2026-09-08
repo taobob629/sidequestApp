@@ -248,7 +248,7 @@ class BookingDetailPage extends StatelessWidget {
                                             ),
                                           ).paddingOnly(bottom: 6.h),
                                           Text(
-                                            '${_ctr.model?.areaVoList[i].points} Points/Hour',
+                                            '4 Points/Pound',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.right,
@@ -431,31 +431,48 @@ class BookingDetailPage extends StatelessWidget {
     Color? bgColor,
   }) =>
       Container(
-        height: 44.h,
         color: bgColor ?? Colors.transparent,
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              icon,
-              scale: 2.6,
-            ).paddingOnly(right: 8.w),
-            Expanded(
-              child: Text(
-                name,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontFamily: FONT_LIGHT,
-                  color: Colors.white,
-                ),
+            Padding(
+              padding: EdgeInsets.only(top: 2.h),
+              child: Image.asset(
+                icon,
+                width: 20.w,
+                height: 20.w,
+                fit: BoxFit.contain,
+                excludeFromSemantics: true,
               ),
             ),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontFamily: FONT_LIGHT,
-                color: hexColor('#FFD20E'),
+            12.horizontalSpace,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontFamily: FONT_LIGHT,
+                      color: AppColor.textWhiteGrey,
+                      height: 1.3,
+                    ),
+                  ),
+                  4.verticalSpace,
+                  Text(
+                    value.trim().isEmpty ? 'Not specified'.tr : value.trim(),
+                    softWrap: true,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontFamily: FONT_MEDIUM,
+                      color: hexColor('#FFD20E'),
+                      height: 1.4,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
