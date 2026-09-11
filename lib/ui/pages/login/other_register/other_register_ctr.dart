@@ -10,9 +10,9 @@ import '../../../../controller/user_controller.dart';
 import '../../../../model/login_model.dart';
 import '../../../../utils/datetime_utils.dart';
 import '../../../../utils/toast_utils.dart';
-import '../../main_page.dart';
 import '../../register/register_page.dart';
 import '../secondary_page.dart';
+import '../welcome/new_user_welcome_page.dart';
 
 /**
     author:mac
@@ -30,10 +30,7 @@ class OtherRegisterCtr extends GetxController {
   // 是否选择了birthday，false没有
   bool isSelectBirthday = false;
 
-  var selectSex = VerifyField.fromJson({
-    'name': '',
-    'label': '',
-  }).obs;
+  var selectSex = VerifyField.fromJson({'name': '', 'label': ''}).obs;
 
   String? otherEmail;
 
@@ -76,8 +73,9 @@ class OtherRegisterCtr extends GetxController {
     if (date != null) {
       if (DatetimeUtils.getAge(date) < 13) {
         showInfo(
-            "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-                .tr);
+          "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+              .tr,
+        );
         return;
       }
       this.birthday.value = date;
@@ -89,14 +87,8 @@ class OtherRegisterCtr extends GetxController {
     final result = await Get.dialog(
       SelectorDialog(
         items: [
-          VerifyField.fromJson({
-            'name': '0',
-            'label': 'Male'.tr,
-          }),
-          VerifyField.fromJson({
-            'name': '1',
-            'label': 'Female'.tr,
-          }),
+          VerifyField.fromJson({'name': '0', 'label': 'Male'.tr}),
+          VerifyField.fromJson({'name': '1', 'label': 'Female'.tr}),
           VerifyField.fromJson({
             'name': '2',
             'label': 'Prefer not to disclose'.tr,
@@ -165,8 +157,9 @@ class OtherRegisterCtr extends GetxController {
         '/peiwan/app/user/appleUserUpdatePwd',
         email: email,
         birth: formatDate(
-            isSelectBirthday ? birthday.value : DateTime(2000, 1, 1),
-            [dd, '/', mm, '/', yyyy]),
+          isSelectBirthday ? birthday.value : DateTime(2000, 1, 1),
+          [dd, '/', mm, '/', yyyy],
+        ),
         sex: selectSex.value.name,
         pwd: loginPsdController.text,
         payment: paymentPinController.text,
@@ -200,27 +193,28 @@ class OtherRegisterCtr extends GetxController {
       }
     }
     dismissLoading();
-    await showSuccess(
-        "Congratulations and welcome, please sign in with your new account!"
-            .tr);
-
     loginSuccess(loginModel);
   }
 
   void loginSuccess(LoginModel loginModel) {
     if (loginModel.validate == 0) {
       UserController.find.setLocalInfo(loginModel, null);
-      Get.offAll(() => MainPage());
+      Get.offAll(
+        () => NewUserWelcomePage(
+          nickName: nickNameEditingController.text.trim(),
+          memberCode: loginModel.user.memberCode,
+        ),
+      );
     } else {
       if (loginModel.secondary == 1) {
-        Get.off(() => SecondaryPage(
-              loginModel: loginModel,
-            ));
+        Get.off(() => SecondaryPage(loginModel: loginModel));
       } else {
-        Get.to(() => RegisterPage(),
-            arguments: {}
-              ..['type'] = 1
-              ..['loginModel'] = loginModel);
+        Get.to(
+          () => RegisterPage(),
+          arguments: {}
+            ..['type'] = 1
+            ..['loginModel'] = loginModel,
+        );
       }
     }
   }

@@ -292,6 +292,69 @@ class AuthApi {
     return LoginModel.fromJson(response.data);
   }
 
+  static Future<LoginModel> thirdPartyGoogleLogin(
+      GoogleSignInAccount account,
+      GoogleSignInAuthentication authentication) async {
+    var response = await http.post(
+      '/peiwan/app/user/thirdParty/google/login',
+      data: {
+        'id': account.id,
+        'email': account.email,
+        'displayName': account.displayName,
+        'photoUrl': account.photoUrl,
+        'idToken': authentication.idToken,
+        'accessToken': authentication.accessToken,
+        'authorizationCode': account.serverAuthCode,
+      },
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> thirdPartyAppleLogin(
+      AuthorizationCredentialAppleID credential) async {
+    var response = await http.post(
+      '/peiwan/app/user/thirdParty/apple/login',
+      data: {
+        'userIdentifier': credential.userIdentifier,
+        'email': credential.email,
+        'givenName': credential.givenName,
+        'familyName': credential.familyName,
+        'idToken': credential.identityToken,
+        'authorizationCode': credential.authorizationCode,
+      },
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> thirdPartyStatus() async {
+    var response = await http.get('/peiwan/app/user/thirdParty/status');
+    return LoginModel.fromJson(response.data);
+  }
+
+  static Future<LoginModel> completeThirdPartyProfile({
+    required String email,
+    required String nickName,
+    required String phone,
+    required String sex,
+    required String password,
+    required String paymentPin,
+    required String birth,
+  }) async {
+    var response = await http.post(
+      '/peiwan/app/user/thirdParty/complete',
+      data: {
+        'email': email,
+        'nickName': nickName,
+        'phone': phone,
+        'sex': sex,
+        'password': password,
+        'paymentPin': paymentPin,
+        'birth': birth,
+      },
+    );
+    return LoginModel.fromJson(response.data);
+  }
+
   static Future<LoginModel> signInDiscord(
       String url,
       String? discordAppId,

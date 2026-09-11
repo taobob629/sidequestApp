@@ -18,6 +18,8 @@ import 'config/icon_font.dart';
 import 'config/lang/translations.dart';
 import 'controller/cart_controller.dart';
 import 'controller/user_controller.dart';
+import 'ui/pages/login/third_party_profile/third_party_profile_page.dart';
+import 'utils/storage_manager.dart';
 
 class App extends StatelessWidget {
   final cartController = Get.put(CartController(), permanent: true);
@@ -95,7 +97,9 @@ class App extends StatelessWidget {
               translations: Messages(),
               //跟随系统语言
               fallbackLocale: const Locale('en', 'US'),
-              home: MainPage(),
+              home: StorageManager.getThirdPartyProfilePending()
+                  ? ThirdPartyProfilePage()
+                  : MainPage(),
               navigatorObservers: [FlutterSmartDialog.observer],
               builder: FlutterSmartDialog.init(
                 loadingBuilder: (String msg) => CustomLoadingWidget(

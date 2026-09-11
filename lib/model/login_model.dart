@@ -6,6 +6,7 @@ class LoginModel {
   late String token;
   late String login;
   late bool gotoLogin2;
+  bool needsProfileCompletion = false;
   late int validate;
   late int secondary;
 
@@ -21,6 +22,9 @@ class LoginModel {
   LoginModel.fromJson(Map<String, dynamic> json) {
     login = json["login"] == null ? "" : json["login"];
     gotoLogin2 = json["gotoLogin2"] == null ? false : json["gotoLogin2"];
+    needsProfileCompletion = json["needsProfileCompletion"] == null
+        ? gotoLogin2
+        : json["needsProfileCompletion"];
     token = json["token"] == null ? "" : json["token"];
     validate = json["validate"] == null ? 0 : json["validate"];
     secondary = json["Secondary"] == null ? 0 : json["Secondary"];

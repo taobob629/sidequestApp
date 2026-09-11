@@ -18,8 +18,9 @@ class PrivacyCheck extends StatelessWidget {
   List<PrivacyInfo> privacyList = [];
   late final PrivacyCheckController controller;
   WrapAlignment wrapAlignment;
+  final bool compact;
 
-  PrivacyCheck({required PrivacyCheckController controller, int type = TYPE_LOGIN, this.privacyList = const [], this.wrapAlignment = WrapAlignment.start}) {
+  PrivacyCheck({required PrivacyCheckController controller, int type = TYPE_LOGIN, this.privacyList = const [], this.wrapAlignment = WrapAlignment.start, this.compact = false}) {
     this.controller = controller;
     this.controller._c = _controller;
     switch (type) {
@@ -54,15 +55,25 @@ class PrivacyCheck extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 16),
+                padding: EdgeInsets.only(left: compact ? 0 : 16),
                 child: SizedBox(
-                  width: 24,
-                  child: Obx(() => Checkbox(shape: CircleBorder(), activeColor: AppColor.accent, value: _controller.check.value, onChanged: (v) => _controller.check.value = v!)),
+                  width: compact ? 26 : 24,
+                  height: compact ? 26 : null,
+                  child: Obx(() => Checkbox(
+                        shape: CircleBorder(),
+                        activeColor: AppColor.accent,
+                        visualDensity: compact ? VisualDensity.compact : null,
+                        materialTapTargetSize: compact
+                            ? MaterialTapTargetSize.shrinkWrap
+                            : null,
+                        value: _controller.check.value,
+                        onChanged: (v) => _controller.check.value = v!,
+                      )),
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: compact ? const EdgeInsets.only(left: 5) : const EdgeInsets.all(8.0),
                   child: Wrap(
                     // mainAxisSize: MainAxisSize.min,
                     // mainAxisAlignment: MainAxisAlignment.start,
@@ -85,13 +96,13 @@ class PrivacyCheck extends StatelessWidget {
     List<Widget> items = [];
     items.add(Text(
       "By checking this means you agree to our".tr,
-      style: TextStyle(color: textColor, fontFamily: FONT_MEDIUM, fontSize: 14.sp),
+      style: TextStyle(color: textColor, fontFamily: FONT_MEDIUM, fontSize: compact ? 11 : 14.sp),
     ));
     var privacyItems = privacyList.map((item) {
       if (item.url.isEmpty) {
         return Text(
           " & ",
-          style: TextStyle(color: textColor, fontFamily: FONT_MEDIUM, fontSize: 14.sp),
+          style: TextStyle(color: textColor, fontFamily: FONT_MEDIUM, fontSize: compact ? 11 : 14.sp),
         );
       } else {
         return GestureDetector(
@@ -102,7 +113,7 @@ class PrivacyCheck extends StatelessWidget {
           child: Text(
             item.title,
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: 14.sp, decoration: TextDecoration.underline),
+            style: TextStyle(color: AppColor.textYellow, fontFamily: FONT_MEDIUM, fontSize: compact ? 11 : 14.sp, decoration: TextDecoration.underline),
           ),
         );
       }

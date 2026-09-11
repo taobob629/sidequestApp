@@ -24,6 +24,7 @@ import '../service/voice_player.dart';
 import '../ui/dialog/dialog_confirm.dart';
 import '../ui/pages/login/login_page.dart';
 import '../ui/pages/login/other_register/other_register_page.dart';
+import '../ui/pages/login/third_party_profile/third_party_profile_page.dart';
 import '../ui/pages/login/secondary_page.dart';
 import '../ui/pages/main_page.dart';
 import '../ui/pages/profile/balance/balance_page.dart';
@@ -85,7 +86,6 @@ class UserController extends GetxController {
   GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
       'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 
@@ -100,6 +100,10 @@ class UserController extends GetxController {
   }
 
   Future<void> switchLogin({bool checkLastLoginTime = false}) async {
+    if (await _restorePendingThirdPartyProfile()) {
+      isSigningIn = false;
+      return;
+    }
     var loginFlag = StorageManager.getString('loginFlag');
     switch (loginFlag?.toLowerCase()) {
       case LoginFlag.ios:
@@ -125,6 +129,39 @@ class UserController extends GetxController {
         isSigningIn = false;
         break;
     }
+  }
+
+  Future<bool> _restorePendingThirdPartyProfile() async {
+    if (StorageManager.getToken().isEmpty) return false;
+    try {
+      final loginModel = await AuthApi.thirdPartyStatus();
+      if (!loginModel.needsProfileCompletion) {
+        final wasPending = StorageManager.getThirdPartyProfilePending();
+        StorageManager.setThirdPartyProfilePending(false);
+        setLocalInfo(
+          loginModel,
+          null,
+          loginFlag: loginModel.login,
+        );
+        if (wasPending) {
+          Get.offAll(() => MainPage());
+        }
+        return true;
+      }
+      _openThirdPartyProfile(loginModel.login, loginModel.user.email);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void _openThirdPartyProfile(String provider, String? email) {
+    StorageManager.setThirdPartyProfilePending(true);
+    if (Get.currentRoute.contains('ThirdPartyProfilePage')) return;
+    Get.offAll(() => ThirdPartyProfilePage(), arguments: {
+      'provider': provider,
+      'email': email,
+    });
   }
 
   static setCustomSticker() async {
@@ -319,24 +356,25 @@ class UserController extends GetxController {
     }
 
     if (showLoadings) showLoading(clickMaskDismiss: false);
-    LoginModel loginModel = await AuthApi.signInApple(
-      credential,
-      '/peiwan/app/user/appleNewLogin',
-    ).catchError((e) {
+    try {
+      LoginModel loginModel = await AuthApi.thirdPartyAppleLogin(credential);
+
+      StorageManager.setString(
+        'userIdentifier',
+        credential.userIdentifier.toString(),
+      );
+
+      setLocalInfo(
+        loginModel,
+        done,
+        loginFlag: LoginFlag.ios,
+        credential: credential,
+      );
+    } catch (e) {
       dismissLoading();
-    });
-
-    StorageManager.setString(
-      'userIdentifier',
-      credential.userIdentifier.toString(),
-    );
-
-    setLocalInfo(
-      loginModel,
-      done,
-      loginFlag: LoginFlag.ios,
-      credential: credential,
-    );
+      flog('apple sign in err $e');
+      showError(e.toString());
+    }
   }
 
   Future<void> googleLogin({
@@ -355,24 +393,22 @@ class UserController extends GetxController {
 
     try {
       GoogleSignInAccount? account = await googleSignIn.signIn();
-      GoogleSignInAuthentication? authentication =
-          await account?.authentication;
+      if (account == null) {
+        dismissLoading();
+        return;
+      }
+      GoogleSignInAuthentication authentication = await account.authentication;
 
       flog('google sign in $account');
-      LoginModel loginModel = await AuthApi.signInGoogle(
-        '/peiwan/app/user/googleLogin1',
-        account,
-        authentication?.idToken,
-      ).catchError((e) {
-        dismissLoading();
-      });
+      LoginModel loginModel =
+          await AuthApi.thirdPartyGoogleLogin(account, authentication);
 
       setLocalInfo(
         loginModel,
         done,
         loginFlag: LoginFlag.google,
         account: account,
-        idToken: authentication?.idToken,
+        idToken: authentication.idToken,
       );
     } catch (e) {
       dismissLoading();
@@ -484,31 +520,15 @@ class UserController extends GetxController {
     String? nickName,
     String? discriminator,
   }) async {
-    if (loginModel.gotoLogin2) {
+    if (loginModel.needsProfileCompletion || loginModel.gotoLogin2) {
       StorageManager.setToken(loginModel.token);
+      if (loginFlag != null) {
+        StorageManager.setString('loginFlag', loginFlag);
+      }
+      _updateUser(loginModel.user);
       dismissLoading();
-      if (loginFlag == LoginFlag.ios) {
-        if (loginModel.validate == 0) {
-          Get.offAll(() => MainPage());
-        } else {
-          if (loginModel.secondary == 1) {
-            Get.off(() => SecondaryPage(
-                  loginModel: loginModel,
-                ));
-          } else {
-            Get.to(() => RegisterPage(),
-                arguments: {}
-                  ..['type'] = 1
-                  ..['loginModel'] = loginModel);
-          }
-        }
-      } else if (loginFlag == LoginFlag.google) {
-        if (account != null && idToken != null) {
-          Get.to(() => OtherRegisterPage(), arguments: {
-            'account': account,
-            'idToken': idToken,
-          });
-        }
+      if (loginFlag == LoginFlag.ios || loginFlag == LoginFlag.google) {
+        _openThirdPartyProfile(loginFlag!, account?.email);
       } else if (loginFlag == LoginFlag.discord) {
         if (discordAppId != null &&
             email != null &&
@@ -532,6 +552,9 @@ class UserController extends GetxController {
 
     if (loginFlag != null) {
       StorageManager.setString('loginFlag', loginFlag);
+      if (loginFlag == LoginFlag.ios || loginFlag == LoginFlag.google) {
+        StorageManager.setThirdPartyProfilePending(false);
+      }
     }
 
     if (loginModel.validate == 0) {
@@ -561,6 +584,7 @@ class UserController extends GetxController {
     StorageManager.clear(StorageManager.kPassword);
     StorageManager.clear(StorageManager.kLoginTime);
     StorageManager.clear(StorageManager.kToken);
+    StorageManager.setThirdPartyProfilePending(false);
     imLoginDone.value = false;
     unreadMsgCount.value = 0;
     done?.call();

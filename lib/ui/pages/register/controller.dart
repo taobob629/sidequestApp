@@ -13,8 +13,7 @@ import '../../../controller/user_controller.dart';
 import '../../../model/login_model.dart';
 import '../../../utils/datetime_utils.dart';
 import '../../../utils/toast_utils.dart';
-import '../login/choose_game/view.dart';
-import '../main_page.dart';
+import '../login/welcome/new_user_welcome_page.dart';
 
 /**
     author:mac
@@ -47,12 +46,12 @@ class RegisterPageController extends GetxController {
   String password = "";
   String pin = "";
 
-//  String firstName = "";
+  //  String firstName = "";
   // String lastName = "";
   String nick = "";
   String phone = "";
   var uid = "".obs;
-  var sex = 0.obs;
+  var sex = (-1).obs;
 
   Timer? _timer;
   var codeCountDown = 60.obs;
@@ -85,11 +84,12 @@ class RegisterPageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    emailFocusNode.requestFocus();
     if (loginModel != null) {
       if (loginModel!.user.birth.isNotEmpty) {
-        DateTime bd =
-            DateFormat('dd/MM/y', 'en_GB').parse(loginModel!.user.birth);
+        DateTime bd = DateFormat(
+          'dd/MM/y',
+          'en_GB',
+        ).parse(loginModel!.user.birth);
         setBirthday(bd);
       }
       if (loginModel!.user.firstName.isNotEmpty) {
@@ -101,6 +101,7 @@ class RegisterPageController extends GetxController {
       if (loginModel!.user.phone.isNotEmpty) {
         phoneEditingController.text = loginModel!.user.phone;
       }
+      sex.value = int.tryParse(loginModel!.user.sex) ?? -1;
     }
   }
 
@@ -153,15 +154,11 @@ class RegisterPageController extends GetxController {
     String guardian = guardianEditingController.text.trim();
     if (verifyBirthday && DatetimeUtils.getAge(birthday.value) < 16) {
       if (guardian.isEmpty) {
-        showInfo(
-          "Please input your guardian email".tr,
-        );
+        showInfo("Please input your guardian email".tr);
         return false;
       }
       if (!guardian.contains("@")) {
-        showInfo(
-          "Please input a valid guardian email".tr,
-        );
+        showInfo("Please input a valid guardian email".tr);
         return false;
       }
       if (guardian == email) {
@@ -179,13 +176,14 @@ class RegisterPageController extends GetxController {
 
     showLoading();
     uid.value = await AuthApi.sendEmail(
-        email, guardianEditingController.text.trim(), type);
+      email,
+      guardianEditingController.text.trim(),
+      type,
+    );
     dismissLoading();
     if (uid.isNotEmpty) {
       codeCountDown.value--;
-      showSuccess(
-        "Verification code sent".tr,
-      );
+      showSuccess("Verification code sent".tr);
 
       _timer = Timer.periodic(const Duration(seconds: 1), (v) {
         if (codeCountDown.value > 0) {
@@ -202,18 +200,14 @@ class RegisterPageController extends GetxController {
     if (!verifyEmail(true)) return;
 
     if (uid.isEmpty) {
-      showInfo(
-        "Please send your verification code".tr,
-      );
+      showInfo("Please send your verification code".tr);
       return;
     }
 
     code = codeEditingController.text.trim();
 
     if (code.isEmpty) {
-      showInfo(
-        "Please input your verification code".tr,
-      );
+      showInfo("Please input your verification code".tr);
       return;
     }
 
@@ -221,7 +215,7 @@ class RegisterPageController extends GetxController {
     bool ifSuccess = await AuthApi.verifyCode(code, uid.value);
     dismissLoading();
     if (ifSuccess) {
-      codeFocusNode.requestFocus();
+      FocusManager.instance.primaryFocus?.unfocus();
       step.value = 2;
     } else {
       showError('verification code incorrect'.tr);
@@ -232,8 +226,9 @@ class RegisterPageController extends GetxController {
     if (date != null) {
       if (DatetimeUtils.getAge(date) < 13) {
         showInfo(
-            "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
-                .tr);
+          "Players under the age of 13 will not be able to signup for our services, instead a parent must make the account on their behalf."
+              .tr,
+        );
         return;
       }
       this.birthday.value = date;
@@ -252,9 +247,7 @@ class RegisterPageController extends GetxController {
     pin = pinEditingController.text.trim();
 
     if (password.length < 6) {
-      showInfo(
-        "Password no less than 6 characters".tr,
-      );
+      showInfo("Password no less than 6 characters".tr);
       return;
     }
 
@@ -269,43 +262,40 @@ class RegisterPageController extends GetxController {
     // }
 
     if (nick.isEmpty) {
-      showInfo(
-        "Please input your nick name".tr,
-      );
+      showInfo("Please input your nick name".tr);
       return;
     }
 
     if (phone.isEmpty) {
-      showInfo(
-        "Please input your phone number".tr,
-      );
+      showInfo("Please input your phone number".tr);
+      return;
+    }
+
+    if (sex.value < 0 || sex.value > 2) {
+      showInfo("Please select your gender".tr);
       return;
     }
 
     if (pin.length < 6) {
-      showInfo(
-        "Only 6 numbers accepted as your payment pin".tr,
-      );
+      showInfo("Only 6 numbers accepted as your payment pin".tr);
       return;
     }
 
     showLoading();
     if (type == 1) {
       LoginModel loginModel = await AuthApi.signUp2(
-          // firstName,
-          // lastName,
-          nick,
-          phone,
-          email,
-          formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-          password,
-          code,
-          uid.value,
-          pin,
-          sex.value);
-      showSuccess(
-          "Congratulations and welcome, please sign in with your new account!"
-              .tr);
+        // firstName,
+        // lastName,
+        nick,
+        phone,
+        email,
+        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        password,
+        code,
+        uid.value,
+        pin,
+        sex.value,
+      );
       UserController.find.setLocalInfo(
         loginModel,
         (loginModel) => loginSuccess(loginModel),
@@ -313,22 +303,24 @@ class RegisterPageController extends GetxController {
       );
     } else {
       await AuthApi.updateProfile(
-          password,
-          nick,
-          phone,
-          email,
-          formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
-          code,
-          uid.value,
-          pin,
-          loginModel!.token);
+        password,
+        nick,
+        phone,
+        email,
+        formatDate(birthday.value, [dd, '/', mm, '/', yyyy]),
+        code,
+        uid.value,
+        pin,
+        loginModel!.token,
+      );
       dismissLoading();
       StorageManager.setAccount(email);
       StorageManager.setPassword(password);
       UserController userController = Get.find<UserController>();
       await userController.login();
       await showSuccess(
-          "Congratulations and welcome, your profile has been updated!".tr);
+        "Congratulations and welcome, your profile has been updated!".tr,
+      );
       Get.offAll(() => LoginPage(), arguments: Map()..['fromRegister'] = true);
     }
   }
@@ -336,21 +328,19 @@ class RegisterPageController extends GetxController {
   void loginSuccess(LoginModel loginModel) {
     dismissLoading();
     if (loginModel.validate == 0) {
-      //如果是从登录页面跳转的，跳转到选择游戏页面先
-      // var fromRegister = Get.arguments?['fromRegister'];
-      // if (fromRegister == true) {
-      //   Get.offAll(() => ChooseGamesPage());
-      //   return;
-      // }
-      Get.offAll(() => MainPage());
+      Get.offAll(
+        () => NewUserWelcomePage(
+          nickName: nick,
+          memberCode: loginModel.user.memberCode,
+        ),
+      );
     } else {
       Get.to(
-            () => RegisterPage(),
+        () => RegisterPage(),
         arguments: {}
           ..['type'] = 1
           ..['loginModel'] = loginModel,
       );
     }
   }
-
 }

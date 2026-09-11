@@ -37,6 +37,7 @@ class StorageManager {
   static const String kCountDown = 'kCountDown';
   static const String kCountDown2 = 'kCountDown2';
   static const String kFirstMatchTime = 'kFirstMatchTime';
+  static const String kThirdPartyProfilePending = 'kThirdPartyProfilePending';
 
   /// 必备数据的初始化操作
   ///
@@ -74,6 +75,14 @@ class StorageManager {
 
   static void setToken(String value) {
     sharedPreferences.setString(kToken, value);
+  }
+
+  static bool getThirdPartyProfilePending() {
+    return sharedPreferences.getBool(kThirdPartyProfilePending) ?? false;
+  }
+
+  static void setThirdPartyProfilePending(bool value) {
+    sharedPreferences.setBool(kThirdPartyProfilePending, value);
   }
 
   static DateTime getPayPasswordCheckTime() {

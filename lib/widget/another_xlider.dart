@@ -1509,19 +1509,19 @@ class FlutterSliderState extends State<FlutterSlider>
             ],
           ),
         ),
-        onPointerMove: (_) {
+        onPointerMove: (event) {
           __dragging = true;
 
-          _leftHandlerMove(_);
+          _leftHandlerMove(event);
         },
-        onPointerDown: (_) {
+        onPointerDown: (event) {
           if (widget.disabled ||
               (widget.handler != null && widget.handler!.disabled)) return;
 
           _renderBoxInitialization();
 
-          xDragTmp = (_.position.dx - _containerLeft - _leftHandlerXPosition!);
-          yDragTmp = (_.position.dy - _containerTop - _leftHandlerYPosition!);
+          xDragTmp = (event.position.dx - _containerLeft - _leftHandlerXPosition!);
+          yDragTmp = (event.position.dy - _containerTop - _leftHandlerYPosition!);
 
           if (!_tooltipData.disabled! &&
               _tooltipData.alwaysShowTooltip == false) {
@@ -1631,16 +1631,16 @@ class FlutterSliderState extends State<FlutterSlider>
             ]),
           ),
         ),
-        onPointerMove: (_) {
+        onPointerMove: (event) {
           __dragging = true;
 
           if (!_tooltipData.disabled! &&
               _tooltipData.alwaysShowTooltip == false) {
             _rightTooltipOpacity = 1;
           }
-          _rightHandlerMove(_);
+          _rightHandlerMove(event);
         },
-        onPointerDown: (_) {
+        onPointerDown: (event) {
           if (widget.disabled ||
               (widget.rightHandler != null && widget.rightHandler!.disabled)) {
             return;
@@ -1648,8 +1648,8 @@ class FlutterSliderState extends State<FlutterSlider>
 
           _renderBoxInitialization();
 
-          xDragTmp = (_.position.dx - _containerLeft - _rightHandlerXPosition!);
-          yDragTmp = (_.position.dy - _containerTop - _rightHandlerYPosition!);
+          xDragTmp = (event.position.dx - _containerLeft - _rightHandlerXPosition!);
+          yDragTmp = (event.position.dy - _containerTop - _rightHandlerYPosition!);
 
           if (!_tooltipData.disabled! &&
               _tooltipData.alwaysShowTooltip == false) {
@@ -1761,22 +1761,22 @@ class FlutterSliderState extends State<FlutterSlider>
         child: Opacity(
           opacity: 0,
           child: Listener(
-            onPointerUp: (_) {
+            onPointerUp: (event) {
               __dragging = false;
               if (widget.selectByTap && !__dragging) {
                 tappedPositionWithPadding = _distance();
                 if (_distanceFromLeftHandler! < _distanceFromRightHandler!) {
                   if (!widget.rangeSlider) {
-                    _rightHandlerMove(_,
+                    _rightHandlerMove(event,
                         tappedPositionWithPadding: tappedPositionWithPadding,
                         selectedByTap: true);
                   } else {
-                    _leftHandlerMove(_,
+                    _leftHandlerMove(event,
                         tappedPositionWithPadding: tappedPositionWithPadding,
                         selectedByTap: true);
                   }
                 } else {
-                  _rightHandlerMove(_,
+                  _rightHandlerMove(event,
                       tappedPositionWithPadding: tappedPositionWithPadding,
                       selectedByTap: true);
                 }
@@ -1803,12 +1803,12 @@ class FlutterSliderState extends State<FlutterSlider>
 
               setState(() {});
             },
-            onPointerMove: (_) {
+            onPointerMove: (event) {
               __dragging = true;
 
               if (_slidingByActiveTrackBar) {
                 _trackBarSlideCallDragStated(0);
-                _leftHandlerMove(_,
+                _leftHandlerMove(event,
                     lockedHandlersDragOffset: __lockedHandlersDragOffset);
               } else {
                 tappedPositionWithPadding = _distance();
@@ -1821,7 +1821,7 @@ class FlutterSliderState extends State<FlutterSlider>
                       _leftTooltipOpacity = 1;
                       _leftTooltipAnimationController.forward();
                     }
-                    _leftHandlerMove(_,
+                    _leftHandlerMove(event,
                         tappedPositionWithPadding: tappedPositionWithPadding);
                   } else {
                     _trackBarSlideCallDragStated(1);
@@ -1830,7 +1830,7 @@ class FlutterSliderState extends State<FlutterSlider>
                       _rightTooltipOpacity = 1;
                       _rightTooltipAnimationController.forward();
                     }
-                    _rightHandlerMove(_,
+                    _rightHandlerMove(event,
                         tappedPositionWithPadding: tappedPositionWithPadding);
                   }
                 } else {
@@ -1840,12 +1840,12 @@ class FlutterSliderState extends State<FlutterSlider>
                     _rightTooltipOpacity = 1;
                     _rightTooltipAnimationController.forward();
                   }
-                  _rightHandlerMove(_,
+                  _rightHandlerMove(event,
                       tappedPositionWithPadding: tappedPositionWithPadding);
                 }
               }
             },
-            onPointerDown: (_) {
+            onPointerDown: (event) {
               _leftTapAndSlide = false;
               _rightTapAndSlide = false;
               _slidingByActiveTrackBar = false;
@@ -1863,8 +1863,8 @@ class FlutterSliderState extends State<FlutterSlider>
                     _touchSize! +
                     _containerLeft;
 
-                _distanceFromRightHandler = (rX - _.position.dx);
-                _distanceFromLeftHandler = (lX - _.position.dx);
+                _distanceFromRightHandler = (rX - event.position.dx);
+                _distanceFromLeftHandler = (lX - event.position.dx);
 
                 leftHandlerLastPosition = lX;
                 rightHandlerLastPosition = rX;
@@ -1878,8 +1878,8 @@ class FlutterSliderState extends State<FlutterSlider>
                     _touchSize! +
                     _containerTop;
 
-                _distanceFromLeftHandler = (lY - _.position.dy);
-                _distanceFromRightHandler = (rY - _.position.dy);
+                _distanceFromLeftHandler = (lY - event.position.dy);
+                _distanceFromRightHandler = (rY - event.position.dy);
 
                 leftHandlerLastPosition = lY;
                 rightHandlerLastPosition = rY;
@@ -1893,8 +1893,8 @@ class FlutterSliderState extends State<FlutterSlider>
                 _slidingByActiveTrackBar = true;
               } else {
                 double thumbPosition = (widget.axis == Axis.vertical)
-                    ? _.position.dy
-                    : _.position.dx;
+                    ? event.position.dy
+                    : event.position.dx;
                 if (_distanceFromLeftHandler!.abs() <
                         _distanceFromRightHandler!.abs() ||
                     (_distanceFromLeftHandler == _distanceFromRightHandler &&
@@ -1915,12 +1915,12 @@ class FlutterSliderState extends State<FlutterSlider>
                 if (widget.axis == Axis.horizontal) {
                   xDragTmp = 0;
                   __lockedHandlersDragOffset =
-                      (_leftHandlerXPosition! + _containerLeft - _.position.dx)
+                      (_leftHandlerXPosition! + _containerLeft - event.position.dx)
                           .abs();
                 } else {
                   yDragTmp = 0;
                   __lockedHandlersDragOffset =
-                      (_leftHandlerYPosition! + _containerTop - _.position.dy)
+                      (_leftHandlerYPosition! + _containerTop - event.position.dy)
                           .abs();
                 }
               }

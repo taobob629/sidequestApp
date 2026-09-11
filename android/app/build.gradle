@@ -153,7 +153,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-wallet:19.1.0'
     implementation 'com.stripe:stripe-android:20.20.0'
     implementation files('libs/alipayplusclient.aar')
-    api 'com.alipay.sdk:alipaysdk-android:+@aar'
+    api 'com.alipay.sdk:alipaysdk-android:15.8.42@aar'
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.8.1')

@@ -16,10 +16,11 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/
 # Articles/CoreFoundationKeys.html
-version: 2.2.00+2036
+version: 2.2.01+2038
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.0'
 
 dependencies:
   flutter:
@@ -89,14 +90,13 @@ dependencies:
   collection: ^1.18.0
   qr_flutter: ^4.1.0
   onesignal_flutter: ^5.2.0
-  in_app_purchase: ^3.1.0
+  in_app_purchase: 3.3.0
+  # Billing 8.0.0; newer patch releases require Flutter 3.44.
+  in_app_purchase_android: 0.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-dependency_overrides:
-  in_app_purchase: ^3.1.0
 
 flutter:
   uses-material-design: true

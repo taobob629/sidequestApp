@@ -8,6 +8,8 @@ import '../ui/pages/booking/booking_detail_page.dart';
 import 'colorful_button.dart';
 
 class DateTimePickerDialog extends StatelessWidget {
+  final String title;
+
   final String format;
 
   final DateTime? minDateTime;
@@ -21,6 +23,7 @@ class DateTimePickerDialog extends StatelessWidget {
   final bool ifSkip;
 
   DateTimePickerDialog({
+    this.title = "Select Time",
     this.format = "dd-MM-yyyy",
     this.minDateTime,
     this.maxDateTime,
@@ -38,7 +41,7 @@ class DateTimePickerDialog extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
-              "Select Time".tr,
+              title.tr,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

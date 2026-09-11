@@ -415,9 +415,6 @@ class MyProfilePage extends StatelessWidget {
                                                         .toDouble(),
                                         width: 234.w,
                                         height: 12.h,
-                                        padding: EdgeInsets.only(
-                                          right: t.getProgress(),
-                                        ),
                                         direction: Axis.horizontal,
                                         innerDecoration: BoxDecoration(
                                             gradient: LinearGradient(
@@ -862,8 +859,6 @@ class ProfileController extends GetxController
 
   var user = ProfileModel().obs;
 
-  double progress = 0.0;
-
   late RefreshController refreshController;
 
   // 为了让订阅的Widget滚动到屏幕中间
@@ -1010,17 +1005,6 @@ class ProfileController extends GetxController
     } else {
       return '${user.value.avamins} min';
     }
-  }
-
-  double getProgress() {
-    double percent = (user.value.totalmins.toDouble() == 0
-        ? 0
-        : user.value.avamins / user.value.totalmins.toDouble());
-    progress = 234.w - 234.w * percent;
-    if (progress > 234.w) {
-      progress = 0;
-    }
-    return progress;
   }
 
   void jumpTaskDetail() async {
