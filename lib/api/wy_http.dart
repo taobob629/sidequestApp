@@ -139,7 +139,7 @@ class ApiInterceptor extends InterceptorsWrapper {
       }
     }
     
-    showToast("Networking Failure");
+    showInfo("Networking Failure");
   }
 }
 
