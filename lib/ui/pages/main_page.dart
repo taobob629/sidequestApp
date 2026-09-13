@@ -13,6 +13,7 @@ import 'package:sq_hub_app/image_utils.dart';
 import 'package:sq_hub_app/ui/pages/home/tab_hubs_page.dart';
 import 'package:sq_hub_app/ui/pages/stores/store_page.dart';
 import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page.dart';
+import 'package:sq_hub_app/ui/pages/profile/my_profile/my_profile_page_v2.dart';
 import 'package:sq_hub_app/ui/pages/splash/splash_page.dart';
 import 'package:sq_hub_app/ui/pages/home/index_page.dart';
 
@@ -173,7 +174,7 @@ class MainPageController extends FullLifeCycleController
     IndexPage(),
     StorePage(),
     TabHubsPage(),
-    MyProfilePage(),
+    MyProfilePageV2(),
   ];
 
   @override
