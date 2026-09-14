@@ -148,6 +148,7 @@ flutter {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-splashscreen:1.2.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
     implementation 'com.google.android.gms:play-services-wallet:19.1.0'

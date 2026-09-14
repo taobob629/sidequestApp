@@ -18,7 +18,12 @@ class AppController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Get.updateLocale(Get.locale ?? ENGLISH);
+    // InitialBindings creates this controller while GetMaterialApp is building.
+    // Updating the locale synchronously here would force the app to rebuild in
+    // the middle of that frame, which Flutter does not allow.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.updateLocale(Get.locale ?? ENGLISH);
+    });
     initEasyLoadding();
     initConfig();
   }

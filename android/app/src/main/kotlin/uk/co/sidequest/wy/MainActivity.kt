@@ -8,11 +8,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.NonNull
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.alipay.sdk.app.PayTask
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelpay.PayReq
@@ -25,6 +28,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import org.json.JSONObject
+import java.util.Locale
 import com.iap.basic.alipay.config.IAPConfiguration
 import com.iap.alipayplusclient.AlipayPlusClient
 import com.iap.cashier.callback.IAPPaymentSheetEventCallback
@@ -41,7 +45,24 @@ class MainActivity : FlutterFragmentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        if (isHuaweiDevice()) {
+            // Huawei/HarmonyOS devices skip the custom splash completely.
+            // Restore the normal app theme immediately and do not keep a
+            // branded starting window on screen.
+            setTheme(R.style.NormalTheme)
+            super.onCreate(savedInstanceState)
+        } else {
+            // Install before super so Android can draw the branded starting
+            // window while Flutter initializes. The icon animation loops
+            // independently; the system removes the splash when Flutter draws
+            // its first frame.
+            val splashStartedAt = SystemClock.uptimeMillis()
+            val splashScreen = installSplashScreen()
+            splashScreen.setKeepOnScreenCondition {
+                SystemClock.uptimeMillis() - splashStartedAt < 520L
+            }
+            super.onCreate(savedInstanceState)
+        }
 
         val notificationManager: NotificationManager =
             getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -143,11 +164,21 @@ class MainActivity : FlutterFragmentActivity() {
                     result.success(info)
                 }
 
+                "isHuaweiDevice" -> {
+                    result.success(isHuaweiDevice())
+                }
+
                 else -> {
                     result.notImplemented()
                 }
             }
         }
+    }
+
+    private fun isHuaweiDevice(): Boolean {
+        val manufacturer = Build.MANUFACTURER.orEmpty().lowercase(Locale.ROOT)
+        val brand = Build.BRAND.orEmpty().lowercase(Locale.ROOT)
+        return manufacturer.contains("huawei") || brand.contains("huawei")
     }
 
     /**

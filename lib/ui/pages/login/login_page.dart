@@ -283,7 +283,10 @@ class LoginPage extends StatelessWidget {
   Widget _socialLoginArea() {
     return Obx(() {
       final settings = controller.loginBtnModel.value;
-      final showGoogle = Platform.isAndroid && settings.googleLogin;
+      final showGoogle =
+          Platform.isAndroid &&
+          controller.isHuaweiDevice.value == false &&
+          settings.googleLogin;
       final showApple = Platform.isIOS && settings.appleLogin;
       if (!showGoogle && !showApple) {
         return const SizedBox.shrink();
@@ -484,6 +487,11 @@ class LoginPageController extends BasePageController {
   late FocusNode passwordFocusNode;
 
   var loginBtnModel = LoginBtnModel().obs;
+  final RxnBool isHuaweiDevice = RxnBool();
+
+  static const MethodChannel _platformChannel = MethodChannel(
+    'uk.co.wanyoo.wy.method',
+  );
 
   @override
   void onInit() {
@@ -496,6 +504,7 @@ class LoginPageController extends BasePageController {
     emailFocusNode = FocusNode();
     passwordFocusNode = FocusNode();
 
+    _loadDeviceManufacturer();
     requestData();
   }
 
@@ -515,6 +524,22 @@ class LoginPageController extends BasePageController {
   void requestData() async {
     final response = await http.get('/sideQuest/app/sq/user/loginPage');
     loginBtnModel.value = LoginBtnModel.fromJson(response.data);
+  }
+
+  Future<void> _loadDeviceManufacturer() async {
+    if (!Platform.isAndroid) {
+      isHuaweiDevice.value = false;
+      return;
+    }
+
+    try {
+      isHuaweiDevice.value =
+          await _platformChannel.invokeMethod<bool>('isHuaweiDevice') ?? false;
+    } on PlatformException {
+      // Do not permanently remove Google sign-in if device detection itself
+      // fails on a non-Huawei Android build.
+      isHuaweiDevice.value = false;
+    }
   }
 
   void loginWithApple() {

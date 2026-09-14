@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 11 and lower use a bitmap because some EMUI/HarmonyOS starting
+         windows do not render the complex vector reliably. drawable-v31 keeps
+         the animated vector for Android 12 and higher. -->
+    <item name="splash_logo" type="drawable">@drawable/splash_logo_static</item>
+</resources>

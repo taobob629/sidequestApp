@@ -18,6 +18,7 @@ class QrLoginModel {
   final String discount;
   // CX-BR-1
   final String device;
+  final String msg;
 
   QrLoginModel({
     this.gamingFree = "",
@@ -29,6 +30,8 @@ class QrLoginModel {
     this.price = "",
     this.discount = "",
     this.device = "",
+    this.msg = "",
+
   });
 
   factory QrLoginModel.fromJson(Map<String, dynamic>? json) => QrLoginModel(
@@ -41,6 +44,7 @@ class QrLoginModel {
     price: asT<String>(json, 'price'),
     discount: asT<String>(json, 'discount'),
     device: asT<String>(json, 'device'),
+    msg:asT<String>(json, 'msg'),
   );
 
 
