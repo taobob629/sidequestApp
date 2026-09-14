@@ -49,8 +49,18 @@ showInfo(var msg, {Duration? duration}) {
         constraints: const BoxConstraints(maxWidth: 420),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: const Color(0xF5222226),
-            border: Border.all(color: const Color(0x66FFB20E)),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xF03A6257),
+                Color(0xF03D5275),
+                Color(0xF060456F),
+                Color(0xF0634145),
+              ],
+              stops: [0, 0.34, 0.7, 1],
+            ),
+            border: Border.all(color: const Color(0x99F0EEF7)),
             borderRadius: BorderRadius.circular(16),
             boxShadow: const [
               BoxShadow(
@@ -69,12 +79,12 @@ showInfo(var msg, {Duration? duration}) {
                   width: 30,
                   height: 30,
                   decoration: const BoxDecoration(
-                    color: Color(0x1FFFb20E),
+                    color: Color(0x2EFFFFFF),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.info_outline_rounded,
-                    color: Color(0xFFFFB20E),
+                    color: Color(0xFFF8F7FB),
                     size: 18,
                   ),
                 ),

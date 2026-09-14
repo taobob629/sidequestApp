@@ -14,6 +14,8 @@ import '../../../model/qr_login.dart';
 import '../../../model/qr_login_info.dart';
 import '../../../utils/toast_utils.dart';
 
+const _authorizationCanvas = Color(0xFF151C23);
+
 class QrLoginPage extends StatelessWidget {
   late final QrLoginPageController controller;
 
@@ -27,24 +29,41 @@ class QrLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
       title: "Authorization".tr,
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 6.h, bottom: 8.h),
-            child: SizedBox(
-              width: 92.w,
-              height: 92.w,
-              child: Stack(
-                children: [
-                  Positioned(
+      backgroundColor: _authorizationCanvas,
+      appBarBackgroundColor: _authorizationCanvas,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF152421),
+              Color(0xFF172131),
+              Color(0xFF231A2D),
+              Color(0xFF1D151C),
+            ],
+            stops: [0, 0.34, 0.7, 1],
+          ),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 6.h, bottom: 8.h),
+              child: SizedBox(
+                width: 92.w,
+                height: 92.w,
+                child: Stack(
+                  children: [
+                    Positioned(
                       left: 0,
                       right: 0,
                       child: Icon(
                         IconFonts.pc,
                         size: 92.w,
                         color: Colors.white38,
-                      )),
-                  Positioned(
+                      ),
+                    ),
+                    Positioned(
                       left: 0,
                       right: 0,
                       top: 23.w,
@@ -58,22 +77,28 @@ class QrLoginPage extends StatelessWidget {
                             height: 24.w,
                           ),
                         ),
-                      ))
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 4.h),
-            child: Text(
-              "You are signing in to a PC client with account below, do you want to continue?"
-                  .tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey, fontSize: 15.sp, height: 1.35),
+            Padding(
+              padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 4.h),
+              child: Text(
+                "You are signing in to a PC client with account below, do you want to continue?"
+                    .tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: const Color(0xFFC9CBD2),
+                  fontSize: 15.sp,
+                  height: 1.35,
+                ),
+              ),
             ),
-          ),
-          QrLoginFromWidget()
-        ],
+            QrLoginFromWidget(),
+          ],
+        ),
       ),
       bottomNavigationBar: SafeArea(
         top: false,
@@ -129,17 +154,16 @@ class QrLoginPageController extends GetxController {
     var res = await AuthApi.qrCodeLogin(code);
     dismissLoading();
     if (res.code == 0 || res.code == 200) {
-      showSuccess("Success".tr, duration: const Duration(seconds: 3))
-          .then((value) => Get.back());
-    } else {
-      showError("Server Failure".tr);
+      showSuccess(
+        "Success".tr,
+        duration: const Duration(seconds: 3),
+      ).then((value) => Get.back());
     }
+    // Business and network errors are displayed once by ApiInterceptor.
   }
 
   static Future<QrLoginModel> qrCodeLogin(String code) async {
-    var formData = {
-      "secret": code,
-    };
+    var formData = {"secret": code};
     var res = await http.post('/app/index/qrcode/login', data: formData);
     return QrLoginModel.fromJson(res.data);
   }

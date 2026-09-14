@@ -19,8 +19,15 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
         margin: EdgeInsets.fromLTRB(15.r, 8.r, 15.r, 8.r),
         padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Colors.white),
+            border: Border.all(width: 1, color: const Color(0xCCFFFFFF)),
             borderRadius: BorderRadius.all(Radius.circular(15.r)),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x264C64C8),
+                offset: Offset(0, 10),
+                blurRadius: 30,
+              ),
+            ],
             gradient: const LinearGradient(
               colors: [
                 Color(0xFF92E9B7),
@@ -80,14 +87,17 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
                   rowItem('Device', controller.qrLoginInfoModel?.device),
                   rowItem(
                     'Price',
-                    controller.qrLoginInfoModel?.discountPrice != ''
-                        ? '(${controller.qrLoginInfoModel?.price}/Hour)'
-                        : '${controller.qrLoginInfoModel?.price}/Hour',
-                    deleteLine: true,
+                    '${controller.qrLoginInfoModel?.price}/Hour',
+                    trailing:
+                        _hasDiscount ? _buildDiscountedPrice() : null,
                   ),
                   rowItem('Available for Gaming Free Time',
                       controller.qrLoginInfoModel?.gamingFree),
-                  rowItem('Discount', controller.qrLoginInfoModel?.discount),
+                  rowItem(
+                    'Discount',
+                    controller.qrLoginInfoModel?.discount,
+                    trailing: _hasDiscount ? _buildDiscountBadge() : null,
+                  ),
                   rowItem('Remaining Balance',
                       ' £${controller.qrLoginInfoModel?.balance}'),
                   rowItem('Remaining Gaming Free Time',
@@ -100,7 +110,79 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
               )),
       );
 
-  rowItem(String label, var content, {bool deleteLine = false}) {
+  bool get _hasDiscount =>
+      controller.qrLoginInfoModel?.discountPrice?.trim().isNotEmpty ?? false;
+
+  Widget _buildDiscountedPrice() {
+    final model = controller.qrLoginInfoModel;
+    return Wrap(
+      alignment: WrapAlignment.end,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 7.w,
+      runSpacing: 4.h,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
+          decoration: BoxDecoration(
+            color: const Color(0xE6191A21),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Text(
+            '£${model?.discountPrice}/Hour',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13.sp,
+              fontFamily: FONT_MEDIUM,
+            ),
+          ),
+        ),
+        Text(
+          '£${model?.price}/Hour',
+          style: TextStyle(
+            decoration: TextDecoration.lineThrough,
+            decorationThickness: 1.5,
+            color: const Color(0xFF5E5D64),
+            fontSize: 11.sp,
+            fontFamily: FONT_MEDIUM,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDiscountBadge() {
+    final discount = controller.qrLoginInfoModel?.discount ?? '';
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFFF04F64), Color(0xFFFF8A55)],
+        ),
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.local_offer_rounded,
+            size: 12.sp,
+            color: Colors.white,
+          ),
+          4.horizontalSpace,
+          Text(
+            discount,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 11.sp,
+              fontFamily: FONT_MEDIUM,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  rowItem(String label, var content, {Widget? trailing}) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 7.r),
       child: Row(
@@ -113,30 +195,20 @@ class QrLoginFromWidget extends GetView<QrLoginPageController> {
               fontFamily: FONT_MEDIUM,
             ),
           ),
-          Spacer(),
-          Visibility(
-            visible:
-                deleteLine && controller.qrLoginInfoModel?.discountPrice != '',
-            child: Text(
-              ' £ ${controller.qrLoginInfoModel?.discountPrice}/Hour',
-              style: TextStyle(
-                color: AppColor.primary,
-                fontSize: 12.sp,
-                fontFamily: FONT_MEDIUM,
-              ),
-            ),
-          ),
-          Text(
-            '$content',
-            style: TextStyle(
-              decoration: deleteLine
-                  ? controller.qrLoginInfoModel?.discountPrice != ''
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none
-                  : TextDecoration.none,
-              color: AppColor.primary,
-              fontSize: 12.sp,
-              fontFamily: FONT_MEDIUM,
+          12.horizontalSpace,
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: trailing ??
+                  Text(
+                    '$content',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      color: AppColor.primary,
+                      fontSize: 12.sp,
+                      fontFamily: FONT_MEDIUM,
+                    ),
+                  ),
             ),
           ),
         ],
