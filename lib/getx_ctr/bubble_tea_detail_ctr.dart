@@ -14,8 +14,6 @@ import '../utils/navigator_helper.dart';
 import '../widget/tag/tag_bean.dart';
 
 class BubbleTeaDetailCtr extends GetxController {
-  static BubbleTeaDetailCtr get find => Get.find();
-
   var model = GoodsDetailModel(
     cpusize: [],
     ice: [],
@@ -31,6 +29,10 @@ class BubbleTeaDetailCtr extends GetxController {
 
   var isLoading = true.obs;
 
+  var loadError = ''.obs;
+
+  int _requestSerial = 0;
+
   var showAddToCart = true.obs;
 
   late BuildContext cartContext;
@@ -40,45 +42,66 @@ class BubbleTeaDetailCtr extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    requestData();
-  }
+  Future<void> requestData(int? productId) async {
+    final requestSerial = ++_requestSerial;
+    isLoading.value = true;
+    loadError.value = '';
 
-  void requestData() async {
-    if (Get.arguments == null) {
+    if (productId == null) {
+      loadError.value = 'Product information is unavailable';
       isLoading.value = false;
       return;
     }
-    isLoading.value = true;
-    showLoading();
-    model.value = await HubsApi.goodDetail(Get.arguments);
-    dismissLoading();
-    isLoading.value = false;
 
-    sizeTags.clear();
-    model.value.cpusize.forEach((element) {
-      sizeTags.add(
-          TagBean(name: element.name, value: element.price.toStringAsFixed(2)));
-    });
-    iceTags.clear();
-    model.value.ice.forEach((element) {
-      iceTags.add(
-          TagBean(name: element.name, value: element.price.toStringAsFixed(2)));
-    });
-    toppingTags.clear();
-    model.value.topping.forEach((element) {
-      toppingTags.add(
-          TagBean(name: element.name, value: element.price.toStringAsFixed(2)));
-    });
-    sugarTags.clear();
-    model.value.sugar.forEach((element) {
-      sugarTags.add(
-          TagBean(name: element.name, value: element.price.toStringAsFixed(2)));
-    });
+    try {
+      final detail = await HubsApi.goodDetail(productId);
+      if (requestSerial != _requestSerial) return;
+      model.value = detail;
 
-    initParamsAndPrice();
+      sizeTags.assignAll(
+        model.value.cpusize.map(
+          (element) => TagBean(
+            name: element.name,
+            value: element.price.toStringAsFixed(2),
+          ),
+        ),
+      );
+      iceTags.assignAll(
+        model.value.ice.map(
+          (element) => TagBean(
+            name: element.name,
+            value: element.price.toStringAsFixed(2),
+          ),
+        ),
+      );
+      toppingTags.assignAll(
+        model.value.topping.map(
+          (element) => TagBean(
+            name: element.name,
+            value: element.price.toStringAsFixed(2),
+          ),
+        ),
+      );
+      sugarTags.assignAll(
+        model.value.sugar.map(
+          (element) => TagBean(
+            name: element.name,
+            value: element.price.toStringAsFixed(2),
+          ),
+        ),
+      );
+
+      initParamsAndPrice();
+    } catch (_) {
+      if (requestSerial == _requestSerial) {
+        loadError.value =
+            'Unable to load this product. Please check your connection.';
+      }
+    } finally {
+      if (requestSerial == _requestSerial) {
+        isLoading.value = false;
+      }
+    }
   }
 
   void initParamsAndPrice() {
@@ -223,8 +246,10 @@ class BubbleTeaDetailCtr extends GetxController {
   }
 
   void selectToppings(TagBean tagBean, bool isAdd) {
-    model.value.selectTopping.removeWhere((element) =>
-        element.name == tagBean.name && element.value == tagBean.value);
+    model.value.selectTopping.removeWhere(
+      (element) =>
+          element.name == tagBean.name && element.value == tagBean.value,
+    );
     if (isAdd) {
       model.value.selectTopping.add(tagBean);
     }
@@ -233,6 +258,13 @@ class BubbleTeaDetailCtr extends GetxController {
 
   void clearCart() {
     model.value.count = 1;
+    showAddToCart.value = true;
     TabBubbleTeaCtr.find.clearTea();
+  }
+
+  @override
+  void onClose() {
+    _requestSerial++;
+    super.onClose();
   }
 }

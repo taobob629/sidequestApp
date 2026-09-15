@@ -22,404 +22,408 @@ class TeaADListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BaseScaffold(
-        title: '',
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Obx(() => Stack(
-                    children: [
-                      ListView.separated(
-                        itemBuilder: (c, i) => GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => Get.to(() => BubbleTeaDetailPage(),
-                              arguments: ctr.teaList[i].id),
-                          child: Container(
-                            height: 112.h,
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFF141517),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.r),
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: Row(
+    title: '',
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Obx(
+            () => Stack(
+              children: [
+                ListView.separated(
+                  itemBuilder: (c, i) => GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => BubbleTeaDetailPage.open(
+                      productId: ctr.teaList[i].id,
+                      preview: BubbleTeaPreview(
+                        name: ctr.teaList[i].name,
+                        brief: ctr.teaList[i].brief,
+                        image: '${ctr.teaList[i].image ?? ''}',
+                        price: ctr.teaList[i].retailPrice,
+                      ),
+                    ),
+                    child: Container(
+                      height: 112.h,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFF141517),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                      ),
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          16.horizontalSpace,
+                          ImageUtil.networkImage(
+                            url: '${ctr.teaList[i].image}',
+                            width: 90.w,
+                            height: 90.h,
+                            border: 16.r,
+                            fit: BoxFit.cover,
+                          ),
+                          10.horizontalSpace,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                16.horizontalSpace,
-                                ImageUtil.networkImage(
-                                  url: '${ctr.teaList[i].image}',
-                                  width: 90.w,
-                                  height: 90.h,
-                                  border: 16.r,
-                                  fit: BoxFit.cover,
-                                ),
-                                10.horizontalSpace,
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${ctr.teaList[i].name}',
-                                        style: TextStyle(
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14.sp,
-                                          color: Colors.white,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      4.verticalSpace,
-                                      Text(
-                                        ctr.teaList[i].brief ?? '',
-                                        style: TextStyle(
-                                          fontFamily: FONT_LIGHT,
-                                          fontSize: 12.sp,
-                                          color: Colors.white.withOpacity(0.6),
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      4.verticalSpace,
-                                      Text(
-                                        '£ ${ctr.teaList[i].retailPrice}',
-                                        style: TextStyle(
-                                          color: const Color(0xFFFFB20E),
-                                          fontSize: 16.sp,
-                                          fontFamily: FONT_MEDIUM,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
+                                Text(
+                                  '${ctr.teaList[i].name}',
+                                  style: TextStyle(
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
                                   ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 10.w,
-                                    top: 40.h,
+                                4.verticalSpace,
+                                Text(
+                                  ctr.teaList[i].brief ?? '',
+                                  style: TextStyle(
+                                    fontFamily: FONT_LIGHT,
+                                    fontSize: 12.sp,
+                                    color: Colors.white.withOpacity(0.6),
                                   ),
-                                  child: Icon(
-                                    Icons.add_circle_outline,
-                                    color: hexColor('FFB20E'),
-                                    size: 24.sp,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                4.verticalSpace,
+                                Text(
+                                  '£ ${ctr.teaList[i].retailPrice}',
+                                  style: TextStyle(
+                                    color: const Color(0xFFFFB20E),
+                                    fontSize: 16.sp,
+                                    fontFamily: FONT_MEDIUM,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        separatorBuilder: (c, i) => 10.verticalSpace,
-                        itemCount: ctr.teaList.length,
+                          Padding(
+                            padding: EdgeInsets.only(right: 10.w, top: 40.h),
+                            child: Icon(
+                              Icons.add_circle_outline,
+                              color: hexColor('FFB20E'),
+                              size: 24.sp,
+                            ),
+                          ),
+                        ],
                       ),
-                      Visibility(
-                        visible: ctr.selectTeaList.isNotEmpty &&
-                            ctr.isShowDrinkNow.value,
-                        child: Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: drinkNowWidget(0),
+                    ),
+                  ),
+                  separatorBuilder: (c, i) => 10.verticalSpace,
+                  itemCount: ctr.teaList.length,
+                ),
+                Visibility(
+                  visible:
+                      ctr.selectTeaList.isNotEmpty && ctr.isShowDrinkNow.value,
+                  child: Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: drinkNowWidget(0),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Builder(
+          builder: (context) {
+            ctr.cartContext = context;
+            return 0.verticalSpace;
+          },
+        ),
+      ],
+    ).paddingSymmetric(horizontal: 16.w),
+  );
+
+  Widget drinkNowWidget(double horizontal) => Container(
+    height: 44.h,
+    decoration: ShapeDecoration(
+      color: hexColor('4C3608'),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60.r)),
+    ),
+    margin: EdgeInsets.symmetric(horizontal: horizontal),
+    child: Row(
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            ctr.isShowDrinkNow.value = false;
+            if (ctr.isShowCartDialog) {
+              dismissLoading();
+            } else {
+              if (ctr.selectTeaList.isNotEmpty) {
+                ctr.isShowCartDialog = true;
+                SmartDialog.showAttach(
+                  targetContext: ctr.cartContext,
+                  usePenetrate: false,
+                  alignment: Alignment.topCenter,
+                  builder: (_) => cartWidget(),
+                  onDismiss: () {
+                    ctr.isShowDrinkNow.value = true;
+                    ctr.isShowCartDialog = false;
+                  },
+                );
+              }
+            }
+          },
+          child: Obx(
+            () => badges.Badge(
+              showBadge: ctr.selectTeaList.isNotEmpty,
+              badgeContent: Text(
+                '${ctr.totalCount.value}',
+                style: TextStyle(color: Colors.white, fontSize: 12.sp),
+              ),
+              badgeColor: hexColor('FF4848'),
+              position: badges.BadgePosition(top: -8.h),
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 44.w,
+                height: 44.w,
+                decoration: ShapeDecoration(
+                  color: hexColor('141517'),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1.w, color: hexColor('FFB20E')),
+                    borderRadius: BorderRadius.circular(60.r),
+                  ),
+                ),
+                child: Image.asset(ImageUtils.drink_now_icon, scale: 2),
+              ),
+            ),
+          ),
+        ),
+        14.horizontalSpace,
+        Expanded(
+          child: Obx(
+            () => Text(
+              '£${ctr.totalPrice.value}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+                fontFamily: FONT_MEDIUM,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+        // Expanded(
+        //   child: InkWell(
+        //     onTap: () => NavigatorHelper.gotoCouponPage(
+        //       couponType: 3,
+        //       showTabbar: false,
+        //       // 只是为了能有返回值创建的一个空的payOrderModel
+        //       payOrderModel: PayOrderModel(),
+        //       storeId: ctr.currentSelectStore.value.id,
+        //       goodsList: ctr.getGoodsListMap(),
+        //       whenComplete: () => UserController.instance().updateInfo(),
+        //       onSelect: (model) => ctr.selectCoupon(model),
+        //     ),
+        //     child: Center(
+        //       child: Obx(() => RichText(
+        //             text: TextSpan(
+        //               text: 'Discount：-${ctr.discount.value} ',
+        //               style: TextStyle(
+        //                 color: Colors.white.withOpacity(0.6),
+        //                 fontSize: 12.sp,
+        //                 fontFamily: FONT_MEDIUM,
+        //                 fontWeight: FontWeight.w400,
+        //               ),
+        //               children: [
+        //                 WidgetSpan(
+        //                   child: Icon(
+        //                     Icons.arrow_forward_ios,
+        //                     color: Colors.white.withOpacity(0.6),
+        //                     size: 14.sp,
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           )),
+        //     ),
+        //   ),
+        // ),
+        InkWell(
+          onTap: () => ctr.selectTeaList.isNotEmpty
+              ? Get.to(
+                  () => BubbleConfirmOrderPage(),
+                  transition: Transition.noTransition,
+                )
+              : null,
+          child: Container(
+            width: 100.w,
+            height: 44.w,
+            decoration: ShapeDecoration(
+              color: ctr.selectTeaList.isNotEmpty
+                  ? hexColor('FFB20E')
+                  : hexColor('CCCCCC'),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(60),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'Order Now',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontFamily: FONT_MEDIUM,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+
+  Widget cartWidget() => Container(
+    constraints: BoxConstraints(
+      maxHeight: 300.h,
+      minHeight: 100.h,
+      minWidth: 1.sw,
+    ),
+    decoration: ShapeDecoration(
+      color: hexColor('141517'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.r),
+          topRight: Radius.circular(16.r),
+        ),
+      ),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        16.verticalSpace,
+        Row(
+          children: [
+            Expanded(
+              child: Obx(
+                () => RichText(
+                  text: TextSpan(
+                    text: "${ctr.selectTeaList.length}  ",
+                    style: TextStyle(
+                      color: hexColor('FFB20E'),
+                      fontSize: 14.sp,
+                      fontFamily: 'DIN',
+                      fontWeight: FontWeight.w400,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'item in total',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 14.sp,
+                          fontFamily: 'DIN',
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
-                  )),
+                  ),
+                ).paddingOnly(left: 16.w),
+              ),
             ),
-            Builder(builder: (context) {
-              ctr.cartContext = context;
-              return 0.verticalSpace;
-            }),
+            InkWell(
+              onTap: () => ctr.clearTea(),
+              child: Image.asset(ImageUtils.delete_icon),
+            ),
+            16.horizontalSpace,
           ],
-        ).paddingSymmetric(horizontal: 16.w),
-      );
-
-  Widget drinkNowWidget(double horizontal) => Container(
-        height: 44.h,
-        decoration: ShapeDecoration(
-          color: hexColor('4C3608'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(60.r),
-          ),
         ),
-        margin: EdgeInsets.symmetric(horizontal: horizontal),
+        ctr.selectTeaList.length <= 3
+            ? Expanded(child: commonWidget(true))
+            : Expanded(child: commonWidget(false)),
+        drinkNowWidget(16.w),
+      ],
+    ),
+  );
+
+  Widget commonWidget(bool shrinkWrap) => Obx(
+    () => ListView.separated(
+      padding: EdgeInsets.zero,
+      shrinkWrap: shrinkWrap,
+      itemBuilder: (c, i) => Container(
+        height: 70.h,
         child: Row(
           children: [
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                ctr.isShowDrinkNow.value = false;
-                if (ctr.isShowCartDialog) {
-                  dismissLoading();
-                } else {
-                  if (ctr.selectTeaList.isNotEmpty) {
-                    ctr.isShowCartDialog = true;
-                    SmartDialog.showAttach(
-                      targetContext: ctr.cartContext,
-                      usePenetrate: false,
-                      alignment: Alignment.topCenter,
-                      builder: (_) => cartWidget(),
-                      onDismiss: () {
-                        ctr.isShowDrinkNow.value = true;
-                        ctr.isShowCartDialog = false;
-                      },
-                    );
-                  }
-                }
-              },
-              child: Obx(() => badges.Badge(
-                    showBadge: ctr.selectTeaList.isNotEmpty,
-                    badgeContent: Text(
-                      '${ctr.totalCount.value}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                    badgeColor: hexColor('FF4848'),
-                    position: badges.BadgePosition(top: -8.h),
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      width: 44.w,
-                      height: 44.w,
-                      decoration: ShapeDecoration(
-                        color: hexColor('141517'),
-                        shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 1.w, color: hexColor('FFB20E')),
-                          borderRadius: BorderRadius.circular(60.r),
-                        ),
-                      ),
-                      child: Image.asset(
-                        ImageUtils.drink_now_icon,
-                        scale: 2,
-                      ),
-                    ),
-                  )),
-            ),
-            14.horizontalSpace,
+            16.horizontalSpace,
             Expanded(
-              child: Obx(() => Text(
-                    '£${ctr.totalPrice.value}',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${ctr.selectTeaList[i].name}',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18.sp,
+                      fontSize: 13.sp,
                       fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                     ),
-                  )),
-            ),
-            // Expanded(
-            //   child: InkWell(
-            //     onTap: () => NavigatorHelper.gotoCouponPage(
-            //       couponType: 3,
-            //       showTabbar: false,
-            //       // 只是为了能有返回值创建的一个空的payOrderModel
-            //       payOrderModel: PayOrderModel(),
-            //       storeId: ctr.currentSelectStore.value.id,
-            //       goodsList: ctr.getGoodsListMap(),
-            //       whenComplete: () => UserController.instance().updateInfo(),
-            //       onSelect: (model) => ctr.selectCoupon(model),
-            //     ),
-            //     child: Center(
-            //       child: Obx(() => RichText(
-            //             text: TextSpan(
-            //               text: 'Discount：-${ctr.discount.value} ',
-            //               style: TextStyle(
-            //                 color: Colors.white.withOpacity(0.6),
-            //                 fontSize: 12.sp,
-            //                 fontFamily: FONT_MEDIUM,
-            //                 fontWeight: FontWeight.w400,
-            //               ),
-            //               children: [
-            //                 WidgetSpan(
-            //                   child: Icon(
-            //                     Icons.arrow_forward_ios,
-            //                     color: Colors.white.withOpacity(0.6),
-            //                     size: 14.sp,
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           )),
-            //     ),
-            //   ),
-            // ),
-            InkWell(
-              onTap: () => ctr.selectTeaList.isNotEmpty
-                  ? Get.to(() => BubbleConfirmOrderPage(),
-                      transition: Transition.noTransition)
-                  : null,
-              child: Container(
-                width: 100.w,
-                height: 44.w,
-                decoration: ShapeDecoration(
-                  color: ctr.selectTeaList.isNotEmpty
-                      ? hexColor('FFB20E')
-                      : hexColor('CCCCCC'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Order Now',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontFamily: FONT_MEDIUM,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-
-  Widget cartWidget() => Container(
-        constraints: BoxConstraints(
-          maxHeight: 300.h,
-          minHeight: 100.h,
-          minWidth: 1.sw,
-        ),
-        decoration: ShapeDecoration(
-          color: hexColor('141517'),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r),
-              topRight: Radius.circular(16.r),
-            ),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            16.verticalSpace,
-            Row(
-              children: [
-                Expanded(
-                  child: Obx(() => RichText(
-                        text: TextSpan(
-                          text: "${ctr.selectTeaList.length}  ",
-                          style: TextStyle(
-                            color: hexColor('FFB20E'),
-                            fontSize: 14.sp,
-                            fontFamily: 'DIN',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'item in total',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.6),
-                                fontSize: 14.sp,
-                                fontFamily: 'DIN',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ).paddingOnly(left: 16.w)),
-                ),
-                InkWell(
-                  onTap: () => ctr.clearTea(),
-                  child: Image.asset(ImageUtils.delete_icon),
-                ),
-                16.horizontalSpace,
-              ],
-            ),
-            ctr.selectTeaList.length <= 3
-                ? Expanded(child: commonWidget(true))
-                : Expanded(child: commonWidget(false)),
-            drinkNowWidget(16.w),
-          ],
-        ),
-      );
-
-  Widget commonWidget(bool shrinkWrap) => Obx(() => ListView.separated(
-        padding: EdgeInsets.zero,
-        shrinkWrap: shrinkWrap,
-        itemBuilder: (c, i) => Container(
-          height: 70.h,
-          child: Row(
-            children: [
-              16.horizontalSpace,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${ctr.selectTeaList[i].name}',
+                  Visibility(
+                    visible: ctr.selectTeaList[i].brief != null,
+                    child: Text(
+                      '${ctr.selectTeaList[i].brief}',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13.sp,
-                        fontFamily: FONT_MEDIUM,
+                        color: Colors.white.withOpacity(0.6),
+                        fontSize: 10.sp,
+                        fontFamily: FONT_LIGHT,
                         fontWeight: FontWeight.w400,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Visibility(
-                      visible: ctr.selectTeaList[i].brief != null,
-                      child: Text(
-                        '${ctr.selectTeaList[i].brief}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                          fontSize: 10.sp,
-                          fontFamily: FONT_LIGHT,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Text(
-                '£ ${ctr.getPrice(ctr.selectTeaList[i])}',
+            ),
+            Text(
+              '£ ${ctr.getPrice(ctr.selectTeaList[i])}',
+              style: TextStyle(
+                color: Color(0xFFFFB20E),
+                fontSize: 16.sp,
+                fontFamily: FONT_MEDIUM,
+                fontWeight: FontWeight.w600,
+              ),
+            ).paddingSymmetric(horizontal: 10.w),
+            InkWell(
+              onTap: () => ctr.minusMoney(i),
+              child: Icon(Icons.remove_circle_outline, color: Colors.white),
+            ),
+            Obx(
+              () => Text(
+                '${ctr.selectTeaList[i].count}',
                 style: TextStyle(
-                  color: Color(0xFFFFB20E),
+                  color: Colors.white,
                   fontSize: 16.sp,
-                  fontFamily: FONT_MEDIUM,
+                  fontFamily: FONT_LIGHT,
                   fontWeight: FontWeight.w600,
                 ),
-              ).paddingSymmetric(horizontal: 10.w),
-              InkWell(
-                onTap: () => ctr.minusMoney(i),
-                child: Icon(
-                  Icons.remove_circle_outline,
-                  color: Colors.white,
-                ),
-              ),
-              Obx(() => Text(
-                    '${ctr.selectTeaList[i].count}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontFamily: FONT_LIGHT,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ).paddingSymmetric(horizontal: 15.w)),
-              InkWell(
-                onTap: () => ctr.addMoney(i),
-                child: Icon(
-                  Icons.add_circle_outline,
-                  color: hexColor('#FFB20E'),
-                ),
-              ),
-              16.horizontalSpace,
-            ],
-          ),
+              ).paddingSymmetric(horizontal: 15.w),
+            ),
+            InkWell(
+              onTap: () => ctr.addMoney(i),
+              child: Icon(Icons.add_circle_outline, color: hexColor('#FFB20E')),
+            ),
+            16.horizontalSpace,
+          ],
         ),
-        separatorBuilder: (c, i) => Container(
-          height: 1.h,
-          decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
-        ),
-        itemCount: ctr.selectTeaList.length,
-      ));
+      ),
+      separatorBuilder: (c, i) => Container(
+        height: 1.h,
+        decoration: BoxDecoration(color: Color(0xFF2F2F2F)),
+      ),
+      itemCount: ctr.selectTeaList.length,
+    ),
+  );
 }

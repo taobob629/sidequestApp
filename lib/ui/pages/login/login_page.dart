@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../api/wy_http.dart';
 import '../../../common/base_controller.dart';
 import '../../../common/keyboard_visibility_scaffold.dart';
 import '../../../common/privacy_check.dart';
@@ -282,12 +281,9 @@ class LoginPage extends StatelessWidget {
 
   Widget _socialLoginArea() {
     return Obx(() {
-      final settings = controller.loginBtnModel.value;
       final showGoogle =
-          Platform.isAndroid &&
-          controller.isHuaweiDevice.value == false &&
-          settings.googleLogin;
-      final showApple = Platform.isIOS && settings.appleLogin;
+          Platform.isAndroid && controller.isHuaweiDevice.value == false;
+      final showApple = Platform.isIOS;
       if (!showGoogle && !showApple) {
         return const SizedBox.shrink();
       }
@@ -486,7 +482,6 @@ class LoginPageController extends BasePageController {
   late FocusNode emailFocusNode;
   late FocusNode passwordFocusNode;
 
-  var loginBtnModel = LoginBtnModel().obs;
   final RxnBool isHuaweiDevice = RxnBool();
 
   static const MethodChannel _platformChannel = MethodChannel(
@@ -505,7 +500,6 @@ class LoginPageController extends BasePageController {
     passwordFocusNode = FocusNode();
 
     _loadDeviceManufacturer();
-    requestData();
   }
 
   @override
@@ -519,11 +513,6 @@ class LoginPageController extends BasePageController {
   void onClose() {
     controller.dispose();
     super.onClose();
-  }
-
-  void requestData() async {
-    final response = await http.get('/sideQuest/app/sq/user/loginPage');
-    loginBtnModel.value = LoginBtnModel.fromJson(response.data);
   }
 
   Future<void> _loadDeviceManufacturer() async {

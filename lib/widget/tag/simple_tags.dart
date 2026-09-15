@@ -1,14 +1,13 @@
 library simple_tags;
 
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sq_hub_app/widget/tag/tag_bean.dart';
 import 'package:sq_hub_app/widget/tag/tag_container.dart';
 
-class SimpleTags extends StatelessWidget {
+class SimpleTags extends StatefulWidget {
   final List<TagBean> content;
 
-  var selectStr = <String>[].obs;
   final List<TagBean?> defaultSelect;
 
   // bool：true添加，false删除
@@ -95,79 +94,118 @@ class SimpleTags extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    selectStr
-        .assignAll(defaultSelect.map((e) => e != null ? e.name : "").toList());
+  State<SimpleTags> createState() => _SimpleTagsState();
+}
 
-    return Obx(
-      () => Wrap(
-        crossAxisAlignment: wrapCrossAxisAlignment,
-        alignment: wrapAlignment,
-        runSpacing: wrapRunSpacing,
-        runAlignment: wrapRunAlignment,
-        direction: wrapDirection,
-        spacing: wrapSpacing,
-        textDirection: wrapTextDirection,
-        clipBehavior: wrapClipBehavior,
-        verticalDirection: wrapVerticalDirection,
-        children: _buildTagContent(),
-      ),
+class _SimpleTagsState extends State<SimpleTags> {
+  late List<String> _selectedNames;
+
+  List<String> _selectionNames(List<TagBean?> values) => values
+      .whereType<TagBean>()
+      .map((tag) => tag.name)
+      .where((name) => name.isNotEmpty)
+      .toList(growable: false);
+
+  List<String> _contentNames(List<TagBean> values) =>
+      values.map((tag) => tag.name).toList(growable: false);
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedNames = _selectionNames(widget.defaultSelect);
+  }
+
+  @override
+  void didUpdateWidget(covariant SimpleTags oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final defaultsChanged = !listEquals(
+      _selectionNames(oldWidget.defaultSelect),
+      _selectionNames(widget.defaultSelect),
+    );
+    final contentChanged = !listEquals(
+      _contentNames(oldWidget.content),
+      _contentNames(widget.content),
+    );
+    if (defaultsChanged || contentChanged) {
+      _selectedNames = _selectionNames(widget.defaultSelect);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      crossAxisAlignment: widget.wrapCrossAxisAlignment,
+      alignment: widget.wrapAlignment,
+      runSpacing: widget.wrapRunSpacing,
+      runAlignment: widget.wrapRunAlignment,
+      direction: widget.wrapDirection,
+      spacing: widget.wrapSpacing,
+      textDirection: widget.wrapTextDirection,
+      clipBehavior: widget.wrapClipBehavior,
+      verticalDirection: widget.wrapVerticalDirection,
+      children: _buildTagContent(),
     );
   }
 
   List<Widget> _buildTagContent() {
     List<Widget> toReturn = [];
 
-    if (content.isNotEmpty) {
-      for (int i = 0; i < content.length; i++) {
-        String tag = content[i].name;
-        toReturn.add(TagContainer(
-          tag: tag,
-          tagContainerDecoration: tagContainerDecoration,
-          tagContainerMargin: tagContainerMargin,
-          tagContainerPadding: tagContainerPadding,
-          tagContainerSelectDecoration: tagContainerSelectDecoration,
-          tagIcon: tagIcon as Icon?,
-          tagTextStyle: tagTextStyle,
-          tagSelectTextStyle: tagSelectTextStyle,
-          tagTextAlign: tagTextAlign,
-          tagTextLocale: tagTextLocale,
-          tagTextOverflow: tagTextOverflow,
-          tagTextMaxLines: tagTextMaxlines,
-          tagTextSoftWrap: tagTextSoftWrap,
-          selectStr: selectStr.value,
-          onPressed: () {
-            if (onTagPress != null) {
-              if (!selectStr.contains(tag)) {
-                if (1 == selectSize) {
-                  // 单选
-                  selectStr.clear();
-                  selectStr.add(tag);
-                  onTagPress!(content[i], true);
-                } else {
-                  // 多选
-                  if (selectStr.length < selectSize) {
-                    selectStr.add(tag);
-                    onTagPress!(content[i], true);
+    if (widget.content.isNotEmpty) {
+      for (int i = 0; i < widget.content.length; i++) {
+        String tag = widget.content[i].name;
+        toReturn.add(
+          TagContainer(
+            tag: tag,
+            tagContainerDecoration: widget.tagContainerDecoration,
+            tagContainerMargin: widget.tagContainerMargin,
+            tagContainerPadding: widget.tagContainerPadding,
+            tagContainerSelectDecoration: widget.tagContainerSelectDecoration,
+            tagIcon: widget.tagIcon as Icon?,
+            tagTextStyle: widget.tagTextStyle,
+            tagSelectTextStyle: widget.tagSelectTextStyle,
+            tagTextAlign: widget.tagTextAlign,
+            tagTextLocale: widget.tagTextLocale,
+            tagTextOverflow: widget.tagTextOverflow,
+            tagTextMaxLines: widget.tagTextMaxlines,
+            tagTextSoftWrap: widget.tagTextSoftWrap,
+            selectStr: _selectedNames,
+            onPressed: () {
+              if (widget.onTagPress != null) {
+                if (!_selectedNames.contains(tag)) {
+                  if (widget.selectSize != 1 &&
+                      _selectedNames.length >= widget.selectSize) {
+                    return;
                   }
+                  setState(() {
+                    if (1 == widget.selectSize) {
+                      // 单选
+                      _selectedNames
+                        ..clear()
+                        ..add(tag);
+                    } else {
+                      // 多选
+                      _selectedNames.add(tag);
+                    }
+                  });
+                  widget.onTagPress!(widget.content[i], true);
+                } else {
+                  setState(() => _selectedNames.remove(tag));
+                  widget.onTagPress!(widget.content[i], false);
                 }
-              } else {
-                selectStr.remove(tag);
-                onTagPress!(content[i], false);
               }
-            }
-          },
-          onLongPressed: () {
-            if (onTagLongPress != null) {
-              onTagLongPress!(tag);
-            }
-          },
-          onDoubleTap: () {
-            if (onTagDoubleTap != null) {
-              onTagDoubleTap!(tag);
-            }
-          },
-        ));
+            },
+            onLongPressed: () {
+              if (widget.onTagLongPress != null) {
+                widget.onTagLongPress!(tag);
+              }
+            },
+            onDoubleTap: () {
+              if (widget.onTagDoubleTap != null) {
+                widget.onTagDoubleTap!(tag);
+              }
+            },
+          ),
+        );
       }
     }
 
