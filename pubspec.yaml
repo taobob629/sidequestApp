@@ -77,7 +77,6 @@ dependencies:
   flutter_screenutil: ^5.9.1
   google_sign_in: ^6.2.0
   lottie: ^3.1.0
-  flutter_ume_plus: ^4.1.0
 
   just_audio: ^0.9.40
   flutter_app_badger:
@@ -89,14 +88,18 @@ dependencies:
   equatable: ^2.0.5
   collection: ^1.18.0
   qr_flutter: ^4.1.0
-  onesignal_flutter: ^5.2.0
-  in_app_purchase: 3.3.0
-  # Billing 8.0.0; newer patch releases require Flutter 3.44.
-  in_app_purchase_android: 0.5.0
+  onesignal_flutter: 5.5.1
+  flutter_ume_plus: ^5.2.1
+  in_app_purchase: ^3.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+dependency_overrides:
+  flutter_html:
+    path: third_party/flutter_html
+  in_app_purchase: ^3.1.0
 
 flutter:
   uses-material-design: true

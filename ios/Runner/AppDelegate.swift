@@ -3,7 +3,7 @@ import Flutter
 import AlipayPlusClient
 
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate, FlutterStreamHandler {
 
   var eventSink: FlutterEventSink?
@@ -16,7 +16,9 @@ import AlipayPlusClient
 
 //        StripeAPI.defaultPublishableKey = "pk_test_51L1kPsBizrDMUWwg9A6jFjNOhdIDUtvUoMStTIv0RpfJx00EYC5fdICvH0UVyQM7mLBdt97T1GqU0P4mZbAVBQpj00mWsHoGvg"
 
-        let controller:FlutterViewController = window.rootViewController as! FlutterViewController
+        guard let controller = window?.rootViewController as? FlutterViewController else {
+            return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
         let eventChannel = FlutterEventChannel(
             name: "uk.co.wanyoo.wy.event.msg",
             binaryMessenger: controller.binaryMessenger
