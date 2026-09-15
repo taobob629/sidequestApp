@@ -104,7 +104,7 @@ class _SimpleTagsState extends State<SimpleTags> {
       .whereType<TagBean>()
       .map((tag) => tag.name)
       .where((name) => name.isNotEmpty)
-      .toList(growable: false);
+      .toList();
 
   List<String> _contentNames(List<TagBean> values) =>
       values.map((tag) => tag.name).toList(growable: false);
