@@ -27,6 +27,10 @@ class BubbleTeaDetailCtr extends GetxController {
 
   var totalMoney = "0".obs;
 
+  var quantity = 1.obs;
+
+  var optionsRevision = 0.obs;
+
   var isLoading = true.obs;
 
   var loadError = ''.obs;
@@ -113,10 +117,10 @@ class BubbleTeaDetailCtr extends GetxController {
       model.value.selectIce = result.selectIce;
       model.value.selectSugar = result.selectSugar;
       model.value.selectTopping = result.selectTopping;
-      model.value.count = result.count;
+      _setQuantity(result.count);
     } else {
       showAddToCart.value = true;
-      model.value.count = 1;
+      _setQuantity(1);
       if (sizeTags.isNotEmpty) {
         model.value.selectSize = sizeTags[0];
       }
@@ -129,6 +133,7 @@ class BubbleTeaDetailCtr extends GetxController {
     }
 
     calculateTotalPrice(true);
+    optionsRevision.value++;
   }
 
   GoodsDetailModel? findModelFromSelectTeaList(GoodsDetailModel model) {
@@ -155,21 +160,20 @@ class BubbleTeaDetailCtr extends GetxController {
   }
 
   void addMoney() {
-    model.value.count++;
-    model.refresh();
+    _setQuantity(quantity.value + 1);
 
     calculateTotalPrice(false);
     calculateOutPrice();
   }
 
   void minusMoney() {
-    if (model.value.count > 1) {
-      model.value.count--;
+    if (quantity.value > 1) {
+      _setQuantity(quantity.value - 1);
       calculateTotalPrice(false);
 
       calculateOutPrice();
     } else {
-      model.value.count = 1;
+      _setQuantity(1);
       showAddToCart.value = true;
       TabBubbleTeaCtr.find.selectTeaList.remove(model.value);
       calculateTotalPrice(false);
@@ -181,8 +185,6 @@ class BubbleTeaDetailCtr extends GetxController {
       }
       TabBubbleTeaCtr.find.calculateTotal();
     }
-
-    model.refresh();
   }
 
   void calculateOutPrice() {
@@ -219,12 +221,11 @@ class BubbleTeaDetailCtr extends GetxController {
           .firstWhereOrNull((goods) => goods.equalsIgnoringCount(model.value));
       if (foundGoods != null) {
         showAddToCart.value = false;
-        model.value.count = foundGoods.count;
+        _setQuantity(foundGoods.count);
       } else {
-        model.value.count = 1;
+        _setQuantity(1);
         showAddToCart.value = true;
       }
-      model.refresh();
     }
   }
 
@@ -257,9 +258,14 @@ class BubbleTeaDetailCtr extends GetxController {
   }
 
   void clearCart() {
-    model.value.count = 1;
+    _setQuantity(1);
     showAddToCart.value = true;
     TabBubbleTeaCtr.find.clearTea();
+  }
+
+  void _setQuantity(int value) {
+    model.value.count = value;
+    quantity.value = value;
   }
 
   @override

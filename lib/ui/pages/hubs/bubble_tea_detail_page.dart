@@ -296,10 +296,13 @@ class _BubbleTeaDetailPageState extends State<BubbleTeaDetailPage> {
         FadeTransition(opacity: animation, child: child),
     child: isLoading
         ? SizedBox(key: const ValueKey('options-loading'), height: 28.h)
-        : KeyedSubtree(
-            key: const ValueKey('options-ready'),
-            child: paramsWidget(),
-          ),
+        : Obx(() {
+            final revision = ctr.optionsRevision.value;
+            return KeyedSubtree(
+              key: ValueKey('options-ready-$revision'),
+              child: paramsWidget(),
+            );
+          }),
   );
 
   Widget _loadingBlock({
@@ -816,7 +819,7 @@ class _BubbleTeaDetailPageState extends State<BubbleTeaDetailPage> {
         ),
         Obx(
           () => Text(
-            '${ctr.model.value.count}',
+            '${ctr.quantity.value}',
             style: TextStyle(
               color: const Color(0xFFF7F5F1),
               fontSize: 16.sp,
