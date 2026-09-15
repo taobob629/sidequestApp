@@ -4,4 +4,7 @@
     <target
         android:name="right_ear"
         android:animation="@animator/splash_right_ear_wave" />
+    <target
+        android:name="eyes"
+        android:animation="@animator/splash_eyes_blink" />
 </animated-vector>
