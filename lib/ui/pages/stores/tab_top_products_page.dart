@@ -276,6 +276,8 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
           tea.trend,
           type: 'tea',
           id: tea.id,
+          image: tea.image,
+          price: tea.retailPrice,
         );
       },
     );
@@ -315,6 +317,8 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
     dynamic trendValue, {
     String? type,
     dynamic id,
+    String? image,
+    String? price,
   }) {
     // 转换趋势值为图标
     String? trend;
@@ -341,7 +345,15 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
       onTap: () {
         // 跳转到详情页
         if (id != null && type == 'tea') {
-          Get.to(() => BubbleTeaDetailPage(), arguments: id);
+          BubbleTeaDetailPage.open(
+            productId: id,
+            preview: BubbleTeaPreview(
+              name: name,
+              brief: desc,
+              image: image,
+              price: price,
+            ),
+          );
         }
       },
       child: Container(
@@ -364,8 +376,9 @@ class _TabTopProductsPageState extends State<TabTopProductsPage>
               child: Text(
                 '$rank',
                 style: TextStyle(
-                  color:
-                      rank <= 3 ? Colors.black : Colors.white.withOpacity(0.6),
+                  color: rank <= 3
+                      ? Colors.black
+                      : Colors.white.withOpacity(0.6),
                   fontWeight: FontWeight.w900,
                   fontSize: 14.sp,
                 ),

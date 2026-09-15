@@ -35,21 +35,28 @@ import '../ui/pages/login/login_page.dart';
 class NavigatorHelper {
   NavigatorHelper._();
 
-  static void gotoPayPage(PayOrderModel payOrderModel,
-      {bool offPage = false, Function? whenComplete}) {
+  static void gotoPayPage(
+    PayOrderModel payOrderModel, {
+    bool offPage = false,
+    Function? whenComplete,
+  }) {
     // showInfo('Please recharge via our store till');
     if (offPage) {
-      Get.off(() => PayPage(payOrderModel: payOrderModel), 
-          transition: Transition.fade, 
-          duration: Duration(milliseconds: 200))?.then((value) {
+      Get.off(
+        () => PayPage(payOrderModel: payOrderModel),
+        transition: Transition.fade,
+        duration: Duration(milliseconds: 200),
+      )?.then((value) {
         if (value != null && value == true) {
           whenComplete?.call();
         }
       });
     } else {
-      Get.to(() => PayPage(payOrderModel: payOrderModel), 
-          transition: Transition.fade, 
-          duration: Duration(milliseconds: 200))?.then((value) {
+      Get.to(
+        () => PayPage(payOrderModel: payOrderModel),
+        transition: Transition.fade,
+        duration: Duration(milliseconds: 200),
+      )?.then((value) {
         if (value != null && value == true) {
           whenComplete?.call();
         }
@@ -64,14 +71,16 @@ class NavigatorHelper {
     showLoading();
     ProfileApi.getPlayerInfo(playerId: uid.toString(), gid: gid)
         .then((playerInfo) {
-      Get.to(() => OtherProfilePage(),
-          arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0);
-    })
+          Get.to(
+            () => OtherProfilePage(),
+            arguments: playerInfo..uid = int.tryParse(uid.toString()) ?? 0,
+          );
+        })
         .whenComplete(() => dismissLoading())
         .catchError((err) {
-      print(err);
-      dismissLoading();
-    });
+          print(err);
+          dismissLoading();
+        });
   }
 
   // static void toPostDetail(postId) {
@@ -102,9 +111,9 @@ class NavigatorHelper {
 
   static Future<AddressModel?> gotoAddressPage({bool select = false}) async {
     AddressModel? model;
-    await Get.to(() => AddressPage(
-      select: select,
-    ))?.then((value) => model = value);
+    await Get.to(
+      () => AddressPage(select: select),
+    )?.then((value) => model = value);
     return model;
   }
 
@@ -120,33 +129,38 @@ class NavigatorHelper {
     bool showTabbar = true,
   }) {
     Get.to(
-      () => CouponPage(
-        couponType: couponType,
-        payOrderModel: payOrderModel,
-        preOrder: preOrder,
-        tab: tab,
-        storeId: storeId,
-        goodsList: goodsList,
-        showTabbar: showTabbar,
-      ),
-      transition: Transition.noTransition,
-    )?.then((model) {
-      if (model != null) {
-        onSelect?.call(model);
-      }
-    }).whenComplete(() => whenComplete?.call());
+          () => CouponPage(
+            couponType: couponType,
+            payOrderModel: payOrderModel,
+            preOrder: preOrder,
+            tab: tab,
+            storeId: storeId,
+            goodsList: goodsList,
+            showTabbar: showTabbar,
+          ),
+          transition: Transition.noTransition,
+        )
+        ?.then((model) {
+          if (model != null) {
+            onSelect?.call(model);
+          }
+        })
+        .whenComplete(() => whenComplete?.call());
   }
 
   static Future<void> notificationJump(
-      Map<String, dynamic>? additionalData) async {
+    Map<String, dynamic>? additionalData,
+  ) async {
     flog("additionalData = $additionalData");
     if (additionalData == null) return;
     switch (additionalData["type"]) {
       case "event":
-        Get.to(() => EventPage(
-          id: additionalData["id"],
-          type: additionalData['eventType'],
-        ));
+        Get.to(
+          () => EventPage(
+            id: additionalData["id"],
+            type: additionalData['eventType'],
+          ),
+        );
         break;
 
       case "news":
@@ -157,7 +171,7 @@ class NavigatorHelper {
         break;
 
       case "goods":
-        Get.to(() => BubbleTeaDetailPage(), arguments: additionalData["id"]);
+        BubbleTeaDetailPage.open(productId: additionalData["id"]);
         break;
 
       case "friends":
@@ -187,20 +201,14 @@ class NavigatorHelper {
     if (map["type"] == "h5") {
       String? url = map["target"];
       String? title = map["title"];
-      Get.to(() => WebPage(
-        title: title,
-        url: url,
-      ));
+      Get.to(() => WebPage(title: title, url: url));
     } else if (map["type"] == "page") {
       String? page = map["target"];
       int? id = map["id"];
       if (id != null) {
         switch (page) {
           case "news":
-            Get.to(
-              () => NewsPage(id: id),
-              transition: Transition.noTransition,
-            );
+            Get.to(() => NewsPage(id: id), transition: Transition.noTransition);
             break;
           case "neproductws":
             Get.to(
@@ -222,16 +230,17 @@ class NavigatorHelper {
           //   break;
           case "task":
             showLoading();
-            var response =
-            await http.get('/app/client/task/task?id=${map['id']}');
+            var response = await http.get(
+              '/app/client/task/task?id=${map['id']}',
+            );
             dismissLoading();
             if (response.data != null) {
               TaskOutModel outModel = TaskOutModel.fromJson(response.data);
               if (outModel.tasks.isNotEmpty) {
-                Get.to(() => TaskDetailPage(), arguments: {
-                  'model': outModel.tasks.first,
-                  'skipFlag': true,
-                });
+                Get.to(
+                  () => TaskDetailPage(),
+                  arguments: {'model': outModel.tasks.first, 'skipFlag': true},
+                );
               } /*else {
                 showErrorWidget('data is empty'.tr);
               }*/
@@ -241,9 +250,7 @@ class NavigatorHelper {
       }
       if (page == "balance") {
         double amount = map["amount"] == null ? 0.0 : map["amount"] * 1.0;
-        Get.to(() => BalancePage(
-          amount: amount,
-        ));
+        Get.to(() => BalancePage(amount: amount));
       } else if (page == "booking") {
         Get.to(() => BookingPage());
       } else if (page == "coin") {

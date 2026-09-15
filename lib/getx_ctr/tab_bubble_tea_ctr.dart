@@ -17,7 +17,6 @@ import '../model/store_tea_model.dart';
 import '../model/tea_category_model.dart';
 import '../ui/pages/hubs/bubble_tea_detail_page.dart';
 import '../ui/pages/hubs/tea_ad_list_page.dart';
-import 'bubble_tea_detail_ctr.dart';
 
 class TabBubbleTeaCtr extends GetxController {
   static TabBubbleTeaCtr get find => Get.find();
@@ -55,8 +54,7 @@ class TabBubbleTeaCtr extends GetxController {
   void calDistance() {
     for (int i = 0; i < storesList.length; i++) {
       if (storesList[i].map != null) {
-        List<String> latLog =
-            storesList[i].map!.replaceAll(" ", "").split(",");
+        List<String> latLog = storesList[i].map!.replaceAll(" ", "").split(",");
         double distances = 0.0;
         if (i == 0) {
           minDistances.value = distances;
@@ -139,15 +137,13 @@ class TabBubbleTeaCtr extends GetxController {
       selectTeaList[i].count -= 1;
     } else {
       GoodsDetailModel? foundGoods = selectTeaList.firstWhereOrNull(
-          (goods) => goods.equalsIgnoringCount(selectTeaList[i]));
+        (goods) => goods.equalsIgnoringCount(selectTeaList[i]),
+      );
       if (foundGoods != null) {
         selectTeaList.remove(foundGoods);
       }
       if (selectTeaList.isEmpty) {
         discount.value = "0.0";
-        if (Get.isRegistered<BubbleTeaDetailCtr>()) {
-          BubbleTeaDetailCtr.find.showAddToCart.value = true;
-        }
         dismissLoading();
       }
     }
@@ -173,7 +169,8 @@ class TabBubbleTeaCtr extends GetxController {
       }
 
       total += Decimal.parse(
-          (item.price ?? "0").add(paramsPrice).mul(item.count.toString()));
+        (item.price ?? "0").add(paramsPrice).mul(item.count.toString()),
+      );
     }
     if (selectTeaList.isEmpty) {
       discount.value = "0.0";
@@ -183,11 +180,13 @@ class TabBubbleTeaCtr extends GetxController {
   }
 
   void selectStore() async {
-    final value = await Get.dialog(SelectorDialog(
-      items: storesList,
-      title: "Select Store".tr,
-      showInfo: true,
-    ));
+    final value = await Get.dialog(
+      SelectorDialog(
+        items: storesList,
+        title: "Select Store".tr,
+        showInfo: true,
+      ),
+    );
     if (value != null) {
       categoryStr.value = 'All/Select Type';
       currentSelectStore.value = value as BubbleTeaStoreModel;
@@ -198,10 +197,6 @@ class TabBubbleTeaCtr extends GetxController {
   }
 
   void clearTea() {
-    if (Get.isRegistered<BubbleTeaDetailCtr>()) {
-      BubbleTeaDetailCtr.find.showAddToCart.value = true;
-    }
-
     discount.value = "0.0";
     selectTeaList.clear();
     calculateTotal();
@@ -223,7 +218,8 @@ class TabBubbleTeaCtr extends GetxController {
       showLoading();
 
       teaList.assignAll(
-          await HubsApi.getTeaList(currentSelectStore.value.id, model.id));
+        await HubsApi.getTeaList(currentSelectStore.value.id, model.id),
+      );
       dismissLoading();
     }
   }
@@ -248,7 +244,7 @@ class TabBubbleTeaCtr extends GetxController {
           "Ice": element.selectIce?.name,
           "Sugar": element.selectSugar?.name,
           "DrinkExtra": toppingList,
-          "FoodExtra": []
+          "FoodExtra": [],
         }),
       };
       goodsList.add(map);
@@ -268,15 +264,30 @@ class TabBubbleTeaCtr extends GetxController {
         int type = jsonMap['type'];
         if (type == 1) {
           showLoading();
-          teaList.assignAll(await HubsApi.getBannerTeaList(
-            currentSelectStore.value.id,
-            categoryId,
-            subCategoryId,
-          ));
+          teaList.assignAll(
+            await HubsApi.getBannerTeaList(
+              currentSelectStore.value.id,
+              categoryId,
+              subCategoryId,
+            ),
+          );
           dismissLoading();
           Get.to(() => TeaADListPage());
         } else if (type == 0) {
-          Get.to(() => BubbleTeaDetailPage(), arguments: goodId);
+          final previewTea = teaList.firstWhereOrNull(
+            (element) => element.id == goodId,
+          );
+          BubbleTeaDetailPage.open(
+            productId: goodId,
+            preview: previewTea == null
+                ? null
+                : BubbleTeaPreview(
+                    name: previewTea.name,
+                    brief: previewTea.brief,
+                    image: '${previewTea.image ?? ''}',
+                    price: previewTea.retailPrice,
+                  ),
+          );
         }
       } catch (e) {
         showToast(e.toString());
