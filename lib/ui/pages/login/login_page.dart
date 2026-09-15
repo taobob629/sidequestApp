@@ -280,47 +280,59 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _socialLoginArea() {
-    return Obx(() {
-      final showGoogle =
-          Platform.isAndroid && controller.isHuaweiDevice.value == false;
-      final showApple = Platform.isIOS;
-      if (!showGoogle && !showApple) {
-        return const SizedBox.shrink();
-      }
-
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              const Expanded(child: Divider(color: _line, height: 1)),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  'or continue with'.tr,
-                  style: const TextStyle(color: _soft, fontSize: 10),
-                ),
-              ),
-              const Expanded(child: Divider(color: _line, height: 1)),
-            ],
-          ),
-          const SizedBox(height: 14),
-          if (showGoogle)
-            _SocialLoginButton(
-              label: 'Continue with Google'.tr,
-              icon: ImageUtils.google_icon,
-              light: true,
-              onTap: controller.loginWithGoogle,
-            ),
-          if (showApple)
-            _SocialLoginButton(
-              label: 'Continue with Apple'.tr,
-              icon: ImageUtils.apple_icon,
-              onTap: controller.loginWithApple,
-            ),
-        ],
+    if (Platform.isIOS) {
+      return _buildSocialLoginButtons(showApple: true);
+    }
+    if (Platform.isAndroid) {
+      return Obx(
+        () => _buildSocialLoginButtons(
+          showGoogle: controller.isHuaweiDevice.value == false,
+        ),
       );
-    });
+    }
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildSocialLoginButtons({
+    bool showGoogle = false,
+    bool showApple = false,
+  }) {
+    if (!showGoogle && !showApple) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            const Expanded(child: Divider(color: _line, height: 1)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(
+                'or continue with'.tr,
+                style: const TextStyle(color: _soft, fontSize: 10),
+              ),
+            ),
+            const Expanded(child: Divider(color: _line, height: 1)),
+          ],
+        ),
+        const SizedBox(height: 14),
+        if (showGoogle)
+          _SocialLoginButton(
+            label: 'Continue with Google'.tr,
+            icon: ImageUtils.google_icon,
+            light: true,
+            onTap: controller.loginWithGoogle,
+          ),
+        if (showApple)
+          _SocialLoginButton(
+            label: 'Continue with Apple'.tr,
+            icon: ImageUtils.apple_icon,
+            onTap: controller.loginWithApple,
+          ),
+      ],
+    );
   }
 }
 
