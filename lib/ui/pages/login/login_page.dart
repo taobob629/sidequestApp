@@ -182,7 +182,7 @@ class LoginPage extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => Get.offAll(() => MainPage()),
+              onPressed: controller.returnToMainPage,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints.tightFor(width: 34, height: 34),
               icon: const Icon(
@@ -584,7 +584,7 @@ class LoginPageController extends BasePageController {
   void loginSuccess(LoginModel loginModel) {
     dismissLoading();
     if (loginModel.validate == 0) {
-      Get.offAll(() => MainPage());
+      returnToMainPage();
     } else if (loginModel.secondary == 1) {
       Get.off(() => SecondaryPage(loginModel: loginModel));
     } else {
@@ -593,5 +593,14 @@ class LoginPageController extends BasePageController {
         arguments: <String, dynamic>{'type': 1, 'loginModel': loginModel},
       );
     }
+  }
+
+  void returnToMainPage() {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    Get.offAll(
+      () => MainPage(),
+      transition: Transition.fade,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 }

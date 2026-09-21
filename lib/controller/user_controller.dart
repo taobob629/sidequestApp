@@ -20,8 +20,6 @@ import '../model/login_model.dart';
 import '../model/profile_model.dart';
 import '../model/user_info_model.dart';
 import '../model/user_model.dart';
-import '../service/voice_player.dart';
-import '../ui/dialog/dialog_confirm.dart';
 import '../ui/pages/login/login_page.dart';
 import '../ui/pages/login/other_register/other_register_page.dart';
 import '../ui/pages/login/third_party_profile/third_party_profile_page.dart';
@@ -35,10 +33,8 @@ import '../utils/db_helper.dart';
 import '../utils/login_flag.dart';
 import '../utils/storage_manager.dart';
 import '../utils/utils.dart';
-import '../widget/voice_widget.dart';
 
 class UserController extends GetxController {
-  bool hasDidVoiceCheck = false; //只检查一次
   static UserController instance() {
     return Get.find<UserController>();
   }
@@ -83,11 +79,7 @@ class UserController extends GetxController {
   // profile的红点显示
   var showProfileBadge = false.obs;
 
-  GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-    ],
-  );
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
 
   @override
   void onReady() async {
@@ -138,11 +130,7 @@ class UserController extends GetxController {
       if (!loginModel.needsProfileCompletion) {
         final wasPending = StorageManager.getThirdPartyProfilePending();
         StorageManager.setThirdPartyProfilePending(false);
-        setLocalInfo(
-          loginModel,
-          null,
-          loginFlag: loginModel.login,
-        );
+        setLocalInfo(loginModel, null, loginFlag: loginModel.login);
         if (wasPending) {
           Get.offAll(() => MainPage());
         }
@@ -158,10 +146,10 @@ class UserController extends GetxController {
   void _openThirdPartyProfile(String provider, String? email) {
     StorageManager.setThirdPartyProfilePending(true);
     if (Get.currentRoute.contains('ThirdPartyProfilePage')) return;
-    Get.offAll(() => ThirdPartyProfilePage(), arguments: {
-      'provider': provider,
-      'email': email,
-    });
+    Get.offAll(
+      () => ThirdPartyProfilePage(),
+      arguments: {'provider': provider, 'email': email},
+    );
   }
 
   static setCustomSticker() async {
@@ -190,7 +178,6 @@ class UserController extends GetxController {
 
   @override
   void onClose() {
-    AudioManager.instance.stop();
     _timer.cancel();
     _cancelPayNotify();
     super.onClose();
@@ -208,9 +195,12 @@ class UserController extends GetxController {
         }
         list.forEach((payRecord) async {
           print(
-              "notify pay order:${payRecord.orderId}-${payRecord.createTime}");
+            "notify pay order:${payRecord.orderId}-${payRecord.createTime}",
+          );
           bool ret = await PayApi.backgroundNotify(
-              payRecord.orderId, payRecord.tranId);
+            payRecord.orderId,
+            payRecord.tranId,
+          );
           if (ret == true) {
             await db!.deletePayRecord(payRecord.orderId);
           }
@@ -235,27 +225,8 @@ class UserController extends GetxController {
       //    userInfoModel.value = await UserApi.info();
       userProfile = await ProfileApi.getProfileInfo();
       eventBus.fire(UserInfoSucBean());
-      //判断是否有语音
-      if (hasDidVoiceCheck) return;
-      //  voiceCheck();
-      
       // 预加载排行榜数据
       await RankDataCache.preloadData();
-    }
-  }
-
-  void voiceCheck() {
-    if (userProfile.isAuth == TYPE_VIP && userProfile.voice?.isEmpty == true) {
-      hasDidVoiceCheck = true;
-      Get.dialog(ConfirmDialog(
-        title: 'Confirm'.tr,
-        info: 'We suggest that you supplement the recording materials'.tr,
-        concelBtn: 'CANCEL'.tr,
-        onConfirm: () {
-          Get.back();
-          toRecordPage(Get.context!);
-        },
-      ));
     }
   }
 
@@ -272,12 +243,13 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login(
-      {String? email,
-      String? password,
-      bool showLoadings = false,
-      bool checkLastLoginTime = false,
-      Function(LoginModel)? done}) async {
+  Future<void> login({
+    String? email,
+    String? password,
+    bool showLoadings = false,
+    bool checkLastLoginTime = false,
+    Function(LoginModel)? done,
+  }) async {
     if (checkLastLoginTime) {
       if (DateTime.now().millisecondsSinceEpoch -
               lastLoginTime.millisecondsSinceEpoch <
@@ -298,8 +270,9 @@ class UserController extends GetxController {
     if (showLoadings == true) {
       showLoading(clickMaskDismiss: false);
     }
-    LoginModel loginModel =
-        await AuthApi.signIn(email, password).catchError((e) {
+    LoginModel loginModel = await AuthApi.signIn(email, password).catchError((
+      e,
+    ) {
       dismissLoading();
     });
 
@@ -336,7 +309,8 @@ class UserController extends GetxController {
       );
 
       flog(
-          "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+        "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}",
+      );
     } else {
       if (needLogin) {
         credential = await SignInWithApple.getAppleIDCredential(
@@ -346,7 +320,8 @@ class UserController extends GetxController {
           ],
         );
         flog(
-            "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}");
+          "apple userInfo : userId=${credential.userIdentifier}   email=${credential.email}  giveName=${credential.givenName}   familyName=${credential.familyName}",
+        );
       } else {
         credential = AuthorizationCredentialAppleID(
           userIdentifier: userIdentifier,
@@ -400,8 +375,10 @@ class UserController extends GetxController {
       GoogleSignInAuthentication authentication = await account.authentication;
 
       flog('google sign in $account');
-      LoginModel loginModel =
-          await AuthApi.thirdPartyGoogleLogin(account, authentication);
+      LoginModel loginModel = await AuthApi.thirdPartyGoogleLogin(
+        account,
+        authentication,
+      );
 
       setLocalInfo(
         loginModel,
@@ -462,14 +439,8 @@ class UserController extends GetxController {
         dismissLoading();
       });
 
-      StorageManager.setString(
-        'discordAppId',
-        saveDiscordAppId!,
-      );
-      StorageManager.setString(
-        'email',
-        saveEmail!,
-      );
+      StorageManager.setString('discordAppId', saveDiscordAppId!);
+      StorageManager.setString('email', saveEmail!);
 
       setLocalInfo(
         loginModel,
@@ -498,8 +469,9 @@ class UserController extends GetxController {
     });
 
     final result = await FlutterWebAuth.authenticate(
-            url: url.toString(), callbackUrlScheme: 'sidequest')
-        .onError((error, stackTrace) {
+      url: url.toString(),
+      callbackUrlScheme: 'sidequest',
+    ).onError((error, stackTrace) {
       dismissLoading();
       return '';
     });
@@ -534,12 +506,15 @@ class UserController extends GetxController {
             email != null &&
             nickName != null &&
             discriminator != null) {
-          Get.to(() => OtherRegisterPage(), arguments: {
-            'discordAppId': discordAppId,
-            'email': email,
-            'nickName': nickName,
-            'discriminator': discriminator,
-          });
+          Get.to(
+            () => OtherRegisterPage(),
+            arguments: {
+              'discordAppId': discordAppId,
+              'email': email,
+              'nickName': nickName,
+              'discriminator': discriminator,
+            },
+          );
         }
       }
       return;
@@ -609,16 +584,6 @@ class UserController extends GetxController {
     return 'assets/images/${isauth == TYPE_VIP ? 'v_' : ''}grade$level.webp';
   }
 
-  toRecordPage(BuildContext context, {int type = 0}) {
-    pickVoiceDialog(context, userProfile.voice?.value, (result) {
-      flog('callback $result');
-      if (result != null) userProfile.voice?.value = result;
-    }, recordType: type);
-    // Get.toNamed(AppPages.Record,arguments:userProfile.voice)?.then((result) {
-    //   if (result != null) userProfile.voice = result;
-    // });
-  }
-
   void scan() {
     Get.to(() => ScanPage())?.then((value) async {
       flog('value $value');
@@ -628,9 +593,7 @@ class UserController extends GetxController {
       String data = value.toString();
       //String deData = decryptData(data);
       if (data.indexOf("qlogin") >= 0) {
-        Get.to(() => QrLoginPage(
-              code: data,
-            ));
+        Get.to(() => QrLoginPage(code: data));
         return;
       }
       if (data == "Eb13IPoTrQ2uJNr/sAA70A==") {

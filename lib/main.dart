@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_ume_plus/flutter_ume_plus.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -44,7 +45,7 @@ void main() async {
 
   ///图片缓存大小
   PaintingBinding.instance.imageCache.maximumSizeBytes = 1000 << 20;
-  if (env.contains("dev") || env.contains("test")) {
+  if (!kReleaseMode && (env.contains("dev") || env.contains("test"))) {
     // PluginManager.instance // 注册插件
     // .register(DioInspector(dio: http));
     PluginManager.instance.register(DevNetworkInspector(dio: http));

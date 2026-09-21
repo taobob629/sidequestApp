@@ -1,14 +1,17 @@
 class ImageUtils {
-
   static const String default_logo = 'assets/images/default_logo.webp';
-  static const String message_empty_icon = 'assets/images/message_empty_icon.png';
+  static const String message_empty_icon =
+      'assets/images/message_empty_icon.png';
   static const String ic_exchange = 'assets/images/ic_exchange.webp';
-  static const String subscriptioned_icon = 'assets/images/subscriptioned_icon.webp';
+  static const String subscriptioned_icon =
+      'assets/images/subscriptioned_icon.webp';
   static const String logo_icon = 'assets/images/logo1.png';
 
-  static const String profile_chat_icon = 'assets/images/profile_chat_icon.webp';
+  static const String profile_chat_icon =
+      'assets/images/profile_chat_icon.webp';
   static const String add_to_cart_icon = 'assets/images/add_to_cart_icon.webp';
-  static const String bundles_cart_icon = 'assets/images/bundles_cart_icon.webp';
+  static const String bundles_cart_icon =
+      'assets/images/bundles_cart_icon.webp';
   static const String icon_duo_room = 'assets/images/icon_duo_room.webp';
   static const String distance_icon = 'assets/images/distance_icon.webp';
   static const String apple_icon = 'assets/images/apple_icon.webp';
@@ -16,10 +19,14 @@ class ImageUtils {
   static const String google_icon = 'assets/images/google_icon.webp';
   static const String tab_top_icon = 'assets/images/tab_top_icon.webp';
   static const String icon_squad_room = 'assets/images/icon_squad_room.webp';
-  static const String integral_benefit_icon = 'assets/images/integral_benefit_icon.webp';
-  static const String integral_benefit_bottom_icon = 'assets/images/integral_benefit_bottom_icon.webp';
-  static const String integral_point_mall_icon = 'assets/images/integral_point_mall_icon.webp';
-  static const String integral_points_mall_bottom_icon = 'assets/images/integral_points_mall_bottom_icon.webp';
+  static const String integral_benefit_icon =
+      'assets/images/integral_benefit_icon.webp';
+  static const String integral_benefit_bottom_icon =
+      'assets/images/integral_benefit_bottom_icon.webp';
+  static const String integral_point_mall_icon =
+      'assets/images/integral_point_mall_icon.webp';
+  static const String integral_points_mall_bottom_icon =
+      'assets/images/integral_points_mall_bottom_icon.webp';
   static const String icon_battle_room = 'assets/images/icon_battle_room.webp';
   static const String tab_home = 'assets/images/tab_home.webp';
   static const String tab_home_normal = 'assets/images/tab_home_normal.webp';
@@ -36,23 +43,29 @@ class ImageUtils {
   static const String icon_bubble = 'assets/images/icon_bubble.png';
   static const String icon_invitation = 'assets/images/icon_invitation.png';
   static const String tab_profile = 'assets/images/tab_profile.webp';
-  static const String tab_profile_normal = 'assets/images/tab_profile_normal.png';
+  static const String tab_profile_normal =
+      'assets/images/tab_profile_normal.png';
   static const String icon_ps = 'assets/images/icon_ps.webp';
   static const String tea_icon = 'assets/images/tea_icon.webp';
   static const String icon_flash = 'assets/images/icon_flash.svg';
   static const String order_more_icon = 'assets/images/order_more_icon.webp';
   static const String order_less_icon = 'assets/images/order_less_icon.webp';
-  static const String coupon_no_data_icon = 'assets/images/coupon_no_data_icon.webp';
+  static const String coupon_no_data_icon =
+      'assets/images/coupon_no_data_icon.webp';
   static const String delete_icon = 'assets/images/delete_icon.webp';
-  static const String tea_app_logo_icon = 'assets/images/tea_app_logo_icon.webp';
+  static const String tea_app_logo_icon =
+      'assets/images/tea_app_logo_icon.webp';
   static const String icon_gift = 'assets/images/icon_gift.png';
   static const String drink_now_icon = 'assets/images/drink_now_icon.png';
   static const String icon_liwu = 'assets/images/icon_liwu.webp';
   static const String shop_icon = 'assets/images/shop_icon.webp';
   static const String introduce_icon = 'assets/images/introduce_icon.webp';
-  static const String confirm_dialog_icon = 'assets/images/confirm_dialog_icon.webp';
-  static const String all_type_tea_icon = 'assets/images/all_type_tea_icon.webp';
-  static const String bundles_detail_price_bg = 'assets/images/bundles_detail_price_bg.webp';
+  static const String confirm_dialog_icon =
+      'assets/images/confirm_dialog_icon.webp';
+  static const String all_type_tea_icon =
+      'assets/images/all_type_tea_icon.webp';
+  static const String bundles_detail_price_bg =
+      'assets/images/bundles_detail_price_bg.webp';
   static const String follow = 'assets/images/follow.webp';
   static const String icon_orders = 'assets/images/icon_orders.webp';
   static const String icon_language = 'assets/images/icon_language.webp';
@@ -60,9 +73,12 @@ class ImageUtils {
   static const String followed = 'assets/images/followed.webp';
   static const String msg_head_bg = 'assets/images/msg_head_bg.webp';
   static const String upgrade_top_bg = 'assets/images/upgrade_top_bg.webp';
-  static const String store_ranking_icon = 'assets/images/store_ranking_icon.webp';
-  static const String profile_loyalty_icon = 'assets/images/profile_loyalty_icon.webp';
-  static const String icon_love_progress = 'assets/images/icon_love_progress.webp';
+  static const String store_ranking_icon =
+      'assets/images/store_ranking_icon.webp';
+  static const String profile_loyalty_icon =
+      'assets/images/profile_loyalty_icon.webp';
+  static const String icon_love_progress =
+      'assets/images/icon_love_progress.webp';
   static const String icon_intimacy_bg = 'assets/images/icon_intimacy_bg.webp';
   static const String icon_dibiao = 'assets/images/icon_dibiao.webp';
   static const String icon_public_area = 'assets/images/icon_public_area.webp';
@@ -75,17 +91,17 @@ class ImageUtils {
   static const String icon_navigation = 'assets/images/icon_navigation.webp';
   static const String gift_bg = 'assets/images/gift_bg.webp';
   static const String icon_activities = 'assets/images/icon_activities.png';
-  static const String icon_voice_play = 'assets/images/icon_voice_play.webp';
   static const String ic_balance_time = 'assets/images/ic_balance_time.webp';
-  static const String icon_voice_progress = 'assets/images/icon_voice_progress.webp';
   static const String splash_logo = 'assets/images/splash_logo.png';
   static const String icon_send = 'assets/images/icon_send.png';
   static const String empty = 'assets/images/empty.webp';
   static const String tab_pc_icon = 'assets/images/tab_pc_icon.webp';
-  static const String tab_favorite_icon = 'assets/images/tab_favorite_icon.webp';
+  static const String tab_favorite_icon =
+      'assets/images/tab_favorite_icon.webp';
   static const String tab_console_icon = 'assets/images/tab_console_icon.webp';
   static const String tab_racing_icon = 'assets/images/tab_racing_icon.webp';
-  static const String bubble_tea_store_icon = 'assets/images/bubble_tea_store_icon.webp';
+  static const String bubble_tea_store_icon =
+      'assets/images/bubble_tea_store_icon.webp';
   static const String sign_success_icon = 'assets/images/sign_success_icon.svg';
   static const String sign_coin_icon = 'assets/images/sign_coin_icon.webp';
   static const String ic_checked = 'assets/images/ic_checked.webp';
@@ -94,13 +110,17 @@ class ImageUtils {
   static const String ic_dialog = 'assets/images/ic_dialog.webp';
   static const String scan_icon = 'assets/images/scan_icon.webp';
   static const String logo_mirror = 'assets/images/logo_mirror.webp';
-  static const String is_tech_pro_icon2 = 'assets/images/is_tech_pro_icon2.webp';
+  static const String is_tech_pro_icon2 =
+      'assets/images/is_tech_pro_icon2.webp';
   static const String coin_2 = 'assets/images/coin_2.webp';
   static const String icon_dianzan = 'assets/images/icon_dianzan.webp';
   static const String arrow_more = 'assets/images/arrow_more.webp';
-  static const String activity_label_bg = 'assets/images/activity_label_bg.webp';
-  static const String booking_cancel_icon = 'assets/images/booking_cancel_icon.webp';
-  static const String post_add_border_icon = 'assets/images/post_add_border_icon.webp';
+  static const String activity_label_bg =
+      'assets/images/activity_label_bg.webp';
+  static const String booking_cancel_icon =
+      'assets/images/booking_cancel_icon.webp';
+  static const String post_add_border_icon =
+      'assets/images/post_add_border_icon.webp';
   static const String emenry_pc_icon = 'assets/images/emenry_pc_icon.webp';
   static const String icon_first = 'assets/images/icon_first.webp';
   static const String icon_second = 'assets/images/icon_second.webp';
@@ -110,15 +130,19 @@ class ImageUtils {
   static const String add_pic = 'assets/images/add_pic.webp';
   static const String qr_code = 'assets/images/qr_code.webp';
   static const String scan_code_icon = 'assets/images/scan_code_icon.webp';
-  static const String profile_avatar_border = 'assets/images/profile_avatar_border.webp';
+  static const String profile_avatar_border =
+      'assets/images/profile_avatar_border.webp';
   static const String ic_coupons_new = 'assets/images/ic_coupons_new.webp';
-  static const String ic_coupons_points = 'assets/images/ic_coupons_points.webp';
+  static const String ic_coupons_points =
+      'assets/images/ic_coupons_points.webp';
   static const String ic_corns_new = 'assets/images/ic_corns_new.webp';
   static const String qr_code_border = 'assets/images/qr_code_border.webp';
   static const String qr_code_icon = 'assets/images/qr_code_icon.webp';
   static const String icon_help = 'assets/images/icon_help.webp';
-  static const String profile_energy_w_icon = 'assets/images/profile_energy_w_icon.webp';
-  static const String energy_right_icon = 'assets/images/energy_right_icon.webp';
+  static const String profile_energy_w_icon =
+      'assets/images/profile_energy_w_icon.webp';
+  static const String energy_right_icon =
+      'assets/images/energy_right_icon.webp';
   static const String energy_empty = 'assets/images/energy_empty.webp';
   static const String energy_full = 'assets/images/energy_full.webp';
   static const String profile_setting = 'assets/images/profile_setting.webp';
@@ -131,12 +155,18 @@ class ImageUtils {
   static const String icon_bookings = 'assets/images/icon_bookings.webp';
   static const String more_icon = 'assets/images/more_icon.webp';
   static const String icon_task_gift = 'assets/images/icon_task_gift.webp';
-  static const String coupon_dialog_code_bg = 'assets/images/coupon_dialog_code_bg.webp';
-  static const String coupon_dialog_line = 'assets/images/coupon_dialog_line.webp';
-  static const String coupon_avali_left_icon = 'assets/images/coupon_avali_left_icon.webp';
-  static const String coupon_dialog_right_icon = 'assets/images/coupon_dialog_right_icon.webp';
-  static const String task_received_icon = 'assets/images/task_received_icon.webp';
-  static const String task_expired_icon = 'assets/images/task_expired_icon.webp';
+  static const String coupon_dialog_code_bg =
+      'assets/images/coupon_dialog_code_bg.webp';
+  static const String coupon_dialog_line =
+      'assets/images/coupon_dialog_line.webp';
+  static const String coupon_avali_left_icon =
+      'assets/images/coupon_avali_left_icon.webp';
+  static const String coupon_dialog_right_icon =
+      'assets/images/coupon_dialog_right_icon.webp';
+  static const String task_received_icon =
+      'assets/images/task_received_icon.webp';
+  static const String task_expired_icon =
+      'assets/images/task_expired_icon.webp';
   static const String icon_task = 'assets/images/icon_task.webp';
   static const String icon_connection = 'assets/images/icon_connection.webp';
   static const String icon_riot = 'assets/images/icon_riot.webp';
@@ -144,8 +174,6 @@ class ImageUtils {
   static const String message_icon = 'assets/images/message_icon.webp';
   static const String vip_header_bg = 'assets/images/vip_header_bg.webp';
   static const String ic_store = 'assets/images/ic_store.png';
-  static const String icon_voice_record = 'assets/images/icon_voice_record.webp';
-  static const String icon_voice = 'assets/images/icon_voice.webp';
   static const String ic_edit = 'assets/images/ic_edit.webp';
   static const String group_invite = 'assets/images/group_invite.webp';
   static const String iconZhuansghi = 'assets/images/iconZhuansghi.webp';
@@ -156,20 +184,24 @@ class ImageUtils {
   static const String ic_warn = 'assets/images/ic_warn.webp';
   static const String ic_server = 'assets/images/ic_server.webp';
   static const String coin_red = 'assets/images/coin_red.webp';
-  static const String product_content_icon = 'assets/images/product_content_icon.webp';
+  static const String product_content_icon =
+      'assets/images/product_content_icon.webp';
   static const String china_flag_icon = 'assets/images/china_flag_icon.jpg';
   static const String us_flag_icon = 'assets/images/us_flag_icon.jpg';
   static const String russia_flag_icon = 'assets/images/russia_flag_icon.jpg';
   static const String england_flag_icon = 'assets/images/england_flag_icon.jpg';
-  static const String eruption_flag_icon = 'assets/images/eruption_flag_icon.jpg';
+  static const String eruption_flag_icon =
+      'assets/images/eruption_flag_icon.jpg';
   static const String icon_bank = 'assets/images/icon_bank.webp';
   static const String icon_alipay = 'assets/images/icon_alipay.webp';
   static const String icon_wise = 'assets/images/icon_wise.webp';
   static const String icon_pay_pal = 'assets/images/icon_pay_pal.webp';
   static const String pic_amount = 'assets/images/pic_amount.webp';
   static const String ic_balance_votes = 'assets/images/ic_balance_votes.webp';
-  static const String icon_add_earnings = 'assets/images/icon_add_earnings.webp';
-  static const String pay_psd_zuanshi_icon = 'assets/images/pay_psd_zuanshi_icon.webp';
+  static const String icon_add_earnings =
+      'assets/images/icon_add_earnings.webp';
+  static const String pay_psd_zuanshi_icon =
+      'assets/images/pay_psd_zuanshi_icon.webp';
   static const String ic_edit_circle = 'assets/images/ic_edit_circle.webp';
   static const String icon_location = 'assets/images/icon_location.webp';
   static const String icon_computer = 'assets/images/icon_computer.webp';
@@ -187,20 +219,33 @@ class ImageUtils {
   static const String share = 'assets/images/share.webp';
   static const String icon_vouchers = 'assets/images/icon_vouchers.webp';
   static const String ic_corns_new2 = 'assets/images/ic_corns_new2.webp';
-  static const String add_game_account_content = 'assets/images/add_game_account_content.svg';
+  static const String add_game_account_content =
+      'assets/images/add_game_account_content.svg';
   static const String point_lv_icon = 'assets/images/point_lv_icon.svg';
-  static const String integral_store_check_yellow_icon = 'assets/images/integral_store_check_yellow_icon.webp';
-  static const String integral_checkin_grey_icon = 'assets/images/integral_checkin_grey_icon.webp';
-  static const String integral_checkin_icon = 'assets/images/integral_checkin_icon.webp';
-  static const String integral_detail_dialog_icon = 'assets/images/integral_detail_dialog_icon.webp';
-  static const String integral_arrow_icon = 'assets/images/integral_arrow_icon.webp';
-  static const String integral_interests_lv_icon = 'assets/images/integral_interests_lv_icon.webp';
-  static const String integral_interests_lock_icon = 'assets/images/integral_interests_lock_icon.webp';
-  static const String integral_level_benefit_left_icon = 'assets/images/integral_level_benefit_left_icon.webp';
-  static const String integral_level_benefit_text_icon = 'assets/images/integral_level_benefit_text_icon.webp';
-  static const String integral_level_benefit_right_icon = 'assets/images/integral_level_benefit_right_icon.webp';
-  static const String integral_coupon_icon = 'assets/images/integral_coupon_icon.webp';
-  static const String integral_task_detail_top = 'assets/images/integral_task_detail_top.webp';
+  static const String integral_store_check_yellow_icon =
+      'assets/images/integral_store_check_yellow_icon.webp';
+  static const String integral_checkin_grey_icon =
+      'assets/images/integral_checkin_grey_icon.webp';
+  static const String integral_checkin_icon =
+      'assets/images/integral_checkin_icon.webp';
+  static const String integral_detail_dialog_icon =
+      'assets/images/integral_detail_dialog_icon.webp';
+  static const String integral_arrow_icon =
+      'assets/images/integral_arrow_icon.webp';
+  static const String integral_interests_lv_icon =
+      'assets/images/integral_interests_lv_icon.webp';
+  static const String integral_interests_lock_icon =
+      'assets/images/integral_interests_lock_icon.webp';
+  static const String integral_level_benefit_left_icon =
+      'assets/images/integral_level_benefit_left_icon.webp';
+  static const String integral_level_benefit_text_icon =
+      'assets/images/integral_level_benefit_text_icon.webp';
+  static const String integral_level_benefit_right_icon =
+      'assets/images/integral_level_benefit_right_icon.webp';
+  static const String integral_coupon_icon =
+      'assets/images/integral_coupon_icon.webp';
+  static const String integral_task_detail_top =
+      'assets/images/integral_task_detail_top.webp';
   static const String invite_copy_bg = 'assets/images/invite_copy_bg.webp';
   static const String invite_icon = 'assets/images/invite_icon.webp';
   static const String icon_quantou = 'assets/images/icon_quantou.webp';
@@ -227,7 +272,8 @@ class ImageUtils {
   static const String ic_balance_money = 'assets/images/ic_balance_money.webp';
   static const String tab_ranking_icon = 'assets/images/tab_ranking_icon.webp';
   static const String icon_jiangbei = 'assets/images/icon_jiangbei.webp';
-  static const String integral_redemption_top_icon = 'assets/images/integral_redemption_top_icon.png';
+  static const String integral_redemption_top_icon =
+      'assets/images/integral_redemption_top_icon.png';
   static const String ic_add = 'assets/images/ic_add.png';
   static const String tab_sidekick = 'assets/images/tab_sidekick.png';
   static const String charge_badge = 'assets/images/charge_badge.png';

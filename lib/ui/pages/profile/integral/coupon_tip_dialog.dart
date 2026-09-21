@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:sq_hub_app/common/colorful_button.dart';
 import 'package:sq_hub_app/config/icon_font.dart';
@@ -30,8 +30,9 @@ class CouponTipDialog extends StatelessWidget {
 
   // 是否有计算器
   final bool? isCal;
-  final TextEditingController editingController =
-      TextEditingController(text: "6");
+  final TextEditingController editingController = TextEditingController(
+    text: "6",
+  );
   var addFriendList = <double>[].obs;
   var yourLevelModel = IntegralLevelModel().obs;
 
@@ -81,8 +82,9 @@ class CouponTipDialog extends StatelessWidget {
         : yourLevelModel.value =
             lvList[IntegralInterestsCtr.find.currentVIPIndex.value + 1];
 
-    calPrice.value =
-        editingController.text.mul(yourLevelModel.value.zhekou.toString());
+    calPrice.value = editingController.text.mul(
+      yourLevelModel.value.zhekou.toString(),
+    );
 
     return view2(context);
   }
@@ -105,29 +107,31 @@ class CouponTipDialog extends StatelessWidget {
         children: [
           Platform.isAndroid
               ? Html(
-                  data: info["description"],
-                  style: {"body": Style()},
-                  onLinkTap: (String? url,
-                    Map<String, String> attributes,
-                    dom.Element? element,
-                  ) async {
-                    if (url != null) {
-                      await launchUrl(Uri.parse(url));
-                    }
-                  },
-                )
+                data: info["description"],
+                style: {"body": Style()},
+                onLinkTap: (
+                  String? url,
+                  Map<String, String> attributes,
+                  dom.Element? element,
+                ) async {
+                  if (url != null) {
+                    await launchUrl(Uri.parse(url));
+                  }
+                },
+              )
               : HtmlWidget(
-                  info["description"],
-                  onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
-                ),
+                info["description"],
+                onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
+              ),
           InkWell(
-            onTap: () =>
-                onConfirm == null ? dismissLoading() : onConfirm!.call(),
+            onTap:
+                () => onConfirm == null ? dismissLoading() : onConfirm!.call(),
             child: Container(
               decoration: ShapeDecoration(
                 color: Color(0xFFFFB20E),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
               ),
               margin: EdgeInsets.only(top: 15.h),
               alignment: Alignment.center,
@@ -158,9 +162,7 @@ class CouponTipDialog extends StatelessWidget {
           topLeft: Radius.circular(20.r),
         ),
       ),
-      constraints: BoxConstraints(
-        maxHeight: 0.8.sh,
-      ),
+      constraints: BoxConstraints(maxHeight: 0.8.sh),
       padding: EdgeInsets.all(15.r),
       child: SingleChildScrollView(
         child: Column(
@@ -260,8 +262,9 @@ class CouponTipDialog extends StatelessWidget {
                       fontFamily: FONT_MEDIUM,
                       decoration: TextDecoration.underline,
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => Get.to(() => ConnectionsPage()),
+                    recognizer:
+                        TapGestureRecognizer()
+                          ..onTap = () => Get.to(() => ConnectionsPage()),
                   ),
                 ],
               ),
@@ -283,30 +286,33 @@ class CouponTipDialog extends StatelessWidget {
                 fontFamily: FONT_MEDIUM,
               ),
             ).paddingOnly(top: 16.h, bottom: 13.h),
-            Obx(() => selectWidget(
-                  onTap: () async {
-                    SystemChannels.textInput.invokeMethod('TextInput.hide');
-                    final result = await showCustom(
-                      SelectorDialog(
-                        items: lvList,
-                        title: "Select Level".tr,
-                        isSmartDialog: true,
-                      ),
-                    );
-                    if (result != null) {
-                      IntegralLevelModel selectModel =
-                          result as IntegralLevelModel;
-                      addFriendList.clear();
-                      yourLevelModel.value = selectModel;
+            Obx(
+              () => selectWidget(
+                onTap: () async {
+                  SystemChannels.textInput.invokeMethod('TextInput.hide');
+                  final result = await showCustom(
+                    SelectorDialog(
+                      items: lvList,
+                      title: "Select Level".tr,
+                      isSmartDialog: true,
+                    ),
+                  );
+                  if (result != null) {
+                    IntegralLevelModel selectModel =
+                        result as IntegralLevelModel;
+                    addFriendList.clear();
+                    yourLevelModel.value = selectModel;
 
-                      if (editingController.text.isNotEmpty) {
-                        calPrice.value = editingController.text
-                            .mul(selectModel.zhekou.toString());
-                      }
+                    if (editingController.text.isNotEmpty) {
+                      calPrice.value = editingController.text.mul(
+                        selectModel.zhekou.toString(),
+                      );
                     }
-                  },
-                  yourLevel: yourLevelModel.value.name,
-                )),
+                  }
+                },
+                yourLevel: yourLevelModel.value.name,
+              ),
+            ),
             Row(
               children: [
                 Container(
@@ -339,23 +345,26 @@ class CouponTipDialog extends StatelessWidget {
                 ),
               ],
             ).paddingOnly(bottom: 14.h),
-            Obx(() => ListView.separated(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (c, i) => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Friend ${i + 1} Level:",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontFamily: FONT_MEDIUM,
-                        ),
-                      ).paddingOnly(right: 10.w),
-                      Expanded(
-                        child: Obx(() => selectWidget(
+            Obx(
+              () => ListView.separated(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder:
+                    (c, i) => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Friend ${i + 1} Level:",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontFamily: FONT_MEDIUM,
+                          ),
+                        ).paddingOnly(right: 10.w),
+                        Expanded(
+                          child: Obx(
+                            () => selectWidget(
                               bottom: 0,
                               yourLevel: getLevelName(addFriendList[i]),
                               onTap: () async {
@@ -372,46 +381,57 @@ class CouponTipDialog extends StatelessWidget {
                                   addFriendList[i] = selectModel.zhekou;
 
                                   final ji = addFriendList.fold(
-                                      1.0,
-                                      (previousValue, element) =>
-                                          previousValue * element);
+                                    1.0,
+                                    (previousValue, element) =>
+                                        previousValue * element,
+                                  );
                                   if (editingController.text.isNotEmpty) {
                                     calPrice.value = yourLevelModel.value.zhekou
                                         .toString()
-                                        .mul(editingController.text
-                                            .mul(ji.toString()));
+                                        .mul(
+                                          editingController.text.mul(
+                                            ji.toString(),
+                                          ),
+                                        );
                                   }
                                 }
                               },
-                            )),
-                      ),
-                    ],
-                  ),
-                  separatorBuilder: (c, i) => 14.verticalSpace,
-                  itemCount: addFriendList.length,
-                )),
-            20.verticalSpace,
-            Obx(() => Visibility(
-                  visible: addFriendList.isNotEmpty,
-                  child: Text(
-                    "Note:You can add up to ${yourLevelModel.value.friendLimitCount} friends",
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      fontSize: 14.sp,
-                      fontFamily: FONT_MEDIUM,
-                      fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ).paddingOnly(bottom: 20.h),
-                )),
+                separatorBuilder: (c, i) => 14.verticalSpace,
+                itemCount: addFriendList.length,
+              ),
+            ),
+            20.verticalSpace,
+            Obx(
+              () => Visibility(
+                visible: addFriendList.isNotEmpty,
+                child: Text(
+                  "Note:You can add up to ${yourLevelModel.value.friendLimitCount} friends",
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ).paddingOnly(bottom: 20.h),
+              ),
+            ),
             Row(
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () => addFriendList.length <
-                            yourLevelModel.value.friendLimitCount - 1
-                        ? addFriendList.add(1.0)
-                        : showToast(
-                            " You have reached the maximum friends combo at this level"),
+                    onTap:
+                        () =>
+                            addFriendList.length <
+                                    yourLevelModel.value.friendLimitCount - 1
+                                ? addFriendList.add(1.0)
+                                : showToast(
+                                  " You have reached the maximum friends combo at this level",
+                                ),
                     child: Container(
                       height: 38.h,
                       decoration: BoxDecoration(
@@ -424,10 +444,7 @@ class CouponTipDialog extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.add,
-                            color: hexColor('#FFB20E'),
-                          ),
+                          Icon(Icons.add, color: hexColor('#FFB20E')),
                           Text(
                             "Add Friend".tr,
                             style: TextStyle(
@@ -444,9 +461,11 @@ class CouponTipDialog extends StatelessWidget {
                 12.horizontalSpace,
                 Expanded(
                   child: InkWell(
-                    onTap: () => addFriendList.length == 1
-                        ? addFriendList.clear()
-                        : addFriendList.removeLast(),
+                    onTap:
+                        () =>
+                            addFriendList.length == 1
+                                ? addFriendList.clear()
+                                : addFriendList.removeLast(),
                     child: Container(
                       height: 38.h,
                       decoration: BoxDecoration(
@@ -492,11 +511,13 @@ class CouponTipDialog extends StatelessWidget {
               margin: EdgeInsets.only(top: 24.h, bottom: 20.h),
               onTap: () {
                 final ji = addFriendList.fold(
-                    1.0, (previousValue, element) => previousValue * element);
+                  1.0,
+                  (previousValue, element) => previousValue * element,
+                );
                 if (editingController.text.isNotEmpty) {
-                  calPrice.value = yourLevelModel.value.zhekou
-                      .toString()
-                      .mul(editingController.text.mul(ji.toString()));
+                  calPrice.value = yourLevelModel.value.zhekou.toString().mul(
+                    editingController.text.mul(ji.toString()),
+                  );
                 }
               },
             ),
@@ -508,26 +529,29 @@ class CouponTipDialog extends StatelessWidget {
                 fontFamily: FONT_LIGHT,
               ),
             ),
-            Obx(() => RichText(
-                  text: TextSpan(
-                      text: "Final price after discounts: ",
+            Obx(
+              () => RichText(
+                text: TextSpan(
+                  text: "Final price after discounts: ",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontFamily: FONT_MEDIUM,
+                  ),
+                  children: [
+                    TextSpan(
+                      text:
+                          "£${double.parse(calPrice.value).toStringAsFixed(2)}",
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
+                        color: hexColor('#FFB20E'),
+                        fontSize: 20.sp,
                         fontFamily: FONT_MEDIUM,
                       ),
-                      children: [
-                        TextSpan(
-                          text:
-                              "£${double.parse(calPrice.value).toStringAsFixed(2)}",
-                          style: TextStyle(
-                            color: hexColor('#FFB20E'),
-                            fontSize: 20.sp,
-                            fontFamily: FONT_MEDIUM,
-                          ),
-                        ),
-                      ]),
-                )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Container(
               color: hexColor('#3C3C43'),
               height: 1.h,
@@ -535,29 +559,32 @@ class CouponTipDialog extends StatelessWidget {
             ),
             Platform.isAndroid
                 ? Html(
-                    data: info["description"],
-                    style: {"body": Style()},
-                    onLinkTap: (String? url,
-                      Map<String, String> attributes,
-                      dom.Element? element,
-                    ) async {
-                      if (url != null) {
-                        await launchUrl(Uri.parse(url));
-                      }
-                    },
-                  )
+                  data: info["description"],
+                  style: {"body": Style()},
+                  onLinkTap: (
+                    String? url,
+                    Map<String, String> attributes,
+                    dom.Element? element,
+                  ) async {
+                    if (url != null) {
+                      await launchUrl(Uri.parse(url));
+                    }
+                  },
+                )
                 : HtmlWidget(
-                    info["description"],
-                    onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
-                  ),
+                  info["description"],
+                  onTapUrl: (url) async => await launchUrl(Uri.parse(url)),
+                ),
             InkWell(
-              onTap: () =>
-                  onConfirm == null ? dismissLoading() : onConfirm!.call(),
+              onTap:
+                  () =>
+                      onConfirm == null ? dismissLoading() : onConfirm!.call(),
               child: Container(
                 decoration: ShapeDecoration(
                   color: Color(0xFFFFB20E),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r)),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                 ),
                 alignment: Alignment.center,
                 child: Text(
@@ -579,104 +606,89 @@ class CouponTipDialog extends StatelessWidget {
   }
 
   Widget addAndMinusWidget() => Container(
-        height: 32.h,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: hexColor('5E6B84'),
-            width: 1.w,
+    height: 32.h,
+    decoration: BoxDecoration(
+      border: Border.all(color: hexColor('5E6B84'), width: 1.w),
+      borderRadius: BorderRadius.circular(4.r),
+    ),
+    child: Row(
+      children: [
+        InkWell(
+          onTap: () {
+            SystemChannels.textInput.invokeMethod('TextInput.hide');
+            if (editingController.text.isNotEmpty) {
+              editingController.text =
+                  double.parse(editingController.text.minus("1")) < 0
+                      ? "1"
+                      : editingController.text.minus("1");
+              editingController.selection = TextSelection.fromPosition(
+                TextPosition(offset: editingController.text.length),
+              );
+            }
+          },
+          child: Container(
+            width: 32.h,
+            height: 32.h,
+            decoration: BoxDecoration(
+              color: hexColor('5E6B84'),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(3.r),
+                bottomLeft: Radius.circular(3.r),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Icon(Icons.remove, color: Colors.white),
           ),
-          borderRadius: BorderRadius.circular(4.r),
         ),
-        child: Row(
-          children: [
-            InkWell(
-              onTap: () {
-                SystemChannels.textInput.invokeMethod('TextInput.hide');
-                if (editingController.text.isNotEmpty) {
-                  editingController.text =
-                      double.parse(editingController.text.minus("1")) < 0
-                          ? "1"
-                          : editingController.text.minus("1");
-                  editingController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: editingController.text.length),
-                  );
-                }
-              },
-              child: Container(
-                width: 32.h,
-                height: 32.h,
-                decoration: BoxDecoration(
-                  color: hexColor('5E6B84'),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(3.r),
-                    bottomLeft: Radius.circular(3.r),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.remove,
-                  color: Colors.white,
-                ),
+        Expanded(
+          child: TextField(
+            controller: editingController,
+            maxLines: 1,
+            cursorColor: Colors.white70,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(
+                RegExp(r'^\d*\.?\d*'), // 允许数字和小数点
               ),
+            ],
+            decoration: InputDecoration(
+              hintText: "0.00",
+              hintStyle: TextStyle(fontSize: 14.sp, color: AppColor.whiteGray),
+              isCollapsed: true,
+              isDense: true,
+              border: InputBorder.none,
             ),
-            Expanded(
-              child: TextField(
-                controller: editingController,
-                maxLines: 1,
-                cursorColor: Colors.white70,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                ),
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(
-                    RegExp(r'^\d*\.?\d*'), // 允许数字和小数点
-                  ),
-                ],
-                decoration: InputDecoration(
-                  hintText: "0.00",
-                  hintStyle: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColor.whiteGray,
-                  ),
-                  isCollapsed: true,
-                  isDense: true,
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                SystemChannels.textInput.invokeMethod('TextInput.hide');
-                if (editingController.text.isNotEmpty) {
-                  editingController.text = editingController.text.add("1");
-                  editingController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: editingController.text.length),
-                  );
-                }
-              },
-              child: Container(
-                width: 32.h,
-                height: 32.h,
-                decoration: BoxDecoration(
-                  color: hexColor('5E6B84'),
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(3.r),
-                    bottomRight: Radius.circular(3.r),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      );
+        InkWell(
+          onTap: () {
+            SystemChannels.textInput.invokeMethod('TextInput.hide');
+            if (editingController.text.isNotEmpty) {
+              editingController.text = editingController.text.add("1");
+              editingController.selection = TextSelection.fromPosition(
+                TextPosition(offset: editingController.text.length),
+              );
+            }
+          },
+          child: Container(
+            width: 32.h,
+            height: 32.h,
+            decoration: BoxDecoration(
+              color: hexColor('5E6B84'),
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(3.r),
+                bottomRight: Radius.circular(3.r),
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Icon(Icons.add, color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+  );
 
   String getLevelName(double targetZhekou) {
     IntegralLevelModel? result = lvList.firstWhereOrNull(
@@ -689,38 +701,31 @@ class CouponTipDialog extends StatelessWidget {
     double? bottom,
     Function? onTap,
     required String yourLevel,
-  }) =>
-      InkWell(
-        onTap: () => onTap?.call(),
-        child: Container(
-          height: 34.h,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: hexColor('5E6B84'),
-              width: 1.w,
-            ),
-            borderRadius: BorderRadius.circular(4.r),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          margin: EdgeInsets.only(bottom: bottom ?? 14.h),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  yourLevel ?? "Level 0(0%)".tr,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontFamily: FONT_MEDIUM,
-                  ),
-                ),
-              ),
-              Icon(
-                Icons.keyboard_arrow_down_outlined,
+  }) => InkWell(
+    onTap: () => onTap?.call(),
+    child: Container(
+      height: 34.h,
+      decoration: BoxDecoration(
+        border: Border.all(color: hexColor('5E6B84'), width: 1.w),
+        borderRadius: BorderRadius.circular(4.r),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      margin: EdgeInsets.only(bottom: bottom ?? 14.h),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              yourLevel ?? "Level 0(0%)".tr,
+              style: TextStyle(
                 color: Colors.white,
+                fontSize: 14.sp,
+                fontFamily: FONT_MEDIUM,
               ),
-            ],
+            ),
           ),
-        ),
-      );
+          Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white),
+        ],
+      ),
+    ),
+  );
 }

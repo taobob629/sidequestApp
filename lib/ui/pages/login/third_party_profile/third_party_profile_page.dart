@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import '../../../../common/dialog_date_time_picker.dart';
 import '../../../../config/icon_font.dart';
 import '../../../../image_utils.dart';
+import '../../../../widget/phone_input/src/utils/phone_number.dart';
+import '../../../../widget/phone_input/src/utils/selector_config.dart';
+import '../../../../widget/phone_input/src/widgets/input_widget.dart';
 import '../../../../widget/six_digit_pin_input.dart';
 import 'third_party_profile_controller.dart';
 
@@ -17,6 +20,8 @@ const _success = Color(0xFF6ED49A);
 const _line = Color(0x1AFFFFFF);
 
 class ThirdPartyProfilePage extends GetView<ThirdPartyProfileController> {
+  final PhoneNumber _initialPhoneNumber = PhoneNumber(isoCode: 'GB');
+
   @override
   ThirdPartyProfileController get controller =>
       Get.put(ThirdPartyProfileController());
@@ -405,85 +410,45 @@ class ThirdPartyProfilePage extends GetView<ThirdPartyProfileController> {
   }
 
   Widget _phoneField() {
-    const options = <String, String>{
-      '+44': '🇬🇧 +44',
-      '+65': '🇸🇬 +65',
-      '+86': '🇨🇳 +86',
-      '+1': '🇺🇸 +1',
-    };
     return Container(
-      height: 46,
+      height: 50,
+      padding: const EdgeInsets.symmetric(horizontal: 7),
       decoration: BoxDecoration(
         color: _field,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 92,
-            child: Obx(
-              () => PopupMenuButton<String>(
-                initialValue: controller.dialCode.value,
-                color: const Color(0xFF2B2B30),
-                onSelected: (value) => controller.dialCode.value = value,
-                itemBuilder: (_) => options.entries
-                    .map(
-                      (entry) => PopupMenuItem<String>(
-                        value: entry.key,
-                        child: Text(
-                          entry.value,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    )
-                    .toList(),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 13),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          options[controller.dialCode.value]!,
-                          style: const TextStyle(
-                            color: Color(0xFFF4F3F5),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 16,
-                        color: _muted,
-                      ),
-                      const SizedBox(width: 7),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(width: 1, height: 26, color: _line),
-          Expanded(
-            child: TextField(
-              controller: controller.phoneController,
-              keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.next,
-              textAlignVertical: TextAlignVertical.center,
-              cursorColor: _yellow,
-              style: const TextStyle(color: Colors.white, fontSize: 15),
-              decoration: InputDecoration(
-                hintText: 'Enter phone number'.tr,
-                hintStyle: const TextStyle(
-                  color: Color(0xFF8D8C92),
-                  fontSize: 15,
-                ),
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
+      child: InternationalPhoneNumberInput(
+        onInputChanged: (PhoneNumber number) {
+          controller.dialCode.value = number.dialCode ?? '+44';
+        },
+        selectorConfig: const SelectorConfig(
+          selectorType: PhoneInputSelectorType.DROPDOWN,
+        ),
+        ignoreBlank: false,
+        autoValidateMode: AutovalidateMode.disabled,
+        selectorTextStyle: const TextStyle(color: Colors.white, fontSize: 13),
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 15,
+          height: 1,
+        ),
+        inputDecoration: InputDecoration(
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          hintText: 'Enter phone number'.tr,
+          hintStyle: const TextStyle(color: _muted, fontSize: 14, height: 1),
+        ),
+        initialValue: _initialPhoneNumber,
+        textFieldController: controller.phoneController,
+        formatInput: false,
+        cursorColor: _yellow,
+        keyboardType: TextInputType.phone,
+        keyboardAction: TextInputAction.next,
+        inputBorder: InputBorder.none,
+        onSaved: (_) {},
       ),
     );
   }

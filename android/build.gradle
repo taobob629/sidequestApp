@@ -56,30 +56,17 @@ gradle.projectsLoaded {
     }
 }
 
-// 为smart_auth插件设置正确的jvmTarget
-project(':smart_auth') {
-    afterEvaluate {
-        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-            kotlinOptions {
-                jvmTarget = '17'
-            }
+// 在各 Android 插件完成自己的 DSL 配置后、创建构建变体前统一使用 SDK 36。
+// 部分旧插件仍写死 compileSdk 31，过早覆盖会被插件自己的配置改回去。
+subprojects { project ->
+    project.plugins.withId('com.android.application') {
+        project.androidComponents.finalizeDsl { extension ->
+            extension.compileSdk = 36
         }
     }
-}
-
-// 全局强制使用SDK 36
-gradle.projectsLoaded {
-    rootProject.subprojects { project ->
-        if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
-            project.android {
-                compileSdkVersion 36
-                targetSdkVersion 36
-                if (project.android.hasProperty('defaultConfig')) {
-                    project.android.defaultConfig {
-                        targetSdkVersion 36
-                    }
-                }
-            }
+    project.plugins.withId('com.android.library') {
+        project.androidComponents.finalizeDsl { extension ->
+            extension.compileSdk = 36
         }
     }
 }

@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/
 # Articles/CoreFoundationKeys.html
-version: 2.2.01+2042
+version: 2.2.01+2048
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
@@ -28,18 +28,15 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
   shared_preferences: ^2.3.0
   cached_network_image: ^3.3.1
   dio: ^4.0.6
-  dio_cookie_manager: ^2.0.0
-  cookie_jar: ^3.0.1
   pull_to_refresh: ^2.0.0
   package_info_plus: ^8.0.0
-  platform: ^3.1.0
   card_swiper : ^3.0.1
   flutter_keyboard_visibility: ^6.0.0
-  scan: ^1.6.0
+  scan:
+    path: plugins/scan
   ai_barcode: ^3.2.7
   permission_handler: ^11.3.0
   badges: ^2.0.3
@@ -55,14 +52,13 @@ dependencies:
   webview_flutter: ^4.10.0
   url_launcher: ^6.3.0
   store_redirect: ^2.0.1
-  flutter_stripe: ^10.0.0
+  flutter_stripe: ^11.5.0
   flutter_html: ^3.0.0-beta.2
   flutter_svg: ^2.0.10+1
   ff_stars: ^1.2.5
-  flutter_staggered_grid_view: ^0.7.0
   photo_view: ^0.15.0
-  flutter_widget_from_html: ^0.15.0
-  pinput: ^4.0.0
+  flutter_widget_from_html_core: ^0.15.2
+  pinput: ^5.0.2
   sign_in_with_apple: ^6.0.0
   flutter_web_auth: ^0.5.0
   waterfall_flow: ^3.0.2
@@ -72,13 +68,10 @@ dependencies:
 
   flutter_cache_manager: ^3.3.1
   local_notifications_for_us: 1.0.4
-  dotted_border: ^2.1.0
-  flutter_ringtone_player: ^4.0.0
   flutter_screenutil: ^5.9.1
   google_sign_in: ^6.2.0
   lottie: ^3.1.0
 
-  just_audio: ^0.9.40
   flutter_app_badger:
     path: plugins/flutter_app_badger
   flutter_rating_bar: ^4.0.1
@@ -87,7 +80,6 @@ dependencies:
   libphonenumber_plugin: 0.3.1
   equatable: ^2.0.5
   collection: ^1.18.0
-  qr_flutter: ^4.1.0
   onesignal_flutter: 5.5.1
   flutter_ume_plus: ^5.2.1
   in_app_purchase: ^3.1.0
@@ -97,8 +89,9 @@ dev_dependencies:
     sdk: flutter
 
 dependency_overrides:
-  flutter_html:
-    path: third_party/flutter_html
+  # flutter_html 3.0.0 still calls html's top-level matches API,
+  # which was removed in html 0.15.7.
+  html: 0.15.6
   in_app_purchase: ^3.1.0
 
 flutter:

@@ -43,6 +43,7 @@ if(project.hasProperty('dart-defines')) {
 android {
     namespace "uk.co.sidequest.wy"
     compileSdk 36
+    ndkVersion "28.2.13676358"
 
     kotlinOptions {
         jvmTarget = '17'
@@ -86,8 +87,9 @@ android {
 
     buildTypes {
         release {
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             ndk {
                 abiFilters 'arm64-v8a'
@@ -126,7 +128,8 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    // 解决16 KB内存页面大小问题
+    // Retain legacy native-library packaging; ELF page-size compatibility
+    // must be provided by the libraries themselves.
     android {
         packagingOptions {
             jniLibs {
@@ -152,24 +155,13 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
     implementation 'com.google.android.gms:play-services-wallet:19.1.0'
-    implementation 'com.stripe:stripe-android:20.20.0'
+
+    // Stripe PaymentSheet uses Jetpack Compose internally. Keep every Compose
+    // artifact on the same tested BOM set to avoid runtime NoSuchMethodError.
+    implementation platform('androidx.compose:compose-bom:2025.09.01')
     implementation files('libs/alipayplusclient.aar')
     api 'com.alipay.sdk:alipaysdk-android:15.8.42@aar'
 
-    // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:32.8.1')
-
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
-    // Add the dependency for the Firebase SDK for Google Analytics
-    implementation 'com.google.firebase:firebase-analytics'
-
-    // TODO: Add the dependencies for any other Firebase products you want to use
-    // See https://firebase.google.com/docs/android/setup#available-libraries
-    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-firestore'
-    
     // 解决android:attr/lStar not found错误
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'com.google.android.material:material:1.11.0'

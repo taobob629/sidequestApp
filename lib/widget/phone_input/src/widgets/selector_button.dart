@@ -73,6 +73,7 @@ class SelectorButton extends StatelessWidget {
       key: Key(TestHelper.DropdownButtonKeyValue),
       padding: EdgeInsets.zero,
       minWidth: 0,
+      height: 48,
       onPressed: countries.isNotEmpty && countries.length > 1 && isEnabled
           ? () async {
               Country? selected;
@@ -99,7 +100,7 @@ class SelectorButton extends StatelessWidget {
             }
           : null,
       child: Padding(
-        padding: EdgeInsets.only(left: 10.w, right: 8.0.w),
+        padding: const EdgeInsets.only(left: 10, right: 6),
         child: Row(
           children: [
             Expanded(
@@ -107,14 +108,15 @@ class SelectorButton extends StatelessWidget {
                 country: country,
                 showFlag: selectorConfig.showFlags,
                 useEmoji: selectorConfig.useEmoji,
-                leadingPadding: selectorConfig.leadingPadding,
-                trailingSpace: selectorConfig.trailingSpace,
+                leadingPadding: 0,
+                trailingSpace: false,
                 textStyle: selectorTextStyle,
               ),
             ),
             Icon(
               Icons.arrow_drop_down,
               color: AppColor.colorB9C9,
+              size: 18,
             )
           ],
         ),

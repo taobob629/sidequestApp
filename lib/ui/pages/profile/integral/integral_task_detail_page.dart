@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/dom.dart' as dom;
@@ -21,12 +21,14 @@ class IntegralTaskDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 1.sw,
-        height: 1.sh,
-        color: AppColor.background,
-        child: Obx(() => ctr.model.value.taskName == null
-            ? Container()
-            : Stack(
+    width: 1.sw,
+    height: 1.sh,
+    color: AppColor.background,
+    child: Obx(
+      () =>
+          ctr.model.value.taskName == null
+              ? Container()
+              : Stack(
                 children: [
                   Image.asset(
                     ImageUtils.integral_task_detail_top,
@@ -39,10 +41,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
                       height: 40.h,
                       child: IconButton(
                         onPressed: () => Get.back(),
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
+                        icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                       ),
                     ),
                   ),
@@ -72,18 +71,17 @@ class IntegralTaskDetailPage extends StatelessWidget {
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                colors: [
-                                  Color(0xff4B3B28),
-                                  Color(0xff161819),
-                                ],
+                                colors: [Color(0xff4B3B28), Color(0xff161819)],
                               ),
                             ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 8.h, right: 6.w),
+                                  padding: EdgeInsets.only(
+                                    top: 8.h,
+                                    right: 6.w,
+                                  ),
                                   child: Image.asset(
                                     ImageUtils.integral_checkin_icon,
                                     height: 30.h,
@@ -122,19 +120,20 @@ class IntegralTaskDetailPage extends StatelessWidget {
                               size: 6.h,
                               currentValue:
                                   ((ctr.model.value.nowTaskDetail?.myNum ?? 0)
-                                              .toDouble() *
-                                          100) /
-                                      (ctr.model.value.nowTaskDetail?.maxNum ??
-                                              1)
-                                          .toDouble(),
+                                          .toDouble() *
+                                      100) /
+                                  (ctr.model.value.nowTaskDetail?.maxNum ?? 1)
+                                      .toDouble(),
                               // 这里的高度和下面的icon的Container高度要一致
                               outBoxHeight: 18.w,
                               // 这里的宽度是为了计算百分比的，要和WithIconProgressBar的父组件Container的宽度要一致
                               outBoxWidth: 340.w,
-                              progressGradient: LinearGradient(colors: [
-                                hexColor('#FFB20E'),
-                                hexColor('#5D61EC'),
-                              ]),
+                              progressGradient: LinearGradient(
+                                colors: [
+                                  hexColor('#FFB20E'),
+                                  hexColor('#5D61EC'),
+                                ],
+                              ),
                               backgroundColor: hexColor('#45494B'),
                               icon: Container(
                                 width: 18.w,
@@ -175,22 +174,24 @@ class IntegralTaskDetailPage extends StatelessWidget {
                                 10.verticalSpace,
                                 Platform.isAndroid
                                     ? Html(
-                                        data: '${ctr.model.value.description}',
-                                        style: {"body": Style()},
-                                        onLinkTap: (String? url,
-                                          Map<String, String> attributes,
-                                          dom.Element? element,
-                                        ) async {
-                                          if (url != null) {
-                                            await launchUrl(Uri.parse(url));
-                                          }
-                                        },
-                                      )
+                                      data: '${ctr.model.value.description}',
+                                      style: {"body": Style()},
+                                      onLinkTap: (
+                                        String? url,
+                                        Map<String, String> attributes,
+                                        dom.Element? element,
+                                      ) async {
+                                        if (url != null) {
+                                          await launchUrl(Uri.parse(url));
+                                        }
+                                      },
+                                    )
                                     : HtmlWidget(
-                                        '${ctr.model.value.description}',
-                                        onTapUrl: (url) async =>
-                                            await launchUrl(Uri.parse(url)),
-                                      ),
+                                      '${ctr.model.value.description}',
+                                      onTapUrl:
+                                          (url) async =>
+                                              await launchUrl(Uri.parse(url)),
+                                    ),
                               ],
                             ),
                           ),
@@ -223,59 +224,68 @@ class IntegralTaskDetailPage extends StatelessWidget {
                                   Expanded(
                                     child: ListView.separated(
                                       padding: EdgeInsets.zero,
-                                      itemBuilder: (c, i) => Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '${ctr.model.value.taskName}',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16.sp,
-                                                    fontFamily: FONT_MEDIUM,
-                                                  ),
-                                                ).paddingOnly(bottom: 10.h),
-                                                Text(
-                                                  '${ctr.model.value.taskDetailList[i].createTime}',
-                                                  style: TextStyle(
-                                                    color: hexColor('#9CA3AF'),
-                                                    fontSize: 12.sp,
-                                                    fontFamily: FONT_MEDIUM,
-                                                  ),
+                                      itemBuilder:
+                                          (c, i) => Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '${ctr.model.value.taskName}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16.sp,
+                                                        fontFamily: FONT_MEDIUM,
+                                                      ),
+                                                    ).paddingOnly(bottom: 10.h),
+                                                    Text(
+                                                      '${ctr.model.value.taskDetailList[i].createTime}',
+                                                      style: TextStyle(
+                                                        color: hexColor(
+                                                          '#9CA3AF',
+                                                        ),
+                                                        fontSize: 12.sp,
+                                                        fontFamily: FONT_MEDIUM,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
+                                              Text(
+                                                ctr
+                                                            .model
+                                                            .value
+                                                            .taskDetailList[i]
+                                                            .taskState ==
+                                                        1
+                                                    ? 'Received'.tr
+                                                    : 'Unclaimed'.tr,
+                                                style: TextStyle(
+                                                  color:
+                                                      ctr
+                                                                  .model
+                                                                  .value
+                                                                  .taskDetailList[i]
+                                                                  .taskState ==
+                                                              1
+                                                          ? hexColor('#5ECA46')
+                                                          : Colors.white,
+                                                  fontSize: 16.sp,
+                                                  fontFamily: FONT_MEDIUM,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                      separatorBuilder:
+                                          (c, i) => Container(
+                                            color: hexColor('#3C3C43'),
+                                            height: 1.h,
+                                            margin: EdgeInsets.symmetric(
+                                              vertical: 10.h,
                                             ),
                                           ),
-                                          Text(
-                                            ctr.model.value.taskDetailList[i]
-                                                        .taskState ==
-                                                    1
-                                                ? 'Received'.tr
-                                                : 'Unclaimed'.tr,
-                                            style: TextStyle(
-                                              color: ctr
-                                                          .model
-                                                          .value
-                                                          .taskDetailList[i]
-                                                          .taskState ==
-                                                      1
-                                                  ? hexColor('#5ECA46')
-                                                  : Colors.white,
-                                              fontSize: 16.sp,
-                                              fontFamily: FONT_MEDIUM,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      separatorBuilder: (c, i) => Container(
-                                        color: hexColor('#3C3C43'),
-                                        height: 1.h,
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 10.h),
-                                      ),
                                       itemCount:
                                           ctr.model.value.taskDetailList.length,
                                     ),
@@ -307,6 +317,7 @@ class IntegralTaskDetailPage extends StatelessWidget {
                     ),
                   ),
                 ],
-              )),
-      );
+              ),
+    ),
+  );
 }

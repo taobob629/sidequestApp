@@ -58,7 +58,7 @@ class IntegralRedemptionPage extends StatelessWidget {
                   ),
                   10.verticalSpace,
                   Obx(() => Text(
-                        '${_ctr.integralInfoModel.value.pointInfo?.pointsTotal ?? 0}',
+                        '${_ctr.integralInfoModel.value.pointInfo?.points ?? 0}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 32.sp,

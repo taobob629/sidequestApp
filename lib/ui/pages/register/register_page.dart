@@ -22,6 +22,7 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
   final RegisterPageController controller = Get.put(RegisterPageController());
+  final PhoneNumber _initialPhoneNumber = PhoneNumber(isoCode: 'GB');
 
   @override
   Widget build(BuildContext context) {
@@ -469,7 +470,7 @@ class RegisterPage extends StatelessWidget {
           hintText: 'Enter phone number'.tr,
           hintStyle: const TextStyle(color: _muted, fontSize: 14, height: 1),
         ),
-        initialValue: PhoneNumber(isoCode: 'GB'),
+        initialValue: _initialPhoneNumber,
         textFieldController: controller.phoneEditingController,
         formatInput: false,
         cursorColor: _yellow,

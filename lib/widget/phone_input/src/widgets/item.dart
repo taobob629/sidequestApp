@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../models/country_model.dart';
 import '../utils/util.dart';
@@ -42,7 +41,7 @@ class Item extends StatelessWidget {
             showFlag: showFlag,
             useEmoji: useEmoji,
           ),
-          5.horizontalSpace,
+          const SizedBox(width: 8),
           if (withCountryNames)
             Expanded(
               child: Text(
@@ -61,7 +60,7 @@ class Item extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          5.horizontalSpace,
+          const SizedBox(width: 5),
         ],
       ),
     );
@@ -87,7 +86,9 @@ class _Flag extends StatelessWidget {
                   )
                 : Image.asset(
                     country!.flagUri,
-                    width: 32.0.w,
+                    width: 24,
+                    height: 16,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
                       return SizedBox.shrink();
                     },

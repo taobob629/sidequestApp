@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../config/app_color.dart';
 import '../../../../ui/pages/register/controller.dart';
 import '../models/country_list.dart';
 import '../models/country_model.dart';
@@ -386,7 +384,7 @@ class _InputWidgetView extends WidgetView<InternationalPhoneNumberInput, _InputW
         children: <Widget>[
           // if (!widget.selectorConfig.setSelectorButtonAsPrefixIcon) ...[
           SizedBox(
-            width: 140.w,
+            width: 118,
             child: SelectorButton(
               country: state.country,
               countries: state.countries,
@@ -400,10 +398,15 @@ class _InputWidgetView extends WidgetView<InternationalPhoneNumberInput, _InputW
               isScrollControlled: widget.countrySelectorScrollControlled,
             ),
           ),
+          Container(
+            width: 1,
+            height: 26,
+            color: const Color(0x1AFFFFFF),
+          ),
           Flexible(
             child: Container(
-              margin: EdgeInsets.only(left: 5.w),
-              color: AppColor.itemBg2,
+              margin: const EdgeInsets.only(left: 12),
+              color: Colors.transparent,
               child: TextFormField(
                 key: widget.fieldKey ?? Key(TestHelper.TextInputKeyValue),
                 textDirection: TextDirection.ltr,

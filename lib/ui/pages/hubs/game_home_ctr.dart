@@ -9,7 +9,6 @@ import '../../../controller/user_controller.dart';
 import '../../../model/game_detail_model.dart';
 import '../../../model/player_info_mdoel.dart';
 import '../../../model/rating_comment_model.dart';
-import '../../../service/voice_player.dart';
 import '../main_page.dart';
 import '../profile/play_order/play_order_page.dart';
 
@@ -35,8 +34,6 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
   GameDetailModel? model;
   double mutilGameHeight = 0;
 
-  AudioManager audioManager = AudioManager.instance;
-
   @override
   void onInit() {
     if (Get.arguments is Map) {
@@ -57,12 +54,6 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
     super.onInit();
 
     _requestData();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    AudioManager.instance.stop();
   }
 
   void editService(ServiceItem serviceItem) async {
@@ -88,9 +79,10 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
       return;
     }
     ifShow = !ifShow;
-    mutilGameHeight = ifShow
-        ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
-        : 0;
+    mutilGameHeight =
+        ifShow
+            ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
+            : 0;
     update([gameInfoId]);
   }
 
@@ -98,9 +90,10 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
     model = await ProfileApi.serviceDetailById(gameId);
 
     if ((model?.serviceItem.length ?? 0) > 1) {
-      mutilGameHeight = ifShow
-          ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
-          : 0;
+      mutilGameHeight =
+          ifShow
+              ? mutilGameHeight = 44.h * (model?.serviceItem.length ?? 0) + 15.h
+              : 0;
     }
     for (int i = 0; i < model!.serviceItem.length; i++) {
       if (model!.serviceItem[i].discount != '' &&
@@ -115,8 +108,10 @@ class GameHomeCtr extends GetxRefreshController<RatingCommentModel> {
 
   @override
   Future<List<RatingCommentModel>> loadData({int pageNum = 1}) async {
-    var response =
-        await ProfileApi.othersCommentsList(liveid: liveid, skillId: skillId);
+    var response = await ProfileApi.othersCommentsList(
+      liveid: liveid,
+      skillId: skillId,
+    );
     total = response["total"];
     return response["rows"]
         .map<RatingCommentModel>((e) => RatingCommentModel.fromJson(e))
