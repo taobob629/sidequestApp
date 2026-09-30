@@ -42,40 +42,61 @@ import AlipayPlusClient
 
                 AlipayPlusClient.shared().configuration = configuration
 
+                var resultCompleted = false
+                func complete(_ value: Any?) {
+                    guard !resultCompleted else { return }
+                    resultCompleted = true
+                    flutterResult(value)
+                }
+                func fail(_ message: String?) {
+                    guard !resultCompleted else { return }
+                    resultCompleted = true
+                    flutterResult(FlutterError(
+                        code: "ALIPAY_SHEET_ERROR",
+                        message: message ?? "Unable to open Alipay payment",
+                        details: nil
+                    ))
+                }
+
                 AlipayPlusClient.shared().showPaymentSheet(param["info"]!) { sheetEvent in
                     if sheetEvent.name == IAPPaymentSheetEventDidShow {
                         // your own logic
                         print("zengchao = IAPPaymentSheetEventDidShow")
                     } else if sheetEvent.name == IAPPaymentSheetEventThrowException {
-                        // your own logic
                         print("zengchao = IAPPaymentSheetEventThrowException")
+                        fail(sheetEvent.message)
                     } else if sheetEvent.name == IAPPaymentSheetEventUserDidCancel {
-                        // your own logic
                         print("zengchao = IAPPaymentSheetEventUserDidCancel")
+                        complete("cancel")
                     } else if sheetEvent.name == IAPPaymentSheetEventDidSelectWalletAndPay {
                         // your own logic
                         print("zengchao = IAPPaymentSheetEventDidSelectWalletAndPay")
-                        flutterResult("gotopay")
+                        complete("gotopay")
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentException {
                         // your own logic after payment interruption
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentException")
+                        fail(sheetEvent.message)
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentCanceled {
                         // your own logic after payment cancelation
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentCanceled")
+                        complete("cancel")
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentFailed {
                         // your own logic after payment failure
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentFailed")
+                        fail(sheetEvent.message)
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentSuccess {
                         // your own logic after payment success
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentSuccess")
+                        complete("gotopay")
                     } else if sheetEvent.name == IAPPaymentSheetEventPaymentProcessing {
                         // your own logic after payment finishes but status is ongoing
                         // Currently, this type of event may occur only after you import Alipay SDK to optimize the Alipay payment experience.
                         print("zengchao = IAPPaymentSheetEventPaymentProcessing")
+                        complete("gotopay")
                     }
                     self?.eventSink?("0")
                 }

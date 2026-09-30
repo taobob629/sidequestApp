@@ -149,6 +149,7 @@ public class ScanViewNew extends BarcodeView implements PluginRegistry.RequestPe
     }
     public void dispose() {
 //        this.stopDecoding();
+        activityPluginBinding.removeRequestPermissionsResultListener(this);
         _pause();
 //        activity.getApplication().unregisterActivityLifecycleCallbacks(lifecycleCallback);
 //        lifecycleCallback = null;
@@ -173,13 +174,17 @@ public class ScanViewNew extends BarcodeView implements PluginRegistry.RequestPe
 
     @Override
     public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == CAMERA_REQUEST_CODE && grantResults[0] == PERMISSION_GRANTED) {
+        if (requestCode != CAMERA_REQUEST_CODE) {
+            return false;
+        }
+
+        if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
             start();
             Log.i(LOG_TAG, "onRequestPermissionsResult: true");
-            return true;
+        } else {
+            Log.i(LOG_TAG, "onRequestPermissionsResult: false");
         }
-        Log.i(LOG_TAG, "onRequestPermissionsResult: false");
-        return false;
+        return true;
     }
 
     /**

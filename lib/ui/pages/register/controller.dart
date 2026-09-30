@@ -296,7 +296,7 @@ class RegisterPageController extends GetxController {
         pin,
         sex.value,
       );
-      UserController.find.setLocalInfo(
+      await UserController.find.setLocalInfo(
         loginModel,
         (loginModel) => loginSuccess(loginModel),
         password: password,

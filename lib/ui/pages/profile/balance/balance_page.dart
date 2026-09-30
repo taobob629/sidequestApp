@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,6 @@ import '../../../../common/floating_button.dart';
 import '../../../../common/getx_list_controller.dart';
 import '../../../../common/keyboard_scaffold.dart';
 import '../../../../config/app_color.dart';
-import '../../../../config/icon_font.dart';
 import '../../../../controller/user_controller.dart';
 import '../../../../model/chage_rule_model.dart';
 import '../../../../model/pay_order_model.dart';
@@ -58,48 +55,6 @@ class BalancePage extends StatelessWidget {
           children: [
             TopBanner(),
             _memberVipWidget(),
-            Visibility(
-              visible: Platform.isAndroid,
-              child: ItemTitle(
-                title: "Custom amount".tr,
-                subTitle: "",
-                marginTop: 15.h,
-              ),
-            ),
-            Visibility(
-              visible: Platform.isAndroid,
-              child: Container(
-                height: 46.h,
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                margin: EdgeInsets.only(left: 15, right: 15, top: 5).r,
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  controller: controller.amountController,
-                  focusNode: controller.amountFocusNode,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    isDense: true,
-                    isCollapsed: true,
-                    hintText: 'Please enter an integer from 5 to 500'.tr,
-                    hintStyle: TextStyle(color: Colors.grey),
-                  ),
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: Color(0xFFC5C3C6),
-                    fontFamily: FONT_LIGHT,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ),
-            ),
             ItemTitle(
               title: "Top Up".tr,
               subTitle: "",

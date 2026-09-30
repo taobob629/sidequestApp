@@ -42,54 +42,56 @@ class MyProfilePageV2 extends StatelessWidget {
         bottom: false,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final compact = constraints.maxHeight < 790;
+            final narrow = constraints.maxWidth < 360;
+            final compact = constraints.maxHeight < 790 || narrow;
+            final bottomSafeArea = MediaQuery.of(context).padding.bottom;
+            final horizontalPadding = narrow ? 12.w : 16.w;
 
             return ScrollConfiguration(
               behavior: const _NoScrollbarBehavior(),
               child: SmartRefresher(
                 controller: t.refreshController,
                 onRefresh: () => t.onRefresh(),
-                child: SingleChildScrollView(
+                child: ListView(
                   physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics(),
                   ),
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: EdgeInsets.fromLTRB(
-                    16.w,
+                    horizontalPadding,
                     0,
-                    16.w,
-                    compact ? 14.h : 20.h,
+                    horizontalPadding,
+                    bottomSafeArea + (compact ? 24.h : 30.h),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _topBar(compact),
-                      _identity(compact),
-                      SizedBox(height: compact ? 8.h : 12.h),
-                      _gamingBalance(compact),
-                      SizedBox(height: compact ? 15.h : 18.h),
-                      _sectionHeader(
-                        title: 'My assets',
-                        trailing: 'TAP TO MANAGE',
-                        compact: compact,
-                      ),
-                      SizedBox(height: compact ? 6.h : 8.h),
-                      _assetsCard(compact),
-                      SizedBox(height: compact ? 15.h : 18.h),
-                      _sectionHeader(
-                        title: 'Quick actions',
-                        trailing: 'MY FEATURES',
-                        compact: compact,
-                      ),
-                      SizedBox(height: compact ? 4.h : 6.h),
-                      _quickActions(compact),
-                      SizedBox(height: compact ? 15.h : 18.h),
-                      _loyaltyCard(compact),
-                      if (Platform.isAndroid) ...[
-                        SizedBox(height: compact ? 10.h : 14.h),
-                        MyDashboardPage(),
-                      ],
+                  children: [
+                    _topBar(compact),
+                    _identity(compact),
+                    SizedBox(height: compact ? 8.h : 12.h),
+                    _gamingBalance(compact),
+                    SizedBox(height: compact ? 15.h : 18.h),
+                    _sectionHeader(
+                      title: 'My assets',
+                      trailing: 'TAP TO MANAGE',
+                      compact: compact,
+                    ),
+                    SizedBox(height: compact ? 6.h : 8.h),
+                    _assetsCard(compact),
+                    SizedBox(height: compact ? 15.h : 18.h),
+                    _sectionHeader(
+                      title: 'Quick actions',
+                      trailing: 'MY FEATURES',
+                      compact: compact,
+                    ),
+                    SizedBox(height: compact ? 4.h : 6.h),
+                    _quickActions(compact),
+                    SizedBox(height: compact ? 15.h : 18.h),
+                    _loyaltyCard(compact),
+                    if (Platform.isAndroid) ...[
+                      SizedBox(height: compact ? 10.h : 14.h),
+                      MyDashboardPage(),
                     ],
-                  ),
+                  ],
                 ),
               ),
             );
@@ -518,25 +520,37 @@ class MyProfilePageV2 extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: compact ? 15.sp : 16.sp,
-              fontFamily: FONT_BLACK,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.2,
+          Flexible(
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: compact ? 15.sp : 16.sp,
+                fontFamily: FONT_BLACK,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.2,
+              ),
             ),
           ),
-          const Spacer(),
-          Text(
-            trailing,
-            style: TextStyle(
-              color: _ProfileV2Colors.muted,
-              fontSize: 9.sp,
-              fontFamily: FONT_MEDIUM,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 1.0,
+          SizedBox(width: 12.w),
+          Flexible(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                trailing,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  color: _ProfileV2Colors.muted,
+                  fontSize: 9.sp,
+                  fontFamily: FONT_MEDIUM,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.0,
+                ),
+              ),
             ),
           ),
         ],

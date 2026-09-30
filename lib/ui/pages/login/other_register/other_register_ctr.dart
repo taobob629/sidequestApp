@@ -193,12 +193,12 @@ class OtherRegisterCtr extends GetxController {
       }
     }
     dismissLoading();
-    loginSuccess(loginModel);
+    await loginSuccess(loginModel);
   }
 
-  void loginSuccess(LoginModel loginModel) {
+  Future<void> loginSuccess(LoginModel loginModel) async {
     if (loginModel.validate == 0) {
-      UserController.find.setLocalInfo(loginModel, null);
+      await UserController.find.setLocalInfo(loginModel, null);
       Get.offAll(
         () => NewUserWelcomePage(
           nickName: nickNameEditingController.text.trim(),

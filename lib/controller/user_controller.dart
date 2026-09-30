@@ -92,34 +92,34 @@ class UserController extends GetxController {
   }
 
   Future<void> switchLogin({bool checkLastLoginTime = false}) async {
-    if (await _restorePendingThirdPartyProfile()) {
+    if (isSigningIn) return;
+    isSigningIn = true;
+    try {
+      if (await _restorePendingThirdPartyProfile()) return;
+
+      var loginFlag = StorageManager.getString('loginFlag');
+      switch (loginFlag?.toLowerCase()) {
+        case LoginFlag.ios:
+          await appleLogin(showLoadings: false);
+          break;
+
+        case LoginFlag.google:
+          await googleLogin(showLoadings: false);
+          break;
+
+        case LoginFlag.discord:
+          await discordLogin(showLoadings: false);
+          break;
+
+        default:
+          await login(
+            showLoadings: false,
+            checkLastLoginTime: checkLastLoginTime,
+          );
+          break;
+      }
+    } finally {
       isSigningIn = false;
-      return;
-    }
-    var loginFlag = StorageManager.getString('loginFlag');
-    switch (loginFlag?.toLowerCase()) {
-      case LoginFlag.ios:
-        await appleLogin(showLoadings: false);
-        isSigningIn = false;
-        break;
-
-      case LoginFlag.google:
-        await googleLogin(showLoadings: false);
-        isSigningIn = false;
-        break;
-
-      case LoginFlag.discord:
-        await discordLogin(showLoadings: false);
-        isSigningIn = false;
-        break;
-
-      default:
-        await login(
-          showLoadings: false,
-          checkLastLoginTime: checkLastLoginTime,
-        );
-        isSigningIn = false;
-        break;
     }
   }
 
@@ -127,24 +127,28 @@ class UserController extends GetxController {
     if (StorageManager.getToken().isEmpty) return false;
     try {
       final loginModel = await AuthApi.thirdPartyStatus();
+      // A business 401 is returned to callers by the HTTP interceptor. Treat an
+      // empty token as a failed session restore so the saved login provider can
+      // refresh the session instead of leaving the user logged out.
+      if (loginModel.token.isEmpty) return false;
       if (!loginModel.needsProfileCompletion) {
         final wasPending = StorageManager.getThirdPartyProfilePending();
-        StorageManager.setThirdPartyProfilePending(false);
-        setLocalInfo(loginModel, null, loginFlag: loginModel.login);
+        await StorageManager.setThirdPartyProfilePending(false);
+        await setLocalInfo(loginModel, null, loginFlag: loginModel.login);
         if (wasPending) {
           Get.offAll(() => MainPage());
         }
         return true;
       }
-      _openThirdPartyProfile(loginModel.login, loginModel.user.email);
+      await _openThirdPartyProfile(loginModel.login, loginModel.user.email);
       return true;
     } catch (_) {
       return false;
     }
   }
 
-  void _openThirdPartyProfile(String provider, String? email) {
-    StorageManager.setThirdPartyProfilePending(true);
+  Future<void> _openThirdPartyProfile(String provider, String? email) async {
+    await StorageManager.setThirdPartyProfilePending(true);
     if (Get.currentRoute.contains('ThirdPartyProfilePage')) return;
     Get.offAll(
       () => ThirdPartyProfilePage(),
@@ -230,9 +234,9 @@ class UserController extends GetxController {
     }
   }
 
-  void _updateUser(UserModel userModel) {
+  Future<void> _updateUser(UserModel userModel) async {
     user.value = userModel;
-    StorageManager.setUser(userModel);
+    await StorageManager.setUser(userModel);
   }
 
   void checkLogin(Function done) {
@@ -276,7 +280,7 @@ class UserController extends GetxController {
       dismissLoading();
     });
 
-    setLocalInfo(
+    await setLocalInfo(
       loginModel,
       done,
       loginFlag: LoginFlag.password,
@@ -334,12 +338,12 @@ class UserController extends GetxController {
     try {
       LoginModel loginModel = await AuthApi.thirdPartyAppleLogin(credential);
 
-      StorageManager.setString(
+      await StorageManager.setString(
         'userIdentifier',
         credential.userIdentifier.toString(),
       );
 
-      setLocalInfo(
+      await setLocalInfo(
         loginModel,
         done,
         loginFlag: LoginFlag.ios,
@@ -380,7 +384,7 @@ class UserController extends GetxController {
         authentication,
       );
 
-      setLocalInfo(
+      await setLocalInfo(
         loginModel,
         done,
         loginFlag: LoginFlag.google,
@@ -429,20 +433,21 @@ class UserController extends GetxController {
         }
       }
 
-      LoginModel loginModel = await AuthApi.signInDiscord(
-        '/peiwan/app/user/discordLogin1',
-        saveDiscordAppId,
-        saveEmail,
-        nickName,
-        discriminator,
-      ).catchError((e) {
-        dismissLoading();
-      });
+      LoginModel loginModel =
+          await AuthApi.signInDiscord(
+            '/peiwan/app/user/discordLogin1',
+            saveDiscordAppId,
+            saveEmail,
+            nickName,
+            discriminator,
+          ).catchError((e) {
+            dismissLoading();
+          });
 
-      StorageManager.setString('discordAppId', saveDiscordAppId!);
-      StorageManager.setString('email', saveEmail!);
+      await StorageManager.setString('discordAppId', saveDiscordAppId!);
+      await StorageManager.setString('email', saveEmail!);
 
-      setLocalInfo(
+      await setLocalInfo(
         loginModel,
         done,
         loginFlag: LoginFlag.discord,
@@ -468,18 +473,19 @@ class UserController extends GetxController {
       'scope': 'identify email',
     });
 
-    final result = await FlutterWebAuth.authenticate(
-      url: url.toString(),
-      callbackUrlScheme: 'sidequest',
-    ).onError((error, stackTrace) {
-      dismissLoading();
-      return '';
-    });
+    final result =
+        await FlutterWebAuth.authenticate(
+          url: url.toString(),
+          callbackUrlScheme: 'sidequest',
+        ).onError((error, stackTrace) {
+          dismissLoading();
+          return '';
+        });
 
     return result;
   }
 
-  void setLocalInfo(
+  Future<void> setLocalInfo(
     LoginModel loginModel,
     Function(LoginModel)? done, {
     String? password,
@@ -493,14 +499,14 @@ class UserController extends GetxController {
     String? discriminator,
   }) async {
     if (loginModel.needsProfileCompletion || loginModel.gotoLogin2) {
-      StorageManager.setToken(loginModel.token);
-      if (loginFlag != null) {
-        StorageManager.setString('loginFlag', loginFlag);
+      await StorageManager.setToken(loginModel.token);
+      if (loginFlag != null && loginFlag.isNotEmpty) {
+        await StorageManager.setString('loginFlag', loginFlag);
       }
-      _updateUser(loginModel.user);
+      await _updateUser(loginModel.user);
       dismissLoading();
       if (loginFlag == LoginFlag.ios || loginFlag == LoginFlag.google) {
-        _openThirdPartyProfile(loginFlag!, account?.email);
+        await _openThirdPartyProfile(loginFlag!, account?.email);
       } else if (loginFlag == LoginFlag.discord) {
         if (discordAppId != null &&
             email != null &&
@@ -525,10 +531,10 @@ class UserController extends GetxController {
       return;
     }
 
-    if (loginFlag != null) {
-      StorageManager.setString('loginFlag', loginFlag);
+    if (loginFlag != null && loginFlag.isNotEmpty) {
+      await StorageManager.setString('loginFlag', loginFlag);
       if (loginFlag == LoginFlag.ios || loginFlag == LoginFlag.google) {
-        StorageManager.setThirdPartyProfilePending(false);
+        await StorageManager.setThirdPartyProfilePending(false);
       }
     }
 
@@ -536,13 +542,13 @@ class UserController extends GetxController {
       //老用户需要更新资料之后才可以使用
       lastLoginTime = DateTime.now();
 
-      _updateUser(loginModel.user);
-      StorageManager.setToken(loginModel.token);
-      StorageManager.setAccount(loginModel.user.email);
+      await _updateUser(loginModel.user);
+      await StorageManager.setToken(loginModel.token);
+      await StorageManager.setAccount(loginModel.user.email);
       if (password != null) {
-        StorageManager.setPassword(password);
+        await StorageManager.setPassword(password);
       }
-      StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
+      await StorageManager.setLoginTime(DateTime.now().millisecondsSinceEpoch);
       await updateInfo();
     }
     if (loginModel.user.id != 0) {

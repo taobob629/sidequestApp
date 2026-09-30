@@ -275,9 +275,10 @@ class PayPageController extends GetxController {
     payOrderModel.payType = payType.value;
     //  flog('payType $payType');
     if (payType.value == 4) {
-      PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
-      if (payInfoModel.result != null) {
-        try {
+      try {
+        PayInfoModel payInfoModel = await PayApi.pay(payOrderModel);
+        if (payInfoModel.result != null &&
+            payInfoModel.result!.appData.isNotEmpty) {
           final Map params = <String, dynamic>{
             'info': payInfoModel.result!.appData
           };
@@ -293,14 +294,21 @@ class PayPageController extends GetxController {
               Get.find<UserController>().updateInfo();
             });
             startTimer(payInfoModel);
+          } else if (result != "cancel") {
+            showError("Unable to open Alipay payment. Please try again.".tr);
           }
-        } catch (e) {
-          flog(e.toString());
+        } else {
           dismissLoading();
+          showError("Unable to start Alipay payment. Please try again.".tr);
         }
-      } else {
-        showError("Server response error!".tr);
-        return;
+      } on PlatformException catch (e) {
+        flog("Alipay payment sheet error: ${e.code}, ${e.message}");
+        dismissLoading();
+        showError("Unable to open Alipay payment. Please try again.".tr);
+      } catch (e) {
+        flog("Unable to start Alipay payment: $e");
+        dismissLoading();
+        showError("Unable to start Alipay payment. Please try again.".tr);
       }
     } else if (payType.value == 1) {
       showLoading();

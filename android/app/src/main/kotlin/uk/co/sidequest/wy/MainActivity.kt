@@ -29,6 +29,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import org.json.JSONObject
 import java.util.Locale
+import java.util.concurrent.atomic.AtomicBoolean
 import com.iap.basic.alipay.config.IAPConfiguration
 import com.iap.alipayplusclient.AlipayPlusClient
 import com.iap.cashier.callback.IAPPaymentSheetEventCallback
@@ -45,12 +46,16 @@ class MainActivity : FlutterFragmentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // flutter_stripe attaches transient fragments whose constructor state
+        // cannot be recreated after Android kills the process. Restoring those
+        // fragments causes Fragment$InstantiationException on the next launch,
+        // so always create a fresh Flutter/Stripe fragment state instead.
         if (isHuaweiDevice()) {
             // Huawei/HarmonyOS devices skip the custom splash completely.
             // Restore the normal app theme immediately and do not keep a
             // branded starting window on screen.
             setTheme(R.style.NormalTheme)
-            super.onCreate(savedInstanceState)
+            super.onCreate(null)
         } else {
             // Install before super so Android can draw the branded starting
             // window while Flutter initializes. The icon animation loops
@@ -61,7 +66,7 @@ class MainActivity : FlutterFragmentActivity() {
             splashScreen.setKeepOnScreenCondition {
                 SystemClock.uptimeMillis() - splashStartedAt < 520L
             }
-            super.onCreate(savedInstanceState)
+            super.onCreate(null)
         }
 
         val notificationManager: NotificationManager =
@@ -190,32 +195,61 @@ class MainActivity : FlutterFragmentActivity() {
         configuration.merchantId = "AEF11846594";//fusionpay提供
         configuration.language = "zh_CN";
         AlipayPlusClient.setConfiguration(configuration)
+        val resultCompleted = AtomicBoolean(false)
+        val mainThread = Handler(Looper.getMainLooper())
+
+        fun completeSuccess(value: String) {
+            if (resultCompleted.compareAndSet(false, true)) {
+                mainThread.post { result.success(value) }
+            }
+        }
+
+        fun completeError(message: String?) {
+            if (resultCompleted.compareAndSet(false, true)) {
+                mainThread.post {
+                    result.error(
+                        "ALIPAY_SHEET_ERROR",
+                        message ?: "Unable to open Alipay payment",
+                        null
+                    )
+                }
+            }
+        }
+
         val callback =
             IAPPaymentSheetEventCallback<IAPPaymentSheetEvent> {
                 Log.i("zengchao", "${it.name}, ${it.message}")
                 when (it.name) {
                     "EVENT_SELECT_AND_PAY" -> {
                         Log.d("Android", "zengchao EVENT_SELECT_AND_PAY")
-                        val mainThread = Handler(Looper.getMainLooper())
-                        mainThread.postDelayed({
-                            result.success("gotopay")
-                        }, 200)
+                        completeSuccess("gotopay")
                     }
 
-                    "EVENT_USER_CANCEL" -> {
-                        Log.d("Android", "zengchao EVENT_USER_CANCEL")
-                        val mainThread = Handler(Looper.getMainLooper())
-                        mainThread.postDelayed({
-                            result.error("-1","cancel", null)
-                        }, 200)
+                    "EVENT_USER_CANCEL", "EVENT_PAYMENT_CANCELED" -> {
+                        Log.d("Android", "zengchao ${it.name}")
+                        completeSuccess("cancel")
+                    }
+
+                    "EVENT_THROW_EXCEPTION", "EVENT_PAYMENT_EXCEPTION", "EVENT_PAYMENT_FAILED" -> {
+                        Log.e("Android", "Alipay payment sheet error: ${it.name}, ${it.message}")
+                        completeError(it.message)
+                    }
+
+                    "EVENT_PAYMENT_SUCCESS", "EVENT_PAYMENT_PROCESSING" -> {
+                        completeSuccess("gotopay")
                     }
                 }
             }
-        AlipayPlusClient.showPaymentSheet(
-            context,
-            orderInfo,
-            callback
-        )
+        try {
+            AlipayPlusClient.showPaymentSheet(
+                context,
+                orderInfo,
+                callback
+            )
+        } catch (e: Exception) {
+            Log.e("Android", "Unable to show Alipay payment sheet", e)
+            completeError(e.message)
+        }
         sendMsgEvent("dismissloading")
     }
 

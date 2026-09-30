@@ -13,7 +13,8 @@ import '../model/credit_card_model.dart';
 import '../model/user_model.dart';
 
 // const String default_server='dev184';//上线时候要改成prod
-const String default_server='prod';//上线时候要改成prod
+const String default_server = 'prod'; //上线时候要改成prod
+
 class StorageManager {
   /// app全局配置
   static late SharedPreferences sharedPreferences;
@@ -56,9 +57,9 @@ class StorageManager {
     return UserModel.fromJson(userMap);
   }
 
-  static void setUser(UserModel user) {
+  static Future<bool> setUser(UserModel user) {
     String value = convert.jsonEncode(user.toJson());
-    sharedPreferences.setString(kUser, value);
+    return sharedPreferences.setString(kUser, value);
   }
 
   static void clearUser() {
@@ -73,16 +74,16 @@ class StorageManager {
     return value;
   }
 
-  static void setToken(String value) {
-    sharedPreferences.setString(kToken, value);
+  static Future<bool> setToken(String value) {
+    return sharedPreferences.setString(kToken, value);
   }
 
   static bool getThirdPartyProfilePending() {
     return sharedPreferences.getBool(kThirdPartyProfilePending) ?? false;
   }
 
-  static void setThirdPartyProfilePending(bool value) {
-    sharedPreferences.setBool(kThirdPartyProfilePending, value);
+  static Future<bool> setThirdPartyProfilePending(bool value) {
+    return sharedPreferences.setBool(kThirdPartyProfilePending, value);
   }
 
   static DateTime getPayPasswordCheckTime() {
@@ -94,7 +95,10 @@ class StorageManager {
   }
 
   static void setPayPasswordCheckTime(DateTime value) {
-    sharedPreferences.setString(kPayPasswordCheckTime, value.millisecondsSinceEpoch.toString());
+    sharedPreferences.setString(
+      kPayPasswordCheckTime,
+      value.millisecondsSinceEpoch.toString(),
+    );
   }
 
   static String getPushToken() {
@@ -118,8 +122,8 @@ class StorageManager {
     return value;
   }
 
-  static void setAccount(String value) {
-    sharedPreferences.setString(kAccount, value);
+  static Future<bool> setAccount(String value) {
+    return sharedPreferences.setString(kAccount, value);
   }
 
   static String getPassword() {
@@ -130,8 +134,8 @@ class StorageManager {
     return value;
   }
 
-  static void setPassword(String value) {
-    sharedPreferences.setString(kPassword, value);
+  static Future<bool> setPassword(String value) {
+    return sharedPreferences.setString(kPassword, value);
   }
 
   static int getLoginTime() {
@@ -142,8 +146,8 @@ class StorageManager {
     return value;
   }
 
-  static void setLoginTime(int value) {
-    sharedPreferences.setInt(kLoginTime, value);
+  static Future<bool> setLoginTime(int value) {
+    return sharedPreferences.setInt(kLoginTime, value);
   }
 
   static String getCart() {
@@ -190,8 +194,8 @@ class StorageManager {
     sharedPreferences.setString(kEnv, value);
   }
 
-  static void clear(String key) {
-    sharedPreferences.remove(key);
+  static Future<bool> clear(String key) {
+    return sharedPreferences.remove(key);
   }
 
   static CreditCardModel getCreditCardModel() {
@@ -260,8 +264,8 @@ class StorageManager {
     sharedPreferences.setInt(key, value);
   }
 
-  static void setString(String key, String value) {
-    sharedPreferences.setString(key, value);
+  static Future<bool> setString(String key, String value) {
+    return sharedPreferences.setString(key, value);
   }
 
   static String? getString(String key) {

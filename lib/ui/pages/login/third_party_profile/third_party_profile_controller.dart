@@ -140,7 +140,7 @@ class ThirdPartyProfileController extends GetxController {
         birth: birthdayText,
       );
       dismissLoading();
-      UserController.find.setLocalInfo(
+      await UserController.find.setLocalInfo(
         loginModel,
         null,
         loginFlag: provider,
