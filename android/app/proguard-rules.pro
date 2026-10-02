@@ -3,10 +3,11 @@
     native <methods>;
 }
 
-# The locally bundled Alipay+ client is integrated as a flat AAR and cannot
-# contribute reliable dependency metadata. Preserve its public bridge classes.
--keep class com.iap.alipayplusclient.** { *; }
--keep interface com.iap.alipayplusclient.** { *; }
+# The locally bundled Alipay+ client uses reflection across its internal
+# com.iap packages. Preserve the complete SDK namespace so release builds keep
+# the class names looked up by AlipayPlusClient at runtime.
+-keep class com.iap.** { *; }
+-keep interface com.iap.** { *; }
 
 # Preserve payment callbacks invoked by the Alipay SDK.
 -keep class com.alipay.** { *; }
