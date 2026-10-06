@@ -2,11 +2,48 @@ import UIKit
 import Flutter
 import AlipayPlusClient
 
+private final class SideQuestAlipaySDKService: NSObject, AlipaySDKServiceProtocol {
+    func payOrder(
+        _ orderStr: String,
+        fromScheme schemeStr: String,
+        callback completionBlock: @escaping ([AnyHashable: Any]) -> Void
+    ) {
+        guard let alipayService = AlipaySDK.defaultService() else {
+            completionBlock([
+                "resultStatus": "4000",
+                "memo": "Alipay SDK is unavailable"
+            ])
+            return
+        }
+
+        alipayService.payOrder(orderStr, fromScheme: schemeStr) { result in
+            completionBlock(result ?? [:])
+        }
+    }
+
+    func processOrder(
+        withPaymentResult resultUrl: URL,
+        standbyCallback completionBlock: @escaping ([AnyHashable: Any]) -> Void
+    ) {
+        guard let alipayService = AlipaySDK.defaultService() else {
+            completionBlock([
+                "resultStatus": "4000",
+                "memo": "Alipay SDK is unavailable"
+            ])
+            return
+        }
+
+        alipayService.processOrder(withPaymentResult: resultUrl) { result in
+            completionBlock(result ?? [:])
+        }
+    }
+}
 
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterStreamHandler {
 
   var eventSink: FlutterEventSink?
+  private let alipaySDKService = SideQuestAlipaySDKService()
 
   override func application(
     _ application: UIApplication,
@@ -31,8 +68,17 @@ import AlipayPlusClient
         )
 
         methodChannel.setMethodCallHandler {[weak self](flutterMethodCall, flutterResult) in
-            let param = flutterMethodCall.arguments as! Dictionary<String, String>
+            let param = flutterMethodCall.arguments as? Dictionary<String, String> ?? [:]
             if flutterMethodCall.method == "getAlipay" {
+                guard let paymentData = param["info"], !paymentData.isEmpty else {
+                    flutterResult(FlutterError(
+                        code: "ALIPAY_PAYMENT_DATA_EMPTY",
+                        message: "Unable to start Alipay payment: payment data is empty",
+                        details: nil
+                    ))
+                    return
+                }
+
                 let configuration = IAPConfiguration()
                 configuration.envType = "PROD"
                 configuration.acquirerId = "5Y39882YDWFU05385"
@@ -40,7 +86,9 @@ import AlipayPlusClient
                 configuration.language = "zh_CN"
                 configuration.fromScheme = "sideQuestAlipay"
 
-                AlipayPlusClient.shared().configuration = configuration
+                let alipayPlusClient = AlipayPlusClient.shared()
+                alipayPlusClient.configuration = configuration
+                alipayPlusClient.alipaySDKSService = self?.alipaySDKService
 
                 var resultCompleted = false
                 func complete(_ value: Any?) {
@@ -58,7 +106,8 @@ import AlipayPlusClient
                     ))
                 }
 
-                AlipayPlusClient.shared().showPaymentSheet(param["info"]!) { sheetEvent in
+                alipayPlusClient.showPaymentSheet(paymentData) { sheetEvent in
+                    print("[Alipay+] event=\(sheetEvent.name), message=\(sheetEvent.message ?? "")")
                     if sheetEvent.name == IAPPaymentSheetEventDidShow {
                         // your own logic
                         print("zengchao = IAPPaymentSheetEventDidShow")
@@ -206,12 +255,13 @@ import AlipayPlusClient
     }
     
     override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        if(url.host == "safepay") {
-            AlipaySDK.defaultService()?.processOrder(withPaymentResult: url, standbyCallback:{ (resultDic) in
-                self.eventSink?(resultDic?["resultStatus"])
-            })
+        let alipayPlusClient = AlipayPlusClient.shared()
+        if alipayPlusClient.canProcessOrder(withPaymentResult: url) {
+            alipayPlusClient.processOrder(withPaymentResult: url)
+            return true
         }
-        return true
+
+        return super.application(app, open: url, options: options)
     }
     
     func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {

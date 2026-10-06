@@ -53,6 +53,8 @@
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>alipay</string>
+		<string>alipays</string>
 		<string>https</string>
 		<string>http</string>
 	</array>
