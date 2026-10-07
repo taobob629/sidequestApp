@@ -3,6 +3,26 @@ import Flutter
 import AlipayPlusClient
 
 private final class SideQuestAlipaySDKService: NSObject, AlipaySDKServiceProtocol {
+    private var fallbackURLs: [URL] = []
+
+    func configureFallbackURLs(from paymentData: String) {
+        fallbackURLs = []
+
+        guard let data = paymentData.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: data),
+              let redirectionInfo = Self.findAlipayRedirectionInfo(in: json) else {
+            print("[Alipay+] no Alipay fallback redirection URL found in paymentData")
+            return
+        }
+
+        fallbackURLs = ["schemeUrl", "applinkUrl", "normalUrl"]
+            .compactMap { redirectionInfo[$0] as? String }
+            .filter { !$0.isEmpty }
+            .compactMap { URL(string: $0) }
+
+        print("[Alipay+] configured \(fallbackURLs.count) fallback redirection URL(s)")
+    }
+
     func payOrder(
         _ orderStr: String,
         fromScheme schemeStr: String,
@@ -16,8 +36,20 @@ private final class SideQuestAlipaySDKService: NSObject, AlipaySDKServiceProtoco
             return
         }
 
+        print("[Alipay+] native Alipay SDK payOrder invoked")
         alipayService.payOrder(orderStr, fromScheme: schemeStr) { result in
             completionBlock(result ?? [:])
+        }
+
+        // Some FusionPay responses render the payment sheet correctly but the
+        // bundled Alipay SDK does not leave the app. In that case, use the
+        // redirection URLs supplied by FusionPay so the user still reaches the
+        // Alipay app (preferred) or its web checkout.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
+            guard UIApplication.shared.applicationState == .active else {
+                return
+            }
+            self?.openFallbackURL()
         }
     }
 
@@ -36,6 +68,65 @@ private final class SideQuestAlipaySDKService: NSObject, AlipaySDKServiceProtoco
         alipayService.processOrder(withPaymentResult: resultUrl) { result in
             completionBlock(result ?? [:])
         }
+    }
+
+    private func openFallbackURL(at index: Int = 0) {
+        guard index < fallbackURLs.count else {
+            print("[Alipay+] unable to open any fallback redirection URL")
+            return
+        }
+
+        let url = fallbackURLs[index]
+        if !url.isFileURL,
+           let scheme = url.scheme?.lowercased(),
+           scheme != "http",
+           scheme != "https",
+           !UIApplication.shared.canOpenURL(url) {
+            openFallbackURL(at: index + 1)
+            return
+        }
+
+        UIApplication.shared.open(url, options: [:]) { [weak self] opened in
+            print("[Alipay+] fallback redirection opened=\(opened), scheme=\(url.scheme ?? "unknown")")
+            if !opened {
+                self?.openFallbackURL(at: index + 1)
+            }
+        }
+    }
+
+    private static func findAlipayRedirectionInfo(in value: Any) -> [String: Any]? {
+        if let dictionary = value as? [String: Any] {
+            if let redirectionInfo = dictionary["redirectionInfo"] as? [String: Any] {
+                let markerValues = [
+                    dictionary["walletName"],
+                    dictionary["walletBrandName"],
+                    dictionary["appIdentifier"],
+                    redirectionInfo["appIdentifier"],
+                    redirectionInfo["schemeUrl"]
+                ]
+                let marker = markerValues.compactMap { $0 as? String }
+                    .joined(separator: " ")
+                    .lowercased()
+
+                if marker.contains("alipay") {
+                    return redirectionInfo
+                }
+            }
+
+            for child in dictionary.values {
+                if let result = findAlipayRedirectionInfo(in: child) {
+                    return result
+                }
+            }
+        } else if let array = value as? [Any] {
+            for child in array {
+                if let result = findAlipayRedirectionInfo(in: child) {
+                    return result
+                }
+            }
+        }
+
+        return nil
     }
 }
 
@@ -88,6 +179,7 @@ private final class SideQuestAlipaySDKService: NSObject, AlipaySDKServiceProtoco
 
                 let alipayPlusClient = AlipayPlusClient.shared()
                 alipayPlusClient.configuration = configuration
+                self?.alipaySDKService.configureFallbackURLs(from: paymentData)
                 alipayPlusClient.alipaySDKSService = self?.alipaySDKService
 
                 var resultCompleted = false

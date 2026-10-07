@@ -59,9 +59,7 @@ class PayApi {
             ? '/app/order/balanceToCoin'
             : '/app/order/charge';
       case 4:
-        return type == PayType.WB
-            ? '/app/order/charge'
-            : '/app/order/alipay/coincharge';
+        return '/app/order/charge';
       default:
         return '/app/order/charge';
     }
