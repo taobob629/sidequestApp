@@ -30,13 +30,18 @@ class PayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     flog('payOrderModel ${controller.payOrderModel}');
+    final bool isIOSRecharge =
+        Platform.isIOS && controller.payOrderModel.type == PayType.WB;
     return KeyboardScaffold(
       title: "Pay Confirm".tr,
       body: ListView.separated(
         itemBuilder: (context, index) =>
             Platform.isIOS ? iosWidget(index) : androidWidget(index),
         separatorBuilder: (context, index) => 15.verticalSpace,
-        itemCount: 5,
+        // iOS recharge only supports Card / Apple Pay. Stop the list before
+        // the Alipay row; other order types and Android keep their existing
+        // payment methods.
+        itemCount: isIOSRecharge ? 3 : 5,
       ),
       floatingActionButton: _buildFloatingActionButton(),
     );

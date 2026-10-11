@@ -232,6 +232,9 @@ class PayPageController extends GetxController {
 
   void pay({bool isPlay = false}) async {
     flog('pay 正常支付进来了');
+    if (Platform.isIOS && payOrderModel.type == PayType.WB) {
+      payType.value = 1;
+    }
     if (!isPlay) {
       if (address.value.id == 0) {
         showInfo("Please select your billing address".tr);
